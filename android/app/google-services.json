@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "767127615361",
+    "project_id": "recycleplus-feecd",
+    "storage_bucket": "recycleplus-feecd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767127615361:android:f4704462f7b28db2eb1a80",
+        "android_client_info": {
+          "package_name": "com.example.recycle_plus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "767127615361-m903nfs78sj48fi25vfr71dgdelf63ov.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.recycle_plus",
+            "certificate_hash": "f90349586fb41bab2393084e7b2561ec08e12404"
+          }
+        },
+        {
+          "client_id": "767127615361-uk9pia62nd9jjl23t6fosudi1obf33t8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBn9rb7-CY496A4hXojwO2d6Q7EFAnFb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "767127615361-uk9pia62nd9jjl23t6fosudi1obf33t8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
