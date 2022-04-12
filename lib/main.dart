@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/routes.dart';
-import 'package:recycle_plus/screens/start.dart';
+import 'package:recycle_plus/screens/start/start.dart';
 
 void main() {
   runApp(const MyApp());

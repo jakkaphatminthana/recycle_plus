@@ -4,6 +4,7 @@
 - แอปพลิเคชั่นบนระบบ Android 
 - ใช้ฐานข้อมูลบน Firebase
 - ผสานการทำงานร่วมกันบนเครือข่าย Blockchain (xCHAIN) 
+- [ขอบเขตการวิจัย](https://github.com/jakkaphatminthana/recycle_plus/files/8468961/default.pdf)
 
 ## รายละเอียด
 - :heavy_check_mark: คือ ทำเเล้ว
@@ -17,7 +18,7 @@
     - <p><a href="#Actor3"> Actor 3 : สมาชิก </a></p>
     - <p><a href="#Actor4"> Actor 4 : สปอนเซอร์ </a></p>
     - <p><a href="#Actor5"> Actor 5 : ผู้ดูแลระบบ </a></p>
-- - <p><a href="#other"> ระบบเบื้องหลัง </a></p>
+- <p><a href="#other"> ระบบเบื้องหลัง </a></p>
     
 
 
@@ -32,7 +33,7 @@
 <img src="https://user-images.githubusercontent.com/58208814/161977181-cab5050b-7823-4706-a089-49dd8cd340ca.png" width="250">
 
 #### Front-end
-- :x: Design
+- :heavy_check_mark: Design
 #### System
 - :x: กดปุ่มแล้วไปที่ หน้าแรก
 
@@ -76,6 +77,8 @@
 ## Actor 2 : ผู้ใช้งานที่ยังไม่ได้ยืนยันตัวตน
 
 ### หน้าเข้าสู่ระบบ
+<img src="https://user-images.githubusercontent.com/58208814/162963514-d384dd7e-d151-425c-a2e7-249dae6fc1ee.png" width="250">
+
 #### Front-end
 - :x: Design
 #### System
@@ -93,6 +96,8 @@
     - :x: แสดงข้อความ Error
 
 ### หน้าสมัครสมาชิก
+<img src="https://user-images.githubusercontent.com/58208814/162963631-3cd573da-de97-4609-96f1-a9b40a6918ff.png" width="250">
+
 #### Front-end
 - :x: Design
 #### System
