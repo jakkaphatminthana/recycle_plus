@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recycle_plus/font.dart';
+import 'package:recycle_plus/components/font.dart';
+import 'package:recycle_plus/screens/login/body.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({Key? key}) : super(key: key);
@@ -31,7 +32,7 @@ class StartScreen extends StatelessWidget {
                     child: Text(
                       "Recycle+",
                       textAlign: TextAlign.center,
-                      style: Russo64_B_black,
+                      style: Russo55_B_black,
                     ),
                   ),
                   Text(
@@ -75,7 +76,9 @@ class StartScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, LoginScreen.routeName);
+                    },
                   ),
                 ],
               ),

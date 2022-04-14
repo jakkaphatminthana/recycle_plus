@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/screens/home/home.dart';
 import 'package:recycle_plus/screens/login/body.dart';

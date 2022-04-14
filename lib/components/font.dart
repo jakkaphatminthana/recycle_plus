@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-final Russo64_B_black = GoogleFonts.getFont(
+final Russo55_B_black = GoogleFonts.getFont(
   'Russo One',
-  fontSize: 64,
+  fontSize: 55,
   fontWeight: FontWeight.bold,
   color: Colors.black,
 );
@@ -19,6 +19,13 @@ final Roboto17_black = GoogleFonts.getFont(
   'Roboto',
   fontSize: 17,
   color: Colors.black,
+);
+
+final Roboto14_U_black = GoogleFonts.getFont(
+  'Roboto',
+  fontSize: 14,
+  color: Colors.black,
+  decoration: TextDecoration.underline
 );
 
 final Roboto20_B_white = GoogleFonts.getFont(

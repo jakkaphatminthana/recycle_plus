@@ -80,9 +80,10 @@
 <img src="https://user-images.githubusercontent.com/58208814/162963514-d384dd7e-d151-425c-a2e7-249dae6fc1ee.png" width="250">
 
 #### Front-end
-- :x: Design
+- :heavy_check_mark: Design
 #### System
-- :x: กดข้อความ "สมัครสมาชิก" แล้วไปยัง "หน้าสมัครสมาชิก" 
+- :x: กดไอคอน "สมัครสมาชิก" แล้วไปยัง "หน้าสมัครสมาชิก" 
+- :x: กดไอคอน "Google" แล้วไปยัง "การล็อคอินผ่าน Google" 
 - :x: กดปุ่ม "Login" แล้วไปยัง "หน้าเข้าสู่ระบบสำเร็จ" 
 - :x: เชื่อมต่อ Firebase Authentication
 - :x: ล็อคอินผ่าน Firebase

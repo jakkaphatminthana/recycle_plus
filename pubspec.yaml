@@ -44,6 +44,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  flutter_svg: ^1.0.3
   auto_size_text: ^3.0.0
   font_awesome_flutter: ^9.2.0 
   google_fonts: ^2.1.0
@@ -66,11 +67,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/image/bg-green1.jpg
-    - assets/image/logo.png
-    - assets/image/success.png
-    - assets/image/coin.png
-    - assets/image/banner.png
+    - assets/image/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
