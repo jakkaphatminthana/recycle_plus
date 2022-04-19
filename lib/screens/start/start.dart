@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:recycle_plus/screens/login/body.dart';
+import 'package:recycle_plus/screens/login/body_login.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({Key? key}) : super(key: key);

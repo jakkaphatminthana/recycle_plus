@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/routes.dart';
+import 'package:recycle_plus/screens/login_no/login_no.dart';
+import 'package:recycle_plus/screens/register/body_register.dart';
 import 'package:recycle_plus/screens/start/start.dart';
 
 void main() {
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: StartScreen.routeName,
+      initialRoute: RegisterScreen.routeName,
       routes: routes,
     );
   }

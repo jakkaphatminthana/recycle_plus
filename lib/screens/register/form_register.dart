@@ -1,59 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:recycle_plus/components/textfield.dart';
 import 'package:recycle_plus/models/user_model.dart';
 import 'package:recycle_plus/models/varidator.dart';
 
-class Form_Login extends StatefulWidget {
-  const Form_Login({Key? key}) : super(key: key);
+import '../../components/textfield.dart';
+
+class RegisterForm extends StatefulWidget {
+  const RegisterForm({Key? key}) : super(key: key);
 
   @override
-  State<Form_Login> createState() => _Form_LoginState();
+  State<RegisterForm> createState() => _RegisterFormState();
 }
 
-class _Form_LoginState extends State<Form_Login> {
+class _RegisterFormState extends State<RegisterForm> {
   //formkey = ตัวแสดงตัวแบบยูนืคของฟอร์มนี้
   //EmailModel = ภายในประกอบด้วย ตัวแปร email, pass, name
   final _formKey = GlobalKey<FormState>();
   EmailModel inputEmail = EmailModel();
 
-  //-----------------------------------------------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          //TODO 1. Form Email
+          //TODO 1. Form Name
           Padding(
             padding: const EdgeInsets.fromLTRB(25, 50, 25, 0),
+            child: buildNameFormField(inputEmail),
+          ),
+
+          //TODO 2. Form Email
+          Padding(
+            padding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
             child: buildEmailFormField(inputEmail),
           ),
 
-          //TODO 2. Form Password
+          //TODO 3. Form Password
           Padding(
             padding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
             child: buildPasswordFormField(inputEmail),
           ),
-
-          //TODO 3. Forgot password
-          Padding(
-            padding: const EdgeInsets.fromLTRB(25, 10, 28, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "Forgot password?",
-                  style: Roboto14_U_black,
-                ),
-              ],
-            ),
-          ),
           const SizedBox(height: 30),
 
-          //TODO 4. Button LOGIN
+          //TODO 5. Button Register
           ElevatedButton(
-            child: Text("LOGIN", style: Roboto20_B_white),
+            child: Text("REGISTER", style: Roboto20_B_white),
             style: ElevatedButton.styleFrom(
               primary: Colors.black,
               fixedSize: const Size(350, 45),
@@ -65,6 +57,7 @@ class _Form_LoginState extends State<Form_Login> {
             ),
             onPressed: () {},
           ),
+
         ],
       ),
     );
@@ -94,6 +87,19 @@ TextFormField buildPasswordFormField(inputModel) {
     validator: ValidatorPassword,
     onSaved: (passwordEZ) {
       inputModel.password = passwordEZ!;
+    },
+  );
+}
+
+//TODO : Name Form
+TextFormField buildNameFormField(inputModel) {
+  return TextFormField(
+    keyboardType: TextInputType.text,
+    obscureText: false,
+    decoration: styleTextField("Enter Name", Icons.person),
+    validator: ValidatorEmpty,
+    onSaved: (nameEZ) {
+      inputModel.name = nameEZ!;
     },
   );
 }

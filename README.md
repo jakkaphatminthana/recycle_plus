@@ -37,44 +37,14 @@
 #### System
 - :x: กดปุ่มแล้วไปที่ หน้าแรก
 
-### หน้าแรก
-<img src="https://user-images.githubusercontent.com/58208814/161980781-9b87cd48-9ac8-44e7-98c9-562437b46c65.png" width="250">
-
-#### Front-end
-- :x: Design
-#### System
-- :x: ไม่สามารถกดเมนูบน ข่าวสารได้ หากกดแล้วจะไปยัง "หน้าโปรดล็อคอิน" 
-- :x: ไม่สามารถกดเมนูบน Appbar ได้หากกดแล้วจะไปยัง "หน้าโปรดล็อคอิน"
-- :x: สามารถกด Tabbar
-- :x: สามารถเข้าดูรายละเอียด ข่าวสารได้
-- :warning: Wallet จะต้องไม่แสดงอะไร
-- :warning: ดึงข้อมูล Sponsor จาก Firebase มาแสดง 
-- :warning: ดึงข้อมูล ข่าวสาร จาก Firebase มาแสดง 
-
 ### หน้าโปรดเข้าสู่ระบบ
 <img src="https://user-images.githubusercontent.com/58208814/162736334-6555d505-f613-49cb-9be3-e78a88eeb4bf.png" width="250">
 
 #### Front-end
-- :x: Design
+- :heavy_check_mark: Design
 #### System
 - :x: กดปุ่ม "Login" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
-- :warning: กดปุ่ม "Back" แล้วไปยังหน้าที่แล้ว
-
-### หน้าอ่านข่าวสาร
-<img src="https://user-images.githubusercontent.com/58208814/162737293-205c64a2-859c-4be2-aa16-538a6d26cd37.png" width="250">
-
-#### Front-end
-- :x: Design
-#### System
-- :x: เชื่อมต่อ Firestore
-    - :x: ดึงข้อมูลเนื้อหามาแสดง ของแต่ละข่าวสาร
-- :warning: กดปุ่ม "Back" แล้วไปยังหน้าที่แล้ว
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-<!------------------------------------------------------------------------------------------------------------------------>
-<div id="Actor2"></div>
-
-## Actor 2 : ผู้ใช้งานที่ยังไม่ได้ยืนยันตัวตน
+- :heavy_check_mark: กดปุ่ม "Back" แล้วไปยังหน้าที่แล้ว
 
 ### หน้าเข้าสู่ระบบ
 <img src="https://user-images.githubusercontent.com/58208814/162963514-d384dd7e-d151-425c-a2e7-249dae6fc1ee.png" width="250">
@@ -82,7 +52,8 @@
 #### Front-end
 - :heavy_check_mark: Design
 #### System
-- :x: กดไอคอน "สมัครสมาชิก" แล้วไปยัง "หน้าสมัครสมาชิก" 
+- :heavy_check_mark: กดไอคอน "สมัครสมาชิก" แล้วไปยัง "หน้าสมัครสมาชิก" 
+- :x: กดไอข้อความ "forgot password" แล้วไปยัง "หน้าลืมรหัสผ่าน" 
 - :x: กดไอคอน "Google" แล้วไปยัง "การล็อคอินผ่าน Google" 
 - :x: กดปุ่ม "Login" แล้วไปยัง "หน้าเข้าสู่ระบบสำเร็จ" 
 - :x: เชื่อมต่อ Firebase Authentication
@@ -102,7 +73,7 @@
 #### Front-end
 - :x: Design
 #### System
-- :x: กดข้อความ "เข้าสู่ระบบ" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
+- :heavy_check_mark: กดข้อความ "เข้าสู่ระบบ" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
 - :x: กดปุ่ม "Register" แล้วไปยัง "หน้าสมัครสมาชิกสำเร็จ" 
 - :x: เชื่อมต่อ Firebase Authentication
 - :x: สมัครสมาชิกผ่าน Firebase
@@ -115,6 +86,18 @@
     - :x: validation password
     - :x: แสดงข้อความ Error
 
+### หน้าลืมรหัสผ่าน
+#### Front-end
+- :x: Design
+#### System
+- :x: กดไอคอน "Back" แล้วไปยังหน้าที่แล้ว 
+- :x: เชื่อมต่อ Firebase Authentication
+- :x: validation from input 
+    - :x: validation from email 
+- :x: กดปุ่ม "Send" แล้วมี Pop-up ว่าส่งให้แล้วไปดูในอีเมล
+- :x: ในหน้า Pop-up กดตกลงแล้ว ส่งลิงค์รีเช็ตรหัสทาง Gmail แล้วกลับไปยังหน้าที่แล้ว
+
+
 ### หน้าสมัครสมาชิกสำเร็จ
 #### Front-end
 - :x: Design
@@ -126,6 +109,36 @@
 - :x: Design
 #### System
 - :x: กดปุ่ม "Back to home" แล้วไปยัง "หน้าแรก" 
+
+### หน้าแรก
+<img src="https://user-images.githubusercontent.com/58208814/161980781-9b87cd48-9ac8-44e7-98c9-562437b46c65.png" width="250">
+
+#### Front-end
+- :x: Design
+#### System
+- :x: ไม่สามารถกดเมนูบน ข่าวสารได้ หากกดแล้วจะไปยัง "หน้าโปรดล็อคอิน" 
+- :x: ไม่สามารถกดเมนูบน Appbar ได้หากกดแล้วจะไปยัง "หน้าโปรดล็อคอิน"
+- :x: สามารถกด Tabbar
+- :x: สามารถเข้าดูรายละเอียด ข่าวสารได้
+- :warning: Wallet จะต้องไม่แสดงอะไร
+- :warning: ดึงข้อมูล Sponsor จาก Firebase มาแสดง 
+- :warning: ดึงข้อมูล ข่าวสาร จาก Firebase มาแสดง 
+
+### หน้าอ่านข่าวสาร
+<img src="https://user-images.githubusercontent.com/58208814/162737293-205c64a2-859c-4be2-aa16-538a6d26cd37.png" width="250">
+
+#### Front-end
+- :x: Design
+#### System
+- :x: เชื่อมต่อ Firestore
+    - :x: ดึงข้อมูลเนื้อหามาแสดง ของแต่ละข่าวสาร
+- :warning: กดปุ่ม "Back" แล้วไปยังหน้าที่แล้ว
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+<!------------------------------------------------------------------------------------------------------------------------>
+<div id="Actor2"></div>
+
+## Actor 2 : ผู้ใช้งานที่ยังไม่ได้ยืนยันตัวตน
 
 <!------------------------------------------------------------------------------------------------------------------------>
 <div id="Actor3"></div>

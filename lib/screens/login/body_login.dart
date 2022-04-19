@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/Social_card.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/login/form_login.dart';
+import 'package:recycle_plus/screens/register/body_register.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -64,7 +65,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Social_Card(
                           icon: "assets/icons/user-circle-plus-bold.svg",
-                          press: () {},
+                          press: () {
+                            Navigator.pushNamed(context, RegisterScreen.routeName);
+                          },
                         ),
                         Social_Card(
                           icon: "assets/icons/google.svg",
