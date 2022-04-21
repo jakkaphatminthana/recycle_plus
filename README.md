@@ -53,7 +53,7 @@
 - :heavy_check_mark: Design
 #### System
 - :heavy_check_mark: กดไอคอน "สมัครสมาชิก" แล้วไปยัง "หน้าสมัครสมาชิก" 
-- :x: กดไอข้อความ "forgot password" แล้วไปยัง "หน้าลืมรหัสผ่าน" 
+- :heavy_check_mark: กดไอข้อความ "forgot password" แล้วไปยัง "หน้าลืมรหัสผ่าน" 
 - :x: กดไอคอน "Google" แล้วไปยัง "การล็อคอินผ่าน Google" 
 - :x: กดปุ่ม "Login" แล้วไปยัง "หน้าเข้าสู่ระบบสำเร็จ" 
 - :x: เชื่อมต่อ Firebase Authentication
@@ -71,7 +71,7 @@
 <img src="https://user-images.githubusercontent.com/58208814/162963631-3cd573da-de97-4609-96f1-a9b40a6918ff.png" width="250">
 
 #### Front-end
-- :x: Design
+- :heavy_check_mark: Design
 #### System
 - :heavy_check_mark: กดข้อความ "เข้าสู่ระบบ" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
 - :x: กดปุ่ม "Register" แล้วไปยัง "หน้าสมัครสมาชิกสำเร็จ" 
@@ -94,7 +94,7 @@
 - :x: เชื่อมต่อ Firebase Authentication
 - :heavy_check_mark: validation from input 
     - :heavy_check_mark: validation from email 
-- :x: กดปุ่ม "Send" แล้วมี Pop-up ว่าส่งให้แล้วไปดูในอีเมล
+- :heavy_check_mark: กดปุ่ม "Send" แล้วมี Pop-up ว่าส่งให้แล้วไปดูในอีเมล
 - :x: ในหน้า Pop-up กดตกลงแล้ว ส่งลิงค์รีเช็ตรหัสทาง Gmail แล้วกลับไปยังหน้าที่แล้ว
 
 
