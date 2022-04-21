@@ -43,7 +43,7 @@
 #### Front-end
 - :heavy_check_mark: Design
 #### System
-- :x: กดปุ่ม "Login" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
+- :heavy_check_mark: กดปุ่ม "Login" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
 - :heavy_check_mark: กดปุ่ม "Back" แล้วไปยังหน้าที่แล้ว
 
 ### หน้าเข้าสู่ระบบ
@@ -88,12 +88,12 @@
 
 ### หน้าลืมรหัสผ่าน
 #### Front-end
-- :x: Design
+- :heavy_check_mark: Design
 #### System
-- :x: กดไอคอน "Back" แล้วไปยังหน้าที่แล้ว 
+- :heavy_check_mark: กดไอคอน "Back" แล้วไปยังหน้าที่แล้ว 
 - :x: เชื่อมต่อ Firebase Authentication
-- :x: validation from input 
-    - :x: validation from email 
+- :heavy_check_mark: validation from input 
+    - :heavy_check_mark: validation from email 
 - :x: กดปุ่ม "Send" แล้วมี Pop-up ว่าส่งให้แล้วไปดูในอีเมล
 - :x: ในหน้า Pop-up กดตกลงแล้ว ส่งลิงค์รีเช็ตรหัสทาง Gmail แล้วกลับไปยังหน้าที่แล้ว
 

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/routes.dart';
+import 'package:recycle_plus/screens/forgotPass/forgotPass.dart';
 import 'package:recycle_plus/screens/login_no/login_no.dart';
 import 'package:recycle_plus/screens/register/body_register.dart';
 import 'package:recycle_plus/screens/start/start.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: RegisterScreen.routeName,
+      initialRoute: ForgotPasswordScreen.routeName,
       routes: routes,
     );
   }
