@@ -5,6 +5,8 @@ import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:recycle_plus/screens/login_no/login_no.dart';
 import 'package:recycle_plus/screens/register/body_register.dart';
 import 'package:recycle_plus/screens/start/start.dart';
+import 'package:recycle_plus/screens/success/success_login.dart';
+import 'package:recycle_plus/screens/success/success_register.dart';
 
 final Map<String, WidgetBuilder> routes = {
   StartScreen.routeName: (context) => StartScreen(),
@@ -13,5 +15,6 @@ final Map<String, WidgetBuilder> routes = {
   RegisterScreen.routeName: (context) => RegisterScreen(),
   PleaseLogin.routeName: (context) => PleaseLogin(),
   ForgotPasswordScreen.routeName:(context) => ForgotPasswordScreen(),
-
+  LoginSuccess.routeName: (context) => LoginSuccess(),
+  RegisterSuccess.routeName: (context) => RegisterSuccess(),
 };

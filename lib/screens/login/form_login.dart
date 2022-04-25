@@ -3,6 +3,7 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/components/textfield.dart';
 import 'package:recycle_plus/models/user_model.dart';
 import 'package:recycle_plus/models/varidator.dart';
+import 'package:recycle_plus/screens/forgotPass/forgotPass.dart';
 
 class Form_Login extends StatefulWidget {
   const Form_Login({Key? key}) : super(key: key);
@@ -37,16 +38,21 @@ class _Form_LoginState extends State<Form_Login> {
           ),
 
           //TODO 3. Forgot password
-          Padding(
-            padding: const EdgeInsets.fromLTRB(25, 10, 28, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "Forgot password?",
-                  style: Roboto14_U_black,
-                ),
-              ],
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(ForgotPasswordScreen.routeName);
+            },
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(25, 10, 28, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "Forgot password?",
+                    style: Roboto14_U_black,
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: 30),

@@ -3,9 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/routes.dart';
 import 'package:recycle_plus/screens/forgotPass/forgotPass.dart';
+import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:recycle_plus/screens/login_no/login_no.dart';
 import 'package:recycle_plus/screens/register/body_register.dart';
 import 'package:recycle_plus/screens/start/start.dart';
+import 'package:recycle_plus/screens/success/success_login.dart';
+import 'package:recycle_plus/screens/success/success_register.dart';
 
 void main() {
   runApp(const MyApp());

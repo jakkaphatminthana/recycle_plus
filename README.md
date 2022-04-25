@@ -100,13 +100,13 @@
 
 ### หน้าสมัครสมาชิกสำเร็จ
 #### Front-end
-- :x: Design
+- :heavy_check_mark: Design
 #### System
-- :x: กดปุ่ม "Back to login" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
+- :heavy_check_mark: กดปุ่ม "Back to login" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
 
 ### หน้าเข้าสู่ระบบสำเร็จ
 #### Front-end
-- :x: Design
+- :heavy_check_mark: Design
 #### System
 - :x: กดปุ่ม "Back to home" แล้วไปยัง "หน้าแรก" 
 
