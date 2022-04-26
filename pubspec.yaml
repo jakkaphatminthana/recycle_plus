@@ -53,6 +53,7 @@ dev_dependencies:
   firebase_core: ^1.13.1
   firebase_auth: ^3.3.9
   firebase_storage: ^10.0.6
+  cloud_firestore: ^3.1.13
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

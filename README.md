@@ -30,7 +30,7 @@
 ## Actor 1 : ผู้ใช้งานที่ไม่มีบัญชี
 
 ### หน้าเริ่มต้น
-<img src="https://user-images.githubusercontent.com/58208814/161977181-cab5050b-7823-4706-a089-49dd8cd340ca.png" width="250">
+<img src="https://user-images.githubusercontent.com/58208814/165306608-153c7828-87bf-4e4e-b5de-f811cdb639a9.PNG" width="250">
 
 #### Front-end
 - :heavy_check_mark: Design
@@ -38,7 +38,7 @@
 - :x: กดปุ่มแล้วไปที่ หน้าแรก
 
 ### หน้าโปรดเข้าสู่ระบบ
-<img src="https://user-images.githubusercontent.com/58208814/162736334-6555d505-f613-49cb-9be3-e78a88eeb4bf.png" width="250">
+<img src="https://user-images.githubusercontent.com/58208814/165307081-6c5ecb55-02be-415a-9213-7f998bda5c11.PNG" width="250">
 
 #### Front-end
 - :heavy_check_mark: Design
@@ -47,7 +47,7 @@
 - :heavy_check_mark: กดปุ่ม "Back" แล้วไปยังหน้าที่แล้ว
 
 ### หน้าเข้าสู่ระบบ
-<img src="https://user-images.githubusercontent.com/58208814/162963514-d384dd7e-d151-425c-a2e7-249dae6fc1ee.png" width="250">
+<img src="https://user-images.githubusercontent.com/58208814/165306626-775134d8-69dc-47c5-945f-44c74c56aebe.PNG" width="250">
 
 #### Front-end
 - :heavy_check_mark: Design
@@ -55,38 +55,40 @@
 - :heavy_check_mark: กดไอคอน "สมัครสมาชิก" แล้วไปยัง "หน้าสมัครสมาชิก" 
 - :heavy_check_mark: กดไอข้อความ "forgot password" แล้วไปยัง "หน้าลืมรหัสผ่าน" 
 - :x: กดไอคอน "Google" แล้วไปยัง "การล็อคอินผ่าน Google" 
-- :x: กดปุ่ม "Login" แล้วไปยัง "หน้าเข้าสู่ระบบสำเร็จ" 
-- :x: เชื่อมต่อ Firebase Authentication
-- :x: ล็อคอินผ่าน Firebase
-- :x: validation from input 
-    - :x: validation from email 
-    - :x: validation from password
-    - :x: แสดงข้อความ Error
-- :x: validation login error
-    - :x: validation email 
-    - :x: validation password
-    - :x: แสดงข้อความ Error
+- :heavy_check_mark: กดปุ่ม "Login" แล้วไปยัง "หน้าเข้าสู่ระบบสำเร็จ" 
+- :heavy_check_mark: เชื่อมต่อ Firebase Authentication
+- :heavy_check_mark: ล็อคอินผ่าน Firebase
+- :heavy_check_mark: validation from input 
+    - :heavy_check_mark: validation from email 
+    - :heavy_check_mark: validation from password
+    - :heavy_check_mark: แสดงข้อความ Error
+- :heavy_check_mark: validation login error
+    - :heavy_check_mark: validation email ต้องมีในระบบ
+    - :heavy_check_mark: validation password ต้องเมตซ์กัน
+    - :heavy_check_mark: แสดงข้อความ Error
 
 ### หน้าสมัครสมาชิก
-<img src="https://user-images.githubusercontent.com/58208814/162963631-3cd573da-de97-4609-96f1-a9b40a6918ff.png" width="250">
+<img src="https://user-images.githubusercontent.com/58208814/165306639-123ee1b3-1ab6-4b18-a278-ba4f04dd2f70.PNG" width="250">
 
 #### Front-end
 - :heavy_check_mark: Design
 #### System
 - :heavy_check_mark: กดข้อความ "เข้าสู่ระบบ" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
-- :x: กดปุ่ม "Register" แล้วไปยัง "หน้าสมัครสมาชิกสำเร็จ" 
-- :x: เชื่อมต่อ Firebase Authentication
-- :x: สมัครสมาชิกผ่าน Firebase
-- :x: validation from input 
-    - :x: validation from email 
-    - :x: validation from password
-    - :x: แสดงข้อความ Error
-- :x: validation login error
-    - :x: validation email 
-    - :x: validation password
-    - :x: แสดงข้อความ Error
+- :heavy_check_mark: กดปุ่ม "Register" แล้วไปยัง "หน้าสมัครสมาชิกสำเร็จ" 
+- :heavy_check_mark: เชื่อมต่อ Firebase Authentication
+- :heavy_check_mark: สมัครสมาชิกผ่าน Firebase
+- :heavy_check_mark: validation from input 
+    - :heavy_check_mark: validation from email 
+    - :heavy_check_mark: validation from password
+    - :heavy_check_mark: แสดงข้อความ Error
+- :heavy_check_mark: register error report
+    - :heavy_check_mark: validation email ห้ามซ้ำ
+    - :heavy_check_mark: validation password ห้ามน้อยกว่า 6 ตัว
+    - :heavy_check_mark: แสดงข้อความ Error
 
 ### หน้าลืมรหัสผ่าน
+<img src="https://user-images.githubusercontent.com/58208814/165306651-4205111e-1f87-45f6-b475-e157d0f62210.PNG" width="250">
+
 #### Front-end
 - :heavy_check_mark: Design
 #### System
@@ -99,12 +101,14 @@
 
 
 ### หน้าสมัครสมาชิกสำเร็จ
+<img src="https://user-images.githubusercontent.com/58208814/165306658-eca19532-66f9-4e54-9744-657a1be62068.PNG" width="250">
 #### Front-end
 - :heavy_check_mark: Design
 #### System
 - :heavy_check_mark: กดปุ่ม "Back to login" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
 
 ### หน้าเข้าสู่ระบบสำเร็จ
+<img src="https://user-images.githubusercontent.com/58208814/165306670-a0f7acb5-0afc-477a-ae28-4476eaa787c9.PNG" width="250">
 #### Front-end
 - :heavy_check_mark: Design
 #### System
@@ -165,13 +169,12 @@
 
 ### Database
 - :heavy_check_mark: เชื่อมต่อ Firebase App
-- :x: เชื่อมต่อ Firebase Store
-- :x: เชื่อมต่อ Firebase Auther
+- :heavy_check_mark: เชื่อมต่อ Firebase Store
+- :heavy_check_mark: เชื่อมต่อ Firebase Auther
 - :x: เชื่อมต่อ Blockchain
 
 ### เพิ่มเติม
-- :x: กำหนด Route กำหนดหน้าจอ
-- :x: กำหนด Constants Font
-- :x: กำหนด Constants Font
+- :heavy_check_mark: กำหนด Route กำหนดหน้าจอ
+- :heavy_check_mark: กำหนด Constants Font
 
 <p align="right">(<a href="#top">back to top</a>)</p>

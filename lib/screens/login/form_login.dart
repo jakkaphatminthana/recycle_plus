@@ -4,6 +4,8 @@ import 'package:recycle_plus/components/textfield.dart';
 import 'package:recycle_plus/models/user_model.dart';
 import 'package:recycle_plus/models/varidator.dart';
 import 'package:recycle_plus/screens/forgotPass/forgotPass.dart';
+import 'package:recycle_plus/screens/success/success_login.dart';
+import 'package:recycle_plus/service/auth.dart';
 
 class Form_Login extends StatefulWidget {
   const Form_Login({Key? key}) : super(key: key);
@@ -14,9 +16,13 @@ class Form_Login extends StatefulWidget {
 
 class _Form_LoginState extends State<Form_Login> {
   //formkey = ตัวแสดงตัวแบบยูนืคของฟอร์มนี้
+  //AuthService = ตัวเรียกฟังก์ชันที่เกี่ยวกับ user
   //EmailModel = ภายในประกอบด้วย ตัวแปร email, pass, name
+  //isLoading = ใช้ในตอนกดปุ่มแล้วรอโหลด
   final _formKey = GlobalKey<FormState>();
+  final AuthService _auth = AuthService();
   EmailModel inputEmail = EmailModel();
+  bool isLoading = false;
 
   //-----------------------------------------------------------------------------------------------------------------------
   @override
@@ -59,17 +65,42 @@ class _Form_LoginState extends State<Form_Login> {
 
           //TODO 4. Button LOGIN
           ElevatedButton(
-            child: Text("LOGIN", style: Roboto20_B_white),
             style: ElevatedButton.styleFrom(
               primary: Colors.black,
-              fixedSize: const Size(350, 45),
+              fixedSize: const Size(350, 50),
               side: const BorderSide(width: 2.0, color: Colors.white), //ขอบ
               elevation: 2.0, //เงา
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
             ),
-            onPressed: () {},
+            //TODO : Click Loading?
+            child: isLoading
+                ? const CircularProgressIndicator(color: Colors.white)
+                : Text("LOGIN", style: Roboto20_B_white),
+
+            //TODO 5. กดปุ่มแล้วทำอะไร
+            onPressed: () async {
+              //เมื่อกรอกข้อมูลถูกต้อง
+              if (_formKey.currentState!.validate()) {
+                _formKey.currentState?.save(); //สั่งประมวลผลข้อมูลที่กรอก
+
+                if (isLoading) return;
+                setState(() => isLoading = true); //Loading
+
+                //TODO 6. Login with email
+                await _auth.LoginEmail(inputEmail.email, inputEmail.password)
+                    .then((value) {
+                  //Check error register
+                  if (value != "not_work") {
+                    _formKey.currentState?.reset();
+                    Navigator.pushNamed(context, LoginSuccess.routeName);
+                  } else {
+                    setState(() => isLoading = false);
+                  }
+                });
+              }
+            },
           ),
         ],
       ),

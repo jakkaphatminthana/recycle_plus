@@ -1,16 +1,14 @@
 //หน้ารันสั่งแอป ให้ทำงาน
-
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/routes.dart';
-import 'package:recycle_plus/screens/forgotPass/forgotPass.dart';
-import 'package:recycle_plus/screens/login/body_login.dart';
-import 'package:recycle_plus/screens/login_no/login_no.dart';
-import 'package:recycle_plus/screens/register/body_register.dart';
 import 'package:recycle_plus/screens/start/start.dart';
-import 'package:recycle_plus/screens/success/success_login.dart';
-import 'package:recycle_plus/screens/success/success_register.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
