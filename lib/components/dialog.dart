@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
@@ -24,8 +26,8 @@ class sucessDialog extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Image.network(
-                "https://c.tenor.com/Hw7f-4l0zgEAAAAC/check-green.gif",
+              Image.asset(
+                "assets/image/check-green.gif",
                 width: 100,
                 height: 100,
               ),
@@ -33,10 +35,10 @@ class sucessDialog extends StatelessWidget {
                 "Success!!",
                 style: Roboto20_B_black,
               ),
-              Text("โปรดตรวจสอบในกล่องอีเมลของคุณ"),
+              const Text("โปรดตรวจสอบในกล่องอีเมลของคุณ"),
               const SizedBox(height: 8.0),
               RaisedButton(
-                child: Text("Okay"),
+                child: const Text("ตกลง"),
                 onPressed: () {
                   Navigator.of(context).pushNamed(LoginScreen.routeName);
                 },

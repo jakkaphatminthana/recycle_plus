@@ -21,7 +21,7 @@ InputDecoration styleTextField_Radius30(hintEZ) {
   return InputDecoration(
     isDense: true,
     hintText: hintEZ,
-    contentPadding: const EdgeInsets.all(15.0),
+    contentPadding: const EdgeInsets.only(left: 30, top: 30.0),
     enabledBorder: StyleBoder(Colors.black, 30.0),  //ก่อนกดพิมพ์
     focusedBorder: StyleBoder(Colors.black, 30.0),  //กดพิมพ์
     errorBorder: StyleBoder(Colors.red, 30.0),  //แจ้ง Error

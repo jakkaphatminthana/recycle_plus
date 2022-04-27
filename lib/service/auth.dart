@@ -57,11 +57,11 @@ class AuthService {
   //TODO 2. Function Login
   Future LoginEmail(String email, String password) async {
     try {
-      //TODO : Login 
+      //TODO : Login
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
 
-    //TODO : Check Error
+      //TODO : Check Error
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         Fluttertoast.showToast(
@@ -71,6 +71,21 @@ class AuthService {
       } else if (e.code == 'wrong-password') {
         Fluttertoast.showToast(
           msg: "รหัสผ่านผิดหรืออีเมลไม่ถูกต้อง",
+          gravity: ToastGravity.CENTER,
+        );
+      }
+      return "not_work";
+    }
+  }
+
+  //TODO 3. Reset Password
+  Future ResetPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        Fluttertoast.showToast(
+          msg: "ไม่พบบัญชีนี้",
           gravity: ToastGravity.CENTER,
         );
       }
