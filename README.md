@@ -54,7 +54,7 @@
 #### System
 - :heavy_check_mark: กดไอคอน "สมัครสมาชิก" แล้วไปยัง "หน้าสมัครสมาชิก" 
 - :heavy_check_mark: กดไอข้อความ "forgot password" แล้วไปยัง "หน้าลืมรหัสผ่าน" 
-- :x: กดไอคอน "Google" แล้วไปยัง "การล็อคอินผ่าน Google" 
+- :warning: กดไอคอน "Google" แล้วไปยัง "การล็อคอินผ่าน Google" 
 - :heavy_check_mark: กดปุ่ม "Login" แล้วไปยัง "หน้าเข้าสู่ระบบสำเร็จ" 
 - :heavy_check_mark: เชื่อมต่อ Firebase Authentication
 - :heavy_check_mark: ล็อคอินผ่าน Firebase
@@ -93,11 +93,11 @@
 - :heavy_check_mark: Design
 #### System
 - :heavy_check_mark: กดไอคอน "Back" แล้วไปยังหน้าที่แล้ว 
-- :x: เชื่อมต่อ Firebase Authentication
+- :heavy_check_mark: เชื่อมต่อ Firebase Authentication
 - :heavy_check_mark: validation from input 
     - :heavy_check_mark: validation from email 
 - :heavy_check_mark: กดปุ่ม "Send" แล้วมี Pop-up ว่าส่งให้แล้วไปดูในอีเมล
-- :x: ในหน้า Pop-up กดตกลงแล้ว ส่งลิงค์รีเช็ตรหัสทาง Gmail แล้วกลับไปยังหน้าที่แล้ว
+- :heavy_check_mark: ในหน้า Pop-up กดตกลงแล้ว ส่งลิงค์รีเช็ตรหัสทาง Gmail แล้วกลับไปยังหน้าที่แล้ว
 
 
 ### หน้าสมัครสมาชิกสำเร็จ
@@ -178,3 +178,10 @@
 - :heavy_check_mark: กำหนด Constants Font
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+ทำหน้าอ่านข่าว
+1. ดึงข้อมูลจาก firebase มาแสดงในหน้า home ให้หมด
+2. พอกดคลิกที่ตัว item ก็ให้มัน passing ค่า id ตัวนั้นไปยังหน้า อ่านข่าว
+3. ในหน้าอ่านข่าวก็จะดึงค่า id ที่มันส่งมากับตอน Navigator เอามาใช้อ้างอิง id สำหรับอ่านหน้าข่าว 

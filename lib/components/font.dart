@@ -96,8 +96,19 @@ final Roboto16_black = GoogleFonts.getFont(
   color: Colors.black,
 );
 
-final Roboto14_U_black = GoogleFonts.getFont('Roboto',
-    fontSize: 14, color: Colors.black, decoration: TextDecoration.underline);
+final Roboto14_B_black = GoogleFonts.getFont(
+  'Roboto',
+  fontSize: 14,
+  color: Colors.black,
+  fontWeight: FontWeight.bold,
+);
+
+final Roboto14_U_black = GoogleFonts.getFont(
+  'Roboto',
+  fontSize: 14,
+  color: Colors.black,
+  decoration: TextDecoration.underline,
+);
 
 final Roboto14_black = GoogleFonts.getFont(
   'Roboto',
