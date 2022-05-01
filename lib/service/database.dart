@@ -2,18 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:recycle_plus/models/news_model.dart';
-
-class DatabaseService {
-  late final String uid;
-
-  // collection reference
-  final CollectionReference _collection_Users =
-      FirebaseFirestore.instance.collection('users');
-
-  // collection reference
-  final CollectionReference _collection_News =
-      FirebaseFirestore.instance.collection('news');
-}
+import 'package:recycle_plus/models/sponsor_model.dart';
 
 //=======================================================================================================
 //TODO : ติดต่อกับ firebase
@@ -30,9 +19,19 @@ class DatabaseEZ {
     return ref;
   }
 
-  Stream<List<NewsModel>> getDataNews() =>
-    FirebaseFirestore.instance.collection('news').snapshots().map((snapshot) =>
-        snapshot.docs.map((doc) => NewsModel.formJson(doc.data())).toList());
+  //TODO 1. News Database
+  Stream<List<NewsModel>> getDataNews() => FirebaseFirestore.instance
+      .collection('news')
+      .snapshots()
+      .map((snapshot) =>
+          snapshot.docs.map((doc) => NewsModel.formJson(doc.data())).toList());
+
+  //TODO 2. Sponsor Database
+  Stream<List<SponsorModel>> getLogoSponsor() => FirebaseFirestore.instance
+      .collection('sposor')
+      .snapshots()
+      .map((snapshot) =>
+          snapshot.docs.map((doc) => SponsorModel.formJson(doc.data())).toList());
 
   // Stream<List<NewsModel>> getDataNews({NewsModel? news}) {
   //   final reference = FirebaseFirestore.instance.collection('news');

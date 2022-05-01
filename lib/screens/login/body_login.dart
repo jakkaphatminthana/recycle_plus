@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycle_plus/components/Social_card.dart';
+import 'package:recycle_plus/components/social_card.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/login/form_login.dart';
 import 'package:recycle_plus/screens/register/body_register.dart';
