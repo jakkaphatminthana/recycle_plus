@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
+import 'package:recycle_plus/components/wallet_card.dart';
 import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/sponsor_model.dart';
 import 'package:recycle_plus/screens/start/start.dart';
@@ -9,15 +10,23 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:recycle_plus/service/database.dart';
 
-class PageTest1 extends StatelessWidget {
-  DatabaseEZ db = DatabaseEZ.instance;
+//เรียก firebase database
+DatabaseEZ db = DatabaseEZ.instance;
 
+class User_HomeScreen extends StatefulWidget {
+  @override
+  State<User_HomeScreen> createState() => _User_HomeScreenState();
+  
+}
+class _User_HomeScreenState extends State<User_HomeScreen> {
+  
+  //Model data ไว้ดึงฐานข้อมูล
+  Stream<List<NewsModel>> state = db.getDataNews();
+  Stream<List<SponsorModel>> logo = db.getLogoSponsor();
+
+  //==========================================================================================================
   @override
   Widget build(BuildContext context) {
-    Stream<List<NewsModel>> state = db.getDataNews();
-    Stream<List<SponsorModel>> logo = db.getLogoSponsor();
-
-    //==========================================================================================================
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -28,7 +37,7 @@ class PageTest1 extends StatelessWidget {
                 child: Image.asset(
                   "assets/image/reward_banner.png",
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.22,
                   fit: BoxFit.cover,
                 ),
                 onTap: () {},
@@ -38,19 +47,23 @@ class PageTest1 extends StatelessWidget {
               //TODO 2. Wallet Mini
               Align(
                 alignment: const AlignmentDirectional(0, 0),
-                child: GestureDetector(
-                  child: Text("Wallet"),
-                  onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 140),
+                  child: GestureDetector(
+                    child: Wallet_card,
+                    onTap: () {},
+                  ),
                 ),
               ),
             ],
           ),
 
-          //TODO : OURSPONSOR header
+          //TODO 3. OURSPONSOR header
           const SizedBox(height: 20.0),
           Text("OUR SPONSOR", style: Roboto16_B_black),
+          const SizedBox(height: 5.0),
 
-          //TODO : OURSPONSOR show
+          //TODO 4. OURSPONSOR show
           Container(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width,
@@ -96,9 +109,12 @@ class PageTest1 extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: 22.0),
 
-          //TODO : News Database show
+          Text("ข่าวสาร/ประกาศ", style: Roboto16_B_black),
+          const SizedBox(height: 10.0),
+
+          //TODO 6. News Database show
           Expanded(
             child: StreamBuilder<List<NewsModel>>(
                 stream: state,
@@ -128,7 +144,7 @@ class PageTest1 extends StatelessWidget {
 Widget buildNewsBanner(NewsModel news) => Container(
       padding: const EdgeInsets.only(bottom: 5.0),
       width: double.infinity,
-      height: 100.0,
+      height: 120.0,
       child: Image.network(
         news.image,
         fit: BoxFit.cover,

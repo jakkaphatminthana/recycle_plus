@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/screens/_NoLogin/tabbar_control.dart';
 import 'package:recycle_plus/screens/forgotPass/forgotPass.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
@@ -16,5 +17,6 @@ final Map<String, WidgetBuilder> routes = {
   ForgotPasswordScreen.routeName:(context) => ForgotPasswordScreen(),
   LoginSuccess.routeName: (context) => LoginSuccess(),
   RegisterSuccess.routeName: (context) => RegisterSuccess(),
-  TabbarControl.routeName: (context) => TabbarControl(),
+  Member_TabbarHome.routeName: (context) => Member_TabbarHome(),
+  Admin_TabbarHome.routeName: (context) => Admin_TabbarHome(),
 };

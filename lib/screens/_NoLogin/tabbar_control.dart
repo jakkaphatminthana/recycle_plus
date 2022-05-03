@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:recycle_plus/screens/_NoLogin/home.dart';
-import 'package:recycle_plus/screens/_NoLogin/page1.dart';
+import 'package:recycle_plus/screens/_NoLogin/user_home.dart';
 import 'package:recycle_plus/screens/_NoLogin/page2.dart';
 import 'package:recycle_plus/screens/_NoLogin/page3.dart';
 import 'package:recycle_plus/screens/_NoLogin/page4.dart';
 
-class TabbarControl extends StatefulWidget {
-  const TabbarControl({Key? key}) : super(key: key);
+class Member_TabbarHome extends StatefulWidget {
+  const Member_TabbarHome({Key? key}) : super(key: key);
   //Location Page
   static String routeName = "/home";
 
   @override
-  State<TabbarControl> createState() => _TabbarControlState();
+  State<Member_TabbarHome> createState() => _Member_TabbarHomeState();
 }
 
-class _TabbarControlState extends State<TabbarControl> {
+class _Member_TabbarHomeState extends State<Member_TabbarHome> {
   //TODO 1. Set Tabbar list here
   TabBar get _tabbar {
     return const TabBar(
@@ -108,7 +107,7 @@ class _TabbarControlState extends State<TabbarControl> {
         body: TabBarView(
           physics: const NeverScrollableScrollPhysics(), //ไม่ต้องเลื่อนได้,
           children: [
-            PageTest1(),
+            User_HomeScreen(),
             PageTest2(),
             PageTest3(),
             PageTest4(),

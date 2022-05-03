@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/sponsor_model.dart';
+import 'package:recycle_plus/models/user_model.dart';
 
 //=======================================================================================================
 //TODO : ติดต่อกับ firebase
@@ -30,17 +31,23 @@ class DatabaseEZ {
   Stream<List<SponsorModel>> getLogoSponsor() => FirebaseFirestore.instance
       .collection('sposor')
       .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => SponsorModel.formJson(doc.data())).toList());
+      .map((snapshot) => snapshot.docs
+          .map((doc) => SponsorModel.formJson(doc.data()))
+          .toList());
 
-  // Stream<List<NewsModel>> getDataNews({NewsModel? news}) {
-  //   final reference = FirebaseFirestore.instance.collection('news');
-  //   final snapshot = reference.snapshots();
+  //TODO 3. User State
+  //Note : ลักษณะการเขียนเหมือนอันบน แต่เขียนแบบตัวแปร
+  Stream<List<UserModel>> getStateUser() {
+    final reference = FirebaseFirestore.instance.collection('users');
+    //เรียงเอกสารจากมากไปน้อย โดยใช้ ฟิลด์ id
+    final snapshot = reference.snapshots();
 
-  //   return snapshot.map((snapshot) {
-  //     return snapshot.docs.map((doc) {
-  //       return NewsModel.fromJson(doc.data());
-  //     }).toList();
-  //   });
-  // }
+    //QuerySnapshot<Map<String, dynamic>> snapshot
+    //QuerySnapshot<Object?> snapshot
+    return snapshot.map((snapshot) {
+      return snapshot.docs.map((doc) {
+        return UserModel.fromMap(doc.data());
+      }).toList();
+    });
+  }
 }

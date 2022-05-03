@@ -56,6 +56,16 @@ Material Wallet_card = Material(
             ),
           ),
         ),
+        
+        //TODO 4. arrow icon
+        const Padding(
+          padding: EdgeInsets.only(right: 10),
+          child: Icon(
+            Icons.arrow_forward_ios,
+            color: Colors.black,
+            size: 24,
+          ),
+        ),
       ],
     ),
   ),

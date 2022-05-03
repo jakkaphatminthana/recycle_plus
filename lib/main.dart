@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: TabbarControl.routeName,
+      initialRoute: StartScreen.routeName,
       routes: routes,
     );
   }
