@@ -66,7 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         Social_Card(
                           icon: "assets/icons/user-circle-plus-bold.svg",
                           press: () {
-                            Navigator.pushNamed(context, RegisterScreen.routeName);
+                            Navigator.pushNamed(
+                                context, RegisterScreen.routeName);
                           },
                         ),
                         Social_Card(

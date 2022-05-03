@@ -52,66 +52,76 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
 //==================================================================================================================
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-        //TODO 2. Appbar Header
-        appBar: AppBar(
-          backgroundColor: const Color(0xFF00883C),
-          automaticallyImplyLeading: false,
-          leading: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Image.asset(
-              "assets/image/logo.png",
-              width: 100,
-              height: 100,
-              fit: BoxFit.cover,
+    //TODO : ทำให้ไม่สามารถกด back page ได้
+    return WillPopScope(
+      onWillPop: () async {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text("The System Back Button is Deactivated")),
+        );
+        return false;
+      },
+      child: DefaultTabController(
+        length: 4,
+        child: Scaffold(
+          //TODO 2. Appbar Header
+          appBar: AppBar(
+            backgroundColor: const Color(0xFF00883C),
+            automaticallyImplyLeading: false,
+            leading: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Image.asset(
+                "assets/image/logo.png",
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
+            ),
+            title: Text("RECYCLE+", style: Roboto18_white),
+            //Icon Menu bar
+            actions: [
+              IconButton(
+                icon: const Icon(
+                  Icons.qr_code,
+                  color: Colors.white,
+                  size: 35,
+                ),
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: const FaIcon(
+                  FontAwesomeIcons.solidUserCircle,
+                  color: Colors.white,
+                  size: 30,
+                ),
+                onPressed: () {},
+              ),
+            ],
+            elevation: 2.0,
+
+            //TODO 3. Tabbar in Appbar
+            bottom: PreferredSize(
+              preferredSize: _tabbar.preferredSize,
+              child: ColoredBox(
+                color: const Color(0xFF15924C),
+                child: Container(
+                  height: 75.0,
+                  child: _tabbar,
+                ),
+              ),
             ),
           ),
-          title: Text("RECYCLE+", style: Roboto18_white),
-          //Icon Menu bar
-          actions: [
-            IconButton(
-              icon: const Icon(
-                Icons.qr_code,
-                color: Colors.white,
-                size: 35,
-              ),
-              onPressed: () {},
-            ),
-            IconButton(
-              icon: const FaIcon(
-                FontAwesomeIcons.solidUserCircle,
-                color: Colors.white,
-                size: 30,
-              ),
-              onPressed: () {},
-            ),
-          ],
-          elevation: 2.0,
 
-          //TODO 3. Tabbar in Appbar
-          bottom: PreferredSize(
-            preferredSize: _tabbar.preferredSize,
-            child: ColoredBox(
-              color: const Color(0xFF15924C),
-              child: Container(
-                height: 75.0,
-                child: _tabbar,
-              ),
-            ),
+          //========================================================================================================
+          body: TabBarView(
+            physics: const NeverScrollableScrollPhysics(), //ไม่ต้องเลื่อนได้,
+            children: [
+              User_HomeScreen(),
+              PageTest2(),
+              PageTest3(),
+              PageTest4(),
+            ],
           ),
-        ),
-
-        //========================================================================================================
-        body: TabBarView(
-          physics: const NeverScrollableScrollPhysics(), //ไม่ต้องเลื่อนได้,
-          children: [
-            User_HomeScreen(),
-            PageTest2(),
-            PageTest3(),
-            PageTest4(),
-          ],
         ),
       ),
     );

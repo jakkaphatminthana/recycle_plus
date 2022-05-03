@@ -102,6 +102,7 @@
 
 ### หน้าสมัครสมาชิกสำเร็จ
 <img src="https://user-images.githubusercontent.com/58208814/165306658-eca19532-66f9-4e54-9744-657a1be62068.PNG" width="250">
+
 #### Front-end
 - :heavy_check_mark: Design
 #### System
@@ -109,16 +110,21 @@
 
 ### หน้าเข้าสู่ระบบสำเร็จ
 <img src="https://user-images.githubusercontent.com/58208814/165306670-a0f7acb5-0afc-477a-ae28-4476eaa787c9.PNG" width="250">
+
 #### Front-end
 - :heavy_check_mark: Design
 #### System
-- :x: กดปุ่ม "Back to home" แล้วไปยัง "หน้าแรก" 
+- :heavy_check_mark: กดปุ่ม "Back to home" แล้วไปยัง "หน้าแรก" 
+- :heavy_check_mark: ตรวจสอบ role ของ user จากฐานข้อมูล member
+    - :heavy_check_mark: หากมี role เป็น member หรือ sponsor ให้ไปหน้าแรกของสมาชิก
+    - :heavy_check_mark: หากมี role เป็น admin ให้ไปหน้าแรกของแอดมิน
+    - :warning: มีข้อความยินดีต้อนรับ "ชื่อผู้ใช้"
 
 ### หน้าแรก
 <img src="https://user-images.githubusercontent.com/58208814/161980781-9b87cd48-9ac8-44e7-98c9-562437b46c65.png" width="250">
 
 #### Front-end
-- :x: Design
+- :heavy_check_mark: Design
 #### System
 - :x: ไม่สามารถกดเมนูบน ข่าวสารได้ หากกดแล้วจะไปยัง "หน้าโปรดล็อคอิน" 
 - :x: ไม่สามารถกดเมนูบน Appbar ได้หากกดแล้วจะไปยัง "หน้าโปรดล็อคอิน"
@@ -178,10 +184,3 @@
 - :heavy_check_mark: กำหนด Constants Font
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-ทำหน้าอ่านข่าว
-1. ดึงข้อมูลจาก firebase มาแสดงในหน้า home ให้หมด
-2. พอกดคลิกที่ตัว item ก็ให้มัน passing ค่า id ตัวนั้นไปยังหน้า อ่านข่าว
-3. ในหน้าอ่านข่าวก็จะดึงค่า id ที่มันส่งมากับตอน Navigator เอามาใช้อ้างอิง id สำหรับอ่านหน้าข่าว 

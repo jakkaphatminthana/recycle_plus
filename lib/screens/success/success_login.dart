@@ -21,8 +21,6 @@ class _LoginSuccessState extends State<LoginSuccess> {
   //เชื่อมต่อ firebase datastore
   DatabaseEZ db = DatabaseEZ.instance;
 
-  var role;
-
   @override
   Widget build(BuildContext context) {
     //ดึงเอกสาร id ของ user ทั้งหมด
@@ -38,108 +36,117 @@ class _LoginSuccessState extends State<LoginSuccess> {
     _user = _auth.currentUser;
 
 //==============================================================================================================
-    return Scaffold(
-      //TODO 1. Appbar
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        automaticallyImplyLeading: false,
-        elevation: 0.0,
-        leading: const SizedBox(),
-        flexibleSpace: Align(
-          alignment: const AlignmentDirectional(0, 0.55),
-          child: Text(
-            "Login Success",
-            style: Roboto18_gray,
+    //TODO : ทำให้ไม่สามารถกด back page ได้
+    return WillPopScope(
+      onWillPop: () async {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text("The System Back Button is Deactivated")),
+        );
+        return false;
+      },
+      child: Scaffold(
+        //TODO 1. Appbar
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: false,
+          elevation: 0.0,
+          leading: const SizedBox(),
+          flexibleSpace: Align(
+            alignment: const AlignmentDirectional(0, 0.55),
+            child: Text(
+              "Login Success",
+              style: Roboto18_gray,
+            ),
           ),
         ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Align(
-            alignment: const AlignmentDirectional(0, 0),
-            child: Column(
-              children: [
-                //TODO 2. Image Success
-                Padding(
-                  padding: const EdgeInsets.only(top: 100),
-                  child: Image.asset(
-                    "assets/image/success.png",
-                    fit: BoxFit.cover,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Align(
+              alignment: const AlignmentDirectional(0, 0),
+              child: Column(
+                children: [
+                  //TODO 2. Image Success
+                  Padding(
+                    padding: const EdgeInsets.only(top: 100),
+                    child: Image.asset(
+                      "assets/image/success.png",
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
 
-                //TODO 3. Text Login Success
-                Padding(
-                  padding: const EdgeInsets.only(top: 50),
-                  child: Text(
-                    "Login Success",
-                    style: Russo26_gray,
+                  //TODO 3. Text Login Success
+                  Padding(
+                    padding: const EdgeInsets.only(top: 50),
+                    child: Text(
+                      "Login Success",
+                      style: Russo26_gray,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 50.0),
+                  const SizedBox(height: 50.0),
 
-                //TODO 4. Firebase Check Role User -------------------------------
-                StreamBuilder(
-                  stream: status,
-                  builder: (context, snapshot) {
-                    return FutureBuilder<DocumentSnapshot>(
-                      future: col_users.doc("${_user?.uid}").get(),
-                      builder: (context, snapshotEZ) {
-                        if (snapshot.hasError) {
-                          return const Text("Something is wrong!");
-                        }
-                        if (snapshotEZ.hasData) {
-                          //ลอง print ดูสถานะข้อมูลเฉยๆ
-                          print("snapshotEZ.hasData = ${snapshotEZ.hasData}");
-                          print("snapshotEZ.connectionState == Connect.done");
+                  //TODO 4. Firebase Check Role User -------------------------------
+                  StreamBuilder(
+                    stream: status,
+                    builder: (context, snapshot) {
+                      return FutureBuilder<DocumentSnapshot>(
+                        future: col_users.doc("${_user?.uid}").get(),
+                        builder: (context, snapshotEZ) {
+                          if (snapshot.hasError) {
+                            return const Text("Something is wrong!");
+                          }
+                          if (snapshotEZ.hasData) {
+                            //ลอง print ดูสถานะข้อมูลเฉยๆ
+                            print("snapshotEZ.hasData = ${snapshotEZ.hasData}");
+                            print("snapshotEZ.connectionState == Connect.done");
 
-                          if (snapshotEZ.connectionState ==
-                              ConnectionState.done) {
-                            //TODO : data = เอกสารข้อมูลจาก state, col_users
-                            Map<String, dynamic> data =
-                                snapshotEZ.data!.data() as Map<String, dynamic>;
+                            if (snapshotEZ.connectionState ==
+                                ConnectionState.done) {
+                              //TODO : data = เอกสารข้อมูลจาก state, col_users
+                              Map<String, dynamic> data = snapshotEZ.data!
+                                  .data() as Map<String, dynamic>;
 
-                            //TODO : กระทำกับฐานข้อมูลตรงนี้เด้อ
-                            if (data['role'] != null) {
-                              //TODO 5. Button Check role
-                              return ElevatedButton(
-                                child: Text(
-                                  "Back to Home",
-                                  style: Roboto20_B_white,
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  primary: const Color(0xFF00883C),
-                                  fixedSize: const Size(160, 45),
-                                  elevation: 2.0, //เงา
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
+                              //TODO : กระทำกับฐานข้อมูลตรงนี้เด้อ
+                              if (data['role'] != null) {
+                                //TODO 5. Button Check role
+                                return ElevatedButton(
+                                  child: Text(
+                                    "Back to Home",
+                                    style: Roboto20_B_white,
                                   ),
-                                ),
-                                //เมื่อกดปุ่มนี้แล้วทำอะไรต่อ
-                                onPressed: () {
-                                  if (data['role'] == "member" ||
-                                      data['role'] == "sponsor") {
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                            Member_TabbarHome.routeName,
-                                            (route) => false);
-                                  } else if (data['role'] == "admin") {
-                                    Navigator.pushNamed(
-                                        context, Admin_TabbarHome.routeName);
-                                  } else {
-                                    print("button | Something is wrong!");
-                                  }
-                                },
-                              );
+                                  style: ElevatedButton.styleFrom(
+                                    primary: const Color(0xFF00883C),
+                                    fixedSize: const Size(160, 45),
+                                    elevation: 2.0, //เงา
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20.0),
+                                    ),
+                                  ),
+                                  //เมื่อกดปุ่มนี้แล้วทำอะไรต่อ
+                                  onPressed: () {
+                                    if (data['role'] == "member" ||
+                                        data['role'] == "sponsor") {
+                                      Navigator.of(context)
+                                          .pushReplacementNamed(
+                                              Member_TabbarHome.routeName);
+                                    } else if (data['role'] == "admin") {
+                                      Navigator.pushNamed(
+                                          context, Admin_TabbarHome.routeName);
+                                    } else {
+                                      print("button | Something is wrong!");
+                                    }
+                                  },
+                                );
+                              }
                             }
                           }
-                        }
-                        return const Text('กำลังโหลด..');
-                      },
-                    );
-                  },
-                ),
-              ],
+                          return const Text('กำลังโหลด..');
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
