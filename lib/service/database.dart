@@ -35,7 +35,15 @@ class DatabaseEZ {
           .map((doc) => SponsorModel.formJson(doc.data()))
           .toList());
 
-  //TODO 3. User State
+  //TODO 3.1 User Data
+  Stream<List<UserModelV2>> getUserData() => FirebaseFirestore.instance
+      .collection('users')
+      .snapshots()
+      .map((snapshot) => snapshot.docs
+          .map((doc) => UserModelV2.fromJson(doc.data()))
+          .toList());
+
+  //TODO 3.2 User State
   //Note : ลักษณะการเขียนเหมือนอันบน แต่เขียนแบบตัวแปร
   Stream<List<UserModel>> getStateUser() {
     final reference = FirebaseFirestore.instance.collection('users');

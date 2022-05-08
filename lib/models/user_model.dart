@@ -50,7 +50,49 @@ class UserModel {
       'image': image,
       'address': address,
       'role': role,
-      'verify':verify,
+      'verify': verify,
     };
   }
+}
+
+//==============================================================================================
+//TODO : แบบแสดงทั้งหมด ในแบบของฉัน
+class UserModelV2 {
+  final String id;
+  final String email;
+  final String name;
+  final String image;
+  final String address;
+  final String role;
+  final bool verify;
+
+  UserModelV2({
+    required this.id,
+    required this.email,
+    required this.name,
+    required this.image,
+    required this.address,
+    required this.role,
+    required this.verify,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'email': email,
+        'name': name,
+        'image': image,
+        'address': address,
+        'role': role,
+        'verify': verify,
+      };
+
+  static UserModelV2 fromJson(Map<String, dynamic> json) => UserModelV2(
+    id: json['id'],
+    email: json['email'],
+    name: json['name'],
+    image: json['image'],
+    address: json['address'],
+    role: json['role'],
+    verify: json['verify'],
+  );
 }

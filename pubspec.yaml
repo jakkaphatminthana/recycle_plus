@@ -54,6 +54,8 @@ dev_dependencies:
   firebase_auth: ^3.3.9
   firebase_storage: ^10.0.6
   cloud_firestore: ^3.1.13
+  firestore_search: ^0.1.9
+  search_page: ^2.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

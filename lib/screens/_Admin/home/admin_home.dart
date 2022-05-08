@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/screens/_Admin/home/list_menu.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:recycle_plus/screens/_Admin/member/member.dart';
+import 'package:recycle_plus/screens/_Admin/member/member_test';
 
 class Admin_HomeScreen extends StatefulWidget {
   const Admin_HomeScreen({Key? key}) : super(key: key);
@@ -26,7 +28,6 @@ class _Admin_HomeScreenState extends State<Admin_HomeScreen> {
               press: () {},
             ),
             const SizedBox(height: 10.0),
-
             ListMenu(
               header: "Petition List",
               subtitle: "รายการคำร้อง",
@@ -35,7 +36,6 @@ class _Admin_HomeScreenState extends State<Admin_HomeScreen> {
               press: () {},
             ),
             const SizedBox(height: 10.0),
-            
             ListMenu(
               header: "Mission List",
               subtitle: "รายการภารกิจ",
@@ -44,16 +44,16 @@ class _Admin_HomeScreenState extends State<Admin_HomeScreen> {
               press: () {},
             ),
             const SizedBox(height: 10.0),
-
             ListMenu(
               header: "Member",
               subtitle: "ข้อมูลสมาชิกในระบบ",
               iconEZ: const FaIcon(Icons.people, size: 35),
               colorEZ: const Color(0xFF4DD187),
-              press: () {},
+              press: () {
+                Navigator.pushNamed(context, Admin_MemberScreen.routeName);
+              },
             ),
             const SizedBox(height: 10.0),
-
             ListMenu(
               header: "Verify",
               subtitle: "ตรวจสอบการยืนยันตัวตน",
@@ -62,11 +62,9 @@ class _Admin_HomeScreenState extends State<Admin_HomeScreen> {
               press: () {},
             ),
             const SizedBox(height: 10.0),
-
           ],
         ),
       ),
     );
   }
-
 }
