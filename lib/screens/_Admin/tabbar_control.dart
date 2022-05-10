@@ -5,6 +5,8 @@ import 'package:recycle_plus/screens/_Admin/home/admin_home.dart';
 import 'package:recycle_plus/screens/_Admin/page2.dart';
 import 'package:recycle_plus/screens/_Admin/page3.dart';
 
+import '../../components/appbar_title.dart';
+
 class Admin_TabbarHome extends StatefulWidget {
   const Admin_TabbarHome({ Key? key }) : super(key: key);
   //Location page
@@ -15,6 +17,8 @@ class Admin_TabbarHome extends StatefulWidget {
 }
 
 class _Admin_TabbarHomeState extends State<Admin_TabbarHome> {
+  Widget customAppbarTitle = const AppbarTitle();
+
   //TODO 1. Set Tabbar list here
   TabBar get _tabbar {
     return const TabBar(
@@ -62,16 +66,10 @@ class _Admin_TabbarHomeState extends State<Admin_TabbarHome> {
           appBar: AppBar(
             backgroundColor: const Color(0xFF00883C),
             automaticallyImplyLeading: false,
-            leading: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Image.asset(
-                "assets/image/logo.png",
-                width: 100,
-                height: 100,
-                fit: BoxFit.cover,
-              ),
+            title:const Padding(
+              padding: EdgeInsets.only(left: 10.0),
+              child: AppbarTitle(),
             ),
-            title: Text("RECYCLE+", style: Roboto18_white),
             //Icon Menu bar
             actions: [
               IconButton(

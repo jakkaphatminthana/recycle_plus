@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:recycle_plus/components/appbar_title.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/models/user_model.dart';
+import 'package:recycle_plus/screens/_Admin/member/member_detail.dart';
 import 'package:recycle_plus/screens/_Admin/member/member_search.dart';
 import 'package:recycle_plus/screens/_Admin/member/textfieldSearch.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
@@ -120,7 +121,9 @@ class _Admin_MemberScreenState extends State<Admin_MemberScreen> {
         ),
         //เนื้อหาในกล่องนี้ จะแสดงอะไร
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, Admin_MemberDetail.routeName);
+          },
           child: ListTile(
             //TODO : Profile Image
             leading: Container(
