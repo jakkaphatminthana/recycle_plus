@@ -181,9 +181,33 @@
 - :heavy_check_mark: เชื่อมต่อข้อมูล Firebase
     - :heavy_check_mark: แสดงรายการ users
     - :x: คลิกรายการนั้นแล้ว ไปยังหน้า Detail ตาม ID user
-    - :warning: แบ่งหน้าข้อมูลทีละ 20 รายการค่อย load more
+    - :warning: แบ่งหน้าข้อมูลทีละ 15 รายการก่อนค่อย load more
 - :heavy_check_mark: กดค้นหาได้ และไป "หน้าค้นหาสมาชิก"
 
+### หน้าค้นหาข้อมูลสมาชิก (ผู้ดูแลระบบ)
+<img src="https://user-images.githubusercontent.com/58208814/167851739-00882c94-6fb8-4476-a0c6-ea3d4cd09b58.PNG" width="250"> <img src="https://user-images.githubusercontent.com/58208814/167851751-a2ab42be-cf73-44b2-b02c-ea13acf60619.PNG" width="250">
+
+#### Front-end
+- :heavy_check_mark: Design
+#### System
+- :heavy_check_mark: เชื่อมต่อข้อมูล Firebase
+    - :heavy_check_mark: แสดงรายการ users ตามคำ word
+    - :x: คลิกรายการนั้นแล้ว ไปยังหน้า Detail ตาม ID user
+    - :heavy_check_mark: หากไม่พบข้อมูลที่ตรง word ให้แจ้งบอก
+- :heavy_check_mark: กดล้างค่า input ที่ป้อนโดยกด Icon close
+
+### หน้าข้อมูลสมาชิกในระบบ (ผู้ดูแลระบบ)
+<img src="https://user-images.githubusercontent.com/58208814/167851757-a57716ab-6713-4cde-8210-fcd0ae609473.PNG" width="250">
+
+#### Front-end
+- :heavy_check_mark: Design
+#### System
+- :x: เชื่อมต่อข้อมูล Firebase
+    - :x: แสดงข้อมูล name, email
+    - :x: แสดงสถานะ role, verify, wallet 
+- :x: สามารถลบข้อมูลนี้ทิ้งได้ พร้อมกด confrim
+- :x: สามารถแก้ไขข้อมูลนี้ ไปยังหน้าแก้ไข
+- :warning: เมนูเพิ่มเติมกดแล้วไปยังหน้านั้นๆ
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <!------------------------------------------------------------------------------------------------------------------------>
