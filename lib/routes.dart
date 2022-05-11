@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/screens/_Admin/member/member.dart';
-import 'package:recycle_plus/screens/_Admin/member/member_detail.dart';
+import 'package:recycle_plus/screens/_Admin/member/member_detail/member_detail.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/screens/_NoLogin/tabbar_control.dart';
 import 'package:recycle_plus/screens/forgotPass/forgotPass.dart';

@@ -120,29 +120,20 @@
     - :heavy_check_mark: หากมี role เป็น admin ให้ไปหน้าแรกของแอดมิน
     - :warning: มีข้อความยินดีต้อนรับ "ชื่อผู้ใช้"
 
-### หน้าแรก
+### หน้าแรก (ผู้ใช้ทั่วไป)
 <img src="https://user-images.githubusercontent.com/58208814/161980781-9b87cd48-9ac8-44e7-98c9-562437b46c65.png" width="250">
 
 #### Front-end
 - :heavy_check_mark: Design
 #### System
-- :x: ไม่สามารถกดเมนูบน ข่าวสารได้ หากกดแล้วจะไปยัง "หน้าโปรดล็อคอิน" 
-- :x: ไม่สามารถกดเมนูบน Appbar ได้หากกดแล้วจะไปยัง "หน้าโปรดล็อคอิน"
-- :x: สามารถกด Tabbar
+- :x: ตรวจสอบสถานะการ login
+    - :x: false = ไม่สามารถกดเมนูบน ข่าวสารได้ หากกดแล้วจะไปยัง "หน้าโปรดล็อคอิน" 
+    - :x: false = ไม่สามารถกดเมนูบน Appbar ได้หากกดแล้วจะไปยัง "หน้าโปรดล็อคอิน"
+- :heavy_check_mark: สามารถกด Tabbar
 - :x: สามารถเข้าดูรายละเอียด ข่าวสารได้
 - :warning: Wallet จะต้องไม่แสดงอะไร
 - :warning: ดึงข้อมูล Sponsor จาก Firebase มาแสดง 
 - :warning: ดึงข้อมูล ข่าวสาร จาก Firebase มาแสดง 
-
-### หน้าอ่านข่าวสาร
-<img src="https://user-images.githubusercontent.com/58208814/162737293-205c64a2-859c-4be2-aa16-538a6d26cd37.png" width="250">
-
-#### Front-end
-- :x: Design
-#### System
-- :x: เชื่อมต่อ Firestore
-    - :x: ดึงข้อมูลเนื้อหามาแสดง ของแต่ละข่าวสาร
-- :warning: กดปุ่ม "Back" แล้วไปยังหน้าที่แล้ว
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <!------------------------------------------------------------------------------------------------------------------------>
@@ -166,6 +157,33 @@
 <div id="Actor5"></div>
 
 ## Actor 5 : ผู้ดูแลระบบ
+
+### หน้าแผงควบคุม (ผู้ดูแลระบบ)
+<img src="https://user-images.githubusercontent.com/58208814/167799080-cb67b261-6e77-45d1-b800-55fee63a8df4.PNG" width="250">
+
+#### Front-end
+- :heavy_check_mark: Design
+#### System
+- :heavy_check_mark: Tabbar Menu
+- :x: กดเมนู "Amount of Garbage" แล้วไป "หน้าข้อมูลขยะในระบบ"
+- :x: กดเมนู "Pettion List" แล้วไป "หน้ารายการคำร้อง"
+- :x: กดเมนู "Misson List" แล้วไป "หน้ารายการภารกิจ"
+- :heavy_check_mark: กดเมนู "Member" แล้วไป "หน้าข้อมูลสมาชิกในระบบ"
+- :x: กดเมนู "Verify" แล้วไป "หน้าตรวจสอบการยืนยันตัวตน"
+- :warning: ตัวสอบสถานะ login" ถ้าเป็น false ให้ไปล็อคอิน
+
+### หน้าข้อมูลสมาชิกในระบบ (ผู้ดูแลระบบ)
+<img src="https://user-images.githubusercontent.com/58208814/167799091-fb1ce18b-a892-4c0e-805c-4e469425c99d.PNG" width="250">
+
+#### Front-end
+- :heavy_check_mark: Design
+#### System
+- :heavy_check_mark: เชื่อมต่อข้อมูล Firebase
+    - :heavy_check_mark: แสดงรายการ users
+    - :x: คลิกรายการนั้นแล้ว ไปยังหน้า Detail ตาม ID user
+    - :warning: แบ่งหน้าข้อมูลทีละ 20 รายการค่อย load more
+- :heavy_check_mark: กดค้นหาได้ และไป "หน้าค้นหาสมาชิก"
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <!------------------------------------------------------------------------------------------------------------------------>

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:recycle_plus/components/appbar_title.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/models/user_model.dart';
-import 'package:recycle_plus/screens/_Admin/member/member_detail.dart';
+import 'package:recycle_plus/screens/_Admin/member/member_detail/member_detail.dart';
 import 'package:recycle_plus/screens/_Admin/member/member_search.dart';
 import 'package:recycle_plus/screens/_Admin/member/textfieldSearch.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
