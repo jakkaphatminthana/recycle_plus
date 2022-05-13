@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
+import 'package:recycle_plus/screens/_Admin/member/member_detail/member_detail.dart';
 import 'package:recycle_plus/screens/_Admin/member/textfieldSearch.dart';
 import 'package:search_page/search_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -62,7 +63,7 @@ class Member_Search extends SearchDelegate {
               .isEmpty) {
             return Center(child: buildNotFound());
 
-          //เมื่อหาข้อมูลเจอ
+            //เมื่อหาข้อมูลเจอ
           } else {
             return ListView(
               children: [
@@ -97,7 +98,15 @@ class Member_Search extends SearchDelegate {
                       color: Color(0xFF303030),
                       size: 20,
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              Admin_MemberDetail(data1: null, data2: data),
+                        ),
+                      );
+                    },
                   );
                 })
               ],

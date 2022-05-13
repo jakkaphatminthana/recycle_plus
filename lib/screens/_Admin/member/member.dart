@@ -1,20 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:recycle_plus/components/appbar_title.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/models/user_model.dart';
 import 'package:recycle_plus/screens/_Admin/member/member_detail/member_detail.dart';
 import 'package:recycle_plus/screens/_Admin/member/member_search.dart';
-import 'package:recycle_plus/screens/_Admin/member/textfieldSearch.dart';
-import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:recycle_plus/service/database.dart';
-
-//เรียก firebase database
-DatabaseEZ db = DatabaseEZ.instance;
 
 class Admin_MemberScreen extends StatefulWidget {
   //Location page
@@ -25,8 +19,10 @@ class Admin_MemberScreen extends StatefulWidget {
 }
 
 class _Admin_MemberScreenState extends State<Admin_MemberScreen> {
+  //เรียก firebase database
+  DatabaseEZ db = DatabaseEZ.instance;
   //เก็บและเรียกข้อมูลจาก firebase collecttion ("users")
-  Stream<List<UserModelV2>> user_list = db.getUserData();
+  Stream<List<UserModelV2>> user_list = DatabaseEZ.instance.getUserData();
 
   //customIcon = Set icon Search
   //customAppbar = Widget Appbar title
@@ -122,7 +118,8 @@ class _Admin_MemberScreenState extends State<Admin_MemberScreen> {
         //เนื้อหาในกล่องนี้ จะแสดงอะไร
         child: GestureDetector(
           onTap: () {
-            Navigator.pushNamed(context, Admin_MemberDetail.routeName);
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Admin_MemberDetail(data2: null, data1: users.id,)));
           },
           child: ListTile(
             //TODO : Profile Image
