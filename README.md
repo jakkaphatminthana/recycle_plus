@@ -180,7 +180,7 @@
 #### System
 - :heavy_check_mark: เชื่อมต่อข้อมูล Firebase
     - :heavy_check_mark: แสดงรายการ users
-    - :x: คลิกรายการนั้นแล้ว ไปยังหน้า Detail ตาม ID user
+    - :heavy_check_mark: คลิกรายการนั้นแล้ว ไปยังหน้า Detail ตาม ID user
     - :warning: แบ่งหน้าข้อมูลทีละ 15 รายการก่อนค่อย load more
 - :heavy_check_mark: กดค้นหาได้ และไป "หน้าค้นหาสมาชิก"
 
@@ -192,25 +192,46 @@
 #### System
 - :heavy_check_mark: เชื่อมต่อข้อมูล Firebase
     - :heavy_check_mark: แสดงรายการ users ตามคำ word
-    - :x: คลิกรายการนั้นแล้ว ไปยังหน้า Detail ตาม ID user
+    - :heavy_check_mark: คลิกรายการนั้นแล้ว ไปยังหน้า Detail ตาม ID user
     - :heavy_check_mark: หากไม่พบข้อมูลที่ตรง word ให้แจ้งบอก
 - :heavy_check_mark: กดล้างค่า input ที่ป้อนโดยกด Icon close
 
 ### หน้าข้อมูลสมาชิกในระบบ (ผู้ดูแลระบบ)
-<img src="https://user-images.githubusercontent.com/58208814/167851757-a57716ab-6713-4cde-8210-fcd0ae609473.PNG" width="250">
-
+<img src="https://user-images.githubusercontent.com/58208814/168743056-eb15ac24-45d6-4b4e-9714-43454ddea694.PNG" width="250"> <img src="https://user-images.githubusercontent.com/58208814/168743065-3cdeafb5-2dbe-4bc6-ab0d-87fff7c575ac.PNG" width="250">
+ 
 #### Front-end
 - :heavy_check_mark: Design
 #### System
-- :x: เชื่อมต่อข้อมูล Firebase
-    - :x: แสดงข้อมูล name, email
-    - :x: แสดงสถานะ role, verify, wallet 
+- :heavy_check_mark: เชื่อมต่อข้อมูล Firebase
+    - :heavy_check_mark: แสดงข้อมูล name, email
+    - :heavy_check_mark: แสดงสถานะ role 
+    - :warning: แสดงสถานะ verify
+    - :warning: แสดงสถานะ verify
 - :x: สามารถลบข้อมูลนี้ทิ้งได้ พร้อมกด confrim
-- :x: สามารถแก้ไขข้อมูลนี้ ไปยังหน้าแก้ไข
+- :heavy_check_mark: สามารถแก้ไขข้อมูลนี้ ไปยังหน้าแก้ไข
 - :warning: เมนูเพิ่มเติมกดแล้วไปยังหน้านั้นๆ
     - :warning: เมนูรายละเอียดโปรไฟล์
     - :warning: เมนูประวัติการใช้งาน
     - :warning: เมนูประวัติการแลกของรางวัล
+
+### หน้าแก้ไขข้อมูลสมาชิก (ผู้ดูแลระบบ)
+<img src="https://user-images.githubusercontent.com/58208814/168743093-ee4cc952-f9e1-4561-b5bb-e95e63d0529c.PNG" width="250"> <img src="https://user-images.githubusercontent.com/58208814/168743087-1fdee1a5-3e5d-42de-88de-e73fdaf71421.PNG" width="250">
+
+#### Front-end
+- :heavy_check_mark: Design
+#### System
+- :heavy_check_mark: เชื่อมต่อข้อมูล Firebase
+    - :heavy_check_mark: แสดงข้อมูล email อันเดิม
+    - :heavy_check_mark: แสดงข้อมูล role อันเดิม
+    - :heavy_check_mark: แสดงสถานะ รูปภาพ อันเดิม
+- :heavy_check_mark: สามารถกดเข้าถึงรูปภาพจากเครื่อง
+    - :heavy_check_mark: อัปโหลดรูปภาพจาก เครื่อง
+    - :heavy_check_mark: อัปโหลดรูปภาพจาก google drive
+    - :heavy_check_mark: อัปโหลดรูปภาพจาก google photo
+- :x: เมื่อกดปุ่ม Update
+    - :x: ตรวสอบข้อมูลว่า ค่าว่างไหม
+    - :x: สามารถอัปเดตข้อมูลลง Firebase แล้วไปหน้า "รายละเอียดสมาชิก"
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <!------------------------------------------------------------------------------------------------------------------------>
