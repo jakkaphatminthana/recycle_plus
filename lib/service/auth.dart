@@ -29,7 +29,7 @@ class AuthService {
           "id": userEZ?.uid,
           "email": email,
           "name": name,
-          "role": "member",
+          "role": "Member",
           "verify": false,
           "address": "",
           "image":

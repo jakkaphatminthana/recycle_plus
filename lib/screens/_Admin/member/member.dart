@@ -23,6 +23,9 @@ class _Admin_MemberScreenState extends State<Admin_MemberScreen> {
   DatabaseEZ db = DatabaseEZ.instance;
   //เก็บและเรียกข้อมูลจาก firebase collecttion ("users")
   Stream<List<UserModelV2>> user_list = DatabaseEZ.instance.getUserData();
+  //firebase collection users
+  final CollectionReference _collectionUser =
+      FirebaseFirestore.instance.collection('users');
 
   //customIcon = Set icon Search
   //customAppbar = Widget Appbar title
@@ -71,79 +74,108 @@ class _Admin_MemberScreenState extends State<Admin_MemberScreen> {
 
             //TODO 3. Show Data
             Expanded(
-              child: StreamBuilder<List<UserModelV2>>(
-                stream: user_list,
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text("something is wrong! ${snapshot.error}");
-                  } else if (snapshot.hasData) {
-                    final users = snapshot.data!;
-
-                    //Show Data ทั้งหมดออกมา
-                    return ListView(
-                      children: users.map(buildMemberCon).toList(),
-                    );
-                  } else {
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _collectionUser.snapshots().asBroadcastStream(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
                     return const Center(child: CircularProgressIndicator());
+                  } else {
+                    //TODO : Fetch data here
+                    return ListView(
+                      children: [
+                        ...snapshot.data!.docs.map(
+                          (QueryDocumentSnapshot<Object?> data) {
+                            //ได้ตัว Data มาละ ----------<<<
+                            final String email = data.get("email");
+                            final String image = data['image'];
+                            final String role = data['role'];
+
+                            //จะแสดงผลข้อมูลที่ได้ในรูปแบบไหน =---------------------------
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: Container(
+                                width: double.infinity,
+                                height: 70,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  //เงาขอบๆ
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.3),
+                                      spreadRadius: 3,
+                                      blurRadius: 4,
+                                      offset: const Offset(
+                                          0, 1), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                //เนื้อหาในกล่องนี้ จะแสดงอะไร
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Admin_MemberDetail(data: data),
+                                      ),
+                                    );
+                                  },
+                                  child: ListTile(
+                                    //TODO : Profile Image
+                                    leading: Container(
+                                      width: 45,
+                                      height: 45,
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(width: 1),
+                                      ),
+                                      child: Image.network(image),
+                                    ),
+                                    //TODO : Email User
+                                    title: Text(email, style: Roboto16_B_black),
+                                    //TODO : Role User
+                                    subtitle: Text(role, style: Roboto12_black),
+                                    trailing: const Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Color(0xFF303030),
+                                      size: 20,
+                                    ),
+                                    dense: false,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      ],
+                    );
                   }
                 },
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
 
-//=======================================================================================
-//TODO : Widget Member Container
-  Widget buildMemberCon(UserModelV2 users) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: Container(
-        width: double.infinity,
-        height: 70,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          //เงาขอบๆ
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 3,
-              blurRadius: 4,
-              offset: const Offset(0, 1), // changes position of shadow
-            ),
+            // Expanded(
+            //   child: StreamBuilder<List<UserModelV2>>(
+            //     stream: user_list,
+            //     builder: (context, snapshot) {
+            //       if (snapshot.hasError) {
+            //         return Text("something is wrong! ${snapshot.error}");
+            //       } else if (snapshot.hasData) {
+            //         final users = snapshot.data!;
+
+            //         //Show Data ทั้งหมดออกมา
+            //         return ListView(
+            //           children: users.map(buildMemberCon).toList(),
+            //         );
+            //       } else {
+            //         return const Center(child: CircularProgressIndicator());
+            //       }
+            //     },
+            //   ),
+            // ),
           ],
-        ),
-        //เนื้อหาในกล่องนี้ จะแสดงอะไร
-        child: GestureDetector(
-          onTap: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => Admin_MemberDetail(data2: null, data1: users.id,)));
-          },
-          child: ListTile(
-            //TODO : Profile Image
-            leading: Container(
-              width: 45,
-              height: 45,
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(width: 1),
-              ),
-              child: Image.network(users.image),
-            ),
-            //TODO : Email User
-            title: Text(users.email, style: Roboto16_B_black),
-            //TODO : Role User
-            subtitle: Text("Member", style: Roboto12_black),
-            trailing: const Icon(
-              Icons.arrow_forward_ios,
-              color: Color(0xFF303030),
-              size: 20,
-            ),
-            dense: false,
-          ),
         ),
       ),
     );

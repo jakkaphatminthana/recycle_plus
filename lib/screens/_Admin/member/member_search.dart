@@ -102,8 +102,7 @@ class Member_Search extends SearchDelegate {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              Admin_MemberDetail(data1: null, data2: data),
+                          builder: (context) => Admin_MemberDetail(data: data),
                         ),
                       );
                     },
