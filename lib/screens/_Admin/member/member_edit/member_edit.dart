@@ -1,13 +1,18 @@
 import 'dart:io';
+import 'package:path/path.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:recycle_plus/models/user_model.dart';
 import 'package:recycle_plus/models/varidator.dart';
 import 'package:recycle_plus/screens/_Admin/member/member_edit/textfieldStyle.dart';
 import 'package:recycle_plus/service/database.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../../../components/font.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:file_picker/file_picker.dart';
+
+import '../../../../service/storage.dart';
 
 class Admin_MemberEdit extends StatefulWidget {
   //ก่อนจะเรียกหน้านี้จำเป็นต้องมี paramiter data
@@ -19,9 +24,9 @@ class Admin_MemberEdit extends StatefulWidget {
 }
 
 class _Admin_MemberEditState extends State<Admin_MemberEdit> {
-  //scaffoldKey = ชี้ตัว?
+  //formkey = ตัวแสดงตัวแบบยูนืคของฟอร์มนี้
   //db = ติดต่อ firebase
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
   DatabaseEZ db = DatabaseEZ.instance;
 
   //_textNameControl = ใช้เก็บค่า textfield ของ Name
@@ -37,6 +42,8 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
   File? value_image;
   var image1;
   var image2;
+
+  final Storage storage = Storage();
 
   //เลือกรูปภาพใน gallery
   Future pickImage() async {
@@ -59,6 +66,36 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
     }
   }
 
+  Future selectFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      allowMultiple: false,
+      type: FileType.custom,
+      allowedExtensions: ['png', 'jpg'],
+    );
+
+    if (result == null) return;
+    final path = result.files.single.path!;
+    final fileName = result.files.single.name;
+
+    print('path = ${path}');
+    print('fileName = ${fileName}');
+
+    setState(() {
+      value_image = File(path);
+    });
+
+    storage.uploadFile(path, fileName).then((value) => print('done'));
+  }
+
+  Future uploadeFile() async {
+    if (value_image == null) return;
+
+    final fileName = basename(value_image!.path);
+    final destination = 'files/$fileName';
+
+    uploadFile2(destination: destination, file: value_image!);
+  }
+
   @override
   Widget build(BuildContext context) {
     final Name = widget.data!.get("name");
@@ -66,7 +103,9 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
     final UserRole = widget.data!.get('role');
 
     //กำหนดค่าเริ่มต้นของ Name textfield ให้แสดงเป็นไปตามข้อมูล firebase
-    _textNameControl = TextEditingController(text: Name);
+    _textNameControl = (value_name == null)
+        ? TextEditingController(text: Name) //ค่าเริ่มต้นตาม firebase
+        : TextEditingController(text: value_name); //ค่าที่กำลังป้อน
 //========================================================================================
     return Scaffold(
       appBar: AppBar(
@@ -76,7 +115,7 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
         centerTitle: true,
       ),
       body: Form(
-        key: scaffoldKey,
+        key: _formKey,
         child: SingleChildScrollView(
           child: Align(
             alignment: const AlignmentDirectional(0, 0),
@@ -86,7 +125,7 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
                 const SizedBox(height: 20.0),
                 //TODO 1. Image Profile
                 GestureDetector(
-                  onTap: () => pickImage(),
+                  onTap: () => selectFile(),
                   child: Stack(
                     children: [
                       Container(
@@ -128,7 +167,7 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
 
                 const SizedBox(height: 20.0),
 
-                //TODO 2. From Name
+                //TODO 2. Form Name
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: TextFormField(
@@ -138,7 +177,8 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
                     style: Roboto14_black,
                     decoration: styleTextFieldEdit('Name', 'Enter your name'),
                     validator: ValidatorEmpty,
-                    onSaved: (value) => value_name = value,
+                    onChanged: (value) => value_name = value,
+                    onSaved: (value2) => value_name = value2,
                   ),
                 ),
                 const SizedBox(height: 20.0),
@@ -183,18 +223,63 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
 
                 //TODO 4. Button Update
                 ElevatedButton(
-                  child: Text("Update", style: Roboto20_B_white),
-                  style: ElevatedButton.styleFrom(
-                    primary: const Color(0xFF00883C),
-                    fixedSize: const Size(160, 45),
-                    elevation: 2.0, //เงา
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                    child: Text("Update", style: Roboto20_B_white),
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color(0xFF00883C),
+                      fixedSize: const Size(160, 45),
+                      elevation: 2.0, //เงา
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
                     ),
-                  ),
-                  //เมื่อกดปุ่มนี้แล้วทำอะไรต่อ
-                  onPressed: () {},
-                ),
+                    //เมื่อกดปุ่มนี้แล้วทำอะไรต่อ
+                    onPressed: () async {
+                      //เมื่อกรอกข้อมูลถูกต้อง
+                      if (_formKey.currentState!.validate()) {
+                        //สั่งประมวลผลข้อมูลที่กรอก
+                        _formKey.currentState?.save();
+                        // print("value_name = ${value_name}");
+                        // print("value_role = ${value_role}");
+                        // print("value_image = ${value_image}");
+                        // print("_textNameControl= ${_textNameControl.text}");
+
+                        //เช็คว่าเลือกรูปยัง
+                        if (value_image != null) {
+                          // print("image1 = ${image1}");
+                          // print("image2 = ${image2}");
+                          // print("value_image = ${value_image}");
+                          // print("File(image1) = ${File(image1)}");
+                          print("value_image!.path = ${value_image!.path}");
+
+                          String basename = value_image!.path.split('/').last;
+                          print("basename, filename = ${basename}");
+
+                          // uploadeFile();
+                          // uploadImage(
+                          //   gallery: image1,
+                          //   image: image2,
+                          //   userId: widget.data!.get('id'),
+                          // );
+
+                        }
+
+                        //เช็คว่าได้แก้ไขชื่อต่างจากเดิมไหม
+                        if (value_name != Name) {
+                          db.updateUserName(
+                            userID: UserModel(id: widget.data!.get('id')),
+                            username: UserModel(name: value_name),
+                          );
+                        }
+
+                        //เช็คว่าได้แก้ไขไหม
+                        if (value_role != UserRole && value_role != null) {
+                          db.updateUserRole(
+                            userID: UserModel(id: widget.data!.get('id')),
+                            role: UserModel(role: value_role),
+                          );
+                        }
+                      }
+                    }),
               ],
             ),
           ),
@@ -202,5 +287,41 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
       ),
     );
   }
-}
 
+//==========================================================================================================
+  //TODO :  อัพโหลด ภาพลงใน Storage ใน firebase
+  uploadImage({gallery, image, userId}) async {
+    // กำหนด _storage ให้เก็บ FirebaseStorage (สโตเลท)
+    final _storage = FirebaseStorage.instance;
+    // เอา path ที่เราเลือกจากเครื่องมาเเปลงเป็น File เพื่อเอาไปอัพโหลดลงใน Storage ใน Firebase
+    var file = File(gallery);
+    // เช็คว่ามีภาพที่เลือกไหม
+    if (image != null) {
+      //Upload to Firebase
+      var snapshot = await _storage
+          .ref()
+          .child("profile/${userId}/ImageProfile") //แหล่งเก็บภาพนี้
+          .putFile(file);
+      //เอาลิ้ง url จากภาพที่เราได้อัปโหลดไป เอาออกมากเก็บไว้ใน downloadUrl
+      var downloadURL = await snapshot.ref.getDownloadURL();
+      print("downloadURL = ${downloadURL}");
+
+      //เเล้วเอา url ของภาพไปอัพเดต image ของ firestore ของ user
+      db.updateImageProfile(
+          userID: UserModel(id: widget.data!.get('id')),
+          imageURL: UserModel(image: downloadURL));
+    } else {
+      return Text("ไม่พบรูปภาพ");
+    }
+  }
+
+  //TODO :  อัพโหลด ภาพลงใน Storage ใน firebase
+  uploadFile2({destination, file}) async {
+    try {
+      final ref = FirebaseStorage.instance.ref(destination);
+      return ref.putFile(file);
+    } on FirebaseException catch (e) {
+      return null;
+    }
+  }
+}

@@ -14,13 +14,13 @@ class UserModel {
   bool? verify;
 
   UserModel({
-    String? id,
-    String? email,
-    String? name,
-    String? image,
-    String? address,
-    String? role,
-    bool? verify,
+    this.id,
+    this.email,
+    this.name,
+    this.image,
+    this.address,
+    this.role,
+    this.verify,
   });
 
   factory UserModel.fromMap(Map<String, dynamic>? users) {

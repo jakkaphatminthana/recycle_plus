@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/sponsor_model.dart';
 import 'package:recycle_plus/models/user_model.dart';
@@ -10,15 +13,6 @@ import 'package:recycle_plus/models/user_model.dart';
 class DatabaseEZ {
   static DatabaseEZ instance = DatabaseEZ._();
   DatabaseEZ._();
-
-  //Get FirebaseStore
-  Future _getFirebaseStore() async {
-    firebase_storage.Reference ref = await firebase_storage
-        .FirebaseStorage.instance
-        .ref("gs://recycleplus-feecd.appspot.com/");
-
-    return ref;
-  }
 
   //TODO 1. News Database
   Stream<List<NewsModel>> getDataNews() => FirebaseFirestore.instance
@@ -58,4 +52,50 @@ class DatabaseEZ {
       }).toList();
     });
   }
+
+  //TODO : Update UserName
+  Future<void> updateUserName({UserModel? userID, UserModel? username}) {
+    final reference = FirebaseFirestore.instance.collection('users');
+
+    // print("reference = ${reference}");
+    // print("userID = ${userID?.id}");
+    // print("username = ${username?.name}");
+    return reference
+        .doc(userID?.id)
+        .update({
+          'name': username?.name,
+        })
+        .then((value) => print("อัพเดตชื่อ"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
+
+  //TODO : Update User Role
+  Future<void> updateUserRole({UserModel? userID, UserModel? role}) {
+    final reference = FirebaseFirestore.instance.collection('users');
+
+    // print("reference = ${reference}");
+    // print("userID = ${userID?.id}");
+    // print("role = ${role?.role}");
+    return reference
+        .doc(userID?.id)
+        .update({
+          'role': role?.role,
+        })
+        .then((value) => print("อัพเดตยศ"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
+
+  //TODO : Update Image Profile
+  Future<void> updateImageProfile({UserModel? userID, UserModel? imageURL}) {
+    final reference = FirebaseFirestore.instance.collection('users');
+
+    return reference
+        .doc(userID?.id)
+        .update({
+          'image': imageURL?.image,
+        })
+        .then((value) => print("อัพเดตรูปภาพ"))
+        .catchError((error) => print("Failed to update user: $error"));
+  }
 }
+
