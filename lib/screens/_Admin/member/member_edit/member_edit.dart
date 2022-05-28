@@ -10,9 +10,6 @@ import 'package:recycle_plus/service/database.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../components/font.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:file_picker/file_picker.dart';
-
-import '../../../../service/storage.dart';
 
 class Admin_MemberEdit extends StatefulWidget {
   //ก่อนจะเรียกหน้านี้จำเป็นต้องมี paramiter data
@@ -43,8 +40,6 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
   var image1;
   var image2;
 
-  final Storage storage = Storage();
-
   //เลือกรูปภาพใน gallery
   Future pickImage() async {
     try {
@@ -64,36 +59,6 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
-  }
-
-  Future selectFile() async {
-    final result = await FilePicker.platform.pickFiles(
-      allowMultiple: false,
-      type: FileType.custom,
-      allowedExtensions: ['png', 'jpg'],
-    );
-
-    if (result == null) return;
-    final path = result.files.single.path!;
-    final fileName = result.files.single.name;
-
-    print('path = ${path}');
-    print('fileName = ${fileName}');
-
-    setState(() {
-      value_image = File(path);
-    });
-
-    storage.uploadFile(path, fileName).then((value) => print('done'));
-  }
-
-  Future uploadeFile() async {
-    if (value_image == null) return;
-
-    final fileName = basename(value_image!.path);
-    final destination = 'files/$fileName';
-
-    uploadFile2(destination: destination, file: value_image!);
   }
 
   @override
@@ -125,7 +90,7 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
                 const SizedBox(height: 20.0),
                 //TODO 1. Image Profile
                 GestureDetector(
-                  onTap: () => selectFile(),
+                  onTap: () => pickImage(),
                   child: Stack(
                     children: [
                       Container(
@@ -249,23 +214,24 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
                           // print("image2 = ${image2}");
                           // print("value_image = ${value_image}");
                           // print("File(image1) = ${File(image1)}");
-                          print("value_image!.path = ${value_image!.path}");
+                          // print("value_image!.path = ${value_image!.path}");
 
-                          String basename = value_image!.path.split('/').last;
-                          print("basename, filename = ${basename}");
+                          // String basename = value_image!.path.split('/').last;
+                          // print("basename, filename = ${basename}");
 
-                          // uploadeFile();
-                          // uploadImage(
-                          //   gallery: image1,
-                          //   image: image2,
-                          //   userId: widget.data!.get('id'),
-                          // );
+                          // final destination = 'profile/$basename';
+                          // print("destination = ${destination}");
 
+                          await uploadImage(
+                            gallery: image1,
+                            image: image2,
+                            userId: widget.data!.get('id'),
+                          );
                         }
 
                         //เช็คว่าได้แก้ไขชื่อต่างจากเดิมไหม
                         if (value_name != Name) {
-                          db.updateUserName(
+                          await db.updateUserName(
                             userID: UserModel(id: widget.data!.get('id')),
                             username: UserModel(name: value_name),
                           );
@@ -273,11 +239,12 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
 
                         //เช็คว่าได้แก้ไขไหม
                         if (value_role != UserRole && value_role != null) {
-                          db.updateUserRole(
+                          await db.updateUserRole(
                             userID: UserModel(id: widget.data!.get('id')),
                             role: UserModel(role: value_role),
                           );
                         }
+                        Navigator.pop(context);
                       }
                     }),
               ],
@@ -289,7 +256,7 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
   }
 
 //==========================================================================================================
-  //TODO :  อัพโหลด ภาพลงใน Storage ใน firebase
+//TODO :  อัพโหลด ภาพลงใน Storage ใน firebase
   uploadImage({gallery, image, userId}) async {
     // กำหนด _storage ให้เก็บ FirebaseStorage (สโตเลท)
     final _storage = FirebaseStorage.instance;
@@ -312,16 +279,6 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
           imageURL: UserModel(image: downloadURL));
     } else {
       return Text("ไม่พบรูปภาพ");
-    }
-  }
-
-  //TODO :  อัพโหลด ภาพลงใน Storage ใน firebase
-  uploadFile2({destination, file}) async {
-    try {
-      final ref = FirebaseStorage.instance.ref(destination);
-      return ref.putFile(file);
-    } on FirebaseException catch (e) {
-      return null;
     }
   }
 }

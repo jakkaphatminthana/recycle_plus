@@ -5,12 +5,12 @@ import 'package:recycle_plus/components/font.dart';
 class CardMemberStatus extends StatelessWidget {
   const CardMemberStatus({
     Key? key,
-    required this.title,
-    required this.status,
+    this.title,
+    this.status,
   }) : super(key: key);
 
-  final String title;
-  final bool status;
+  final title;
+  final status;
 
   @override
   Widget build(BuildContext context) {

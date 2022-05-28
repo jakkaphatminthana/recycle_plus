@@ -30,6 +30,7 @@ class _Admin_MemberDetailState extends State<Admin_MemberDetail> {
   @override
   Widget build(BuildContext context) {
     Stream<List<UserModel>> user_strem = db.getStateUser();
+    String userRole = widget.data!.get('role');
 
     return Scaffold(
       key: scaffoldKey,
@@ -60,93 +61,95 @@ class _Admin_MemberDetailState extends State<Admin_MemberDetail> {
         ],
       ),
       //================================================================================================
-      body: Align(
-        alignment: const AlignmentDirectional(0, 0),
-        child: Column(
-          children: [
-            const SizedBox(height: 20.0),
+      body: SingleChildScrollView(
+        child: Align(
+          alignment: const AlignmentDirectional(0, 0),
+          child: Column(
+            children: [
+              const SizedBox(height: 20.0),
 
-            //TODO 2. Avatar Profile
-            Container(
-              width: 100,
-              height: 100,
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(width: 1),
-              ),
-              child: Image.network(
-                "${widget.data!.get('image')}",
-                fit: BoxFit.cover,
-              ),
-            ),
-
-            const SizedBox(height: 10.0),
-
-            //TODO 3. Name and Email
-
-            Text(widget.data!.get('name'), style: Roboto20_B_green),
-            Text(widget.data!.get('email'), style: Roboto16_w500_black),
-
-            const SizedBox(height: 20.0),
-
-            //TODO 4. Status User
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 150,
-              decoration: const BoxDecoration(color: Color(0xFFEEEEEE)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
-                    //1. Role User (member, sponsor, admin)
-                    CardMemberStatus(
-                      title: "Member",
-                      status: true,
-                    ),
-                    CardMemberStatus(
-                      title: "ยืนยันตัวตน",
-                      status: false,
-                    ),
-                    CardMemberStatus(
-                      title: "Wallet Conent",
-                      status: false,
-                    ),
-                  ],
+              //TODO 2. Avatar Profile
+              Container(
+                width: 100,
+                height: 100,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(width: 1),
+                ),
+                child: Image.network(
+                  "${widget.data!.get('image')}",
+                  fit: BoxFit.cover,
                 ),
               ),
-            ),
-            const SizedBox(height: 20.0),
-            Text("เมนูเพิ่มเติม", style: Roboto16_B_black),
-            const SizedBox(height: 10.0),
 
-            //TODO 5. เมนูเพิ่มเติม
-            _buidMenulist(
-              context,
-              const FaIcon(Icons.person, size: 30, color: Colors.black),
-              "รายละเอียโปรไฟล์",
-              () {},
-            ),
-            const SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
 
-            _buidMenulist(
-              context,
-              const FaIcon(Icons.history, size: 30, color: Colors.black),
-              "ประวัติการใช้งาน",
-              () {},
-            ),
-            const SizedBox(height: 10.0),
+              //TODO 3. Name and Email
 
-            _buidMenulist(
-              context,
-              const FaIcon(Icons.swap_horiz, size: 30, color: Colors.black),
-              "ประวัติการแลกของรางวัล",
-              () {},
-            ),
-          ],
+              Text(widget.data!.get('name'), style: Roboto20_B_green),
+              Text(widget.data!.get('email'), style: Roboto16_w500_black),
+
+              const SizedBox(height: 20.0),
+
+              //TODO 4. Status User
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 150,
+                decoration: const BoxDecoration(color: Color(0xFFEEEEEE)),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      //1. Role User (member, sponsor, admin)
+                      CardMemberStatus(
+                        title: userRole,
+                        status: true,
+                      ),
+                      const CardMemberStatus(
+                        title: "ยืนยันตัวตน",
+                        status: false,
+                      ),
+                      const CardMemberStatus(
+                        title: "Wallet Conent",
+                        status: false,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              Text("เมนูเพิ่มเติม", style: Roboto16_B_black),
+              const SizedBox(height: 10.0),
+
+              //TODO 5. เมนูเพิ่มเติม
+              _buidMenulist(
+                context,
+                const FaIcon(Icons.person, size: 30, color: Colors.black),
+                "รายละเอียโปรไฟล์",
+                () {},
+              ),
+              const SizedBox(height: 10.0),
+
+              _buidMenulist(
+                context,
+                const FaIcon(Icons.history, size: 30, color: Colors.black),
+                "ประวัติการใช้งาน",
+                () {},
+              ),
+              const SizedBox(height: 10.0),
+
+              _buidMenulist(
+                context,
+                const FaIcon(Icons.swap_horiz, size: 30, color: Colors.black),
+                "ประวัติการแลกของรางวัล",
+                () {},
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -160,7 +163,11 @@ void onSelectedMenu(BuildContext context, int item, dynamic data) {
     case 0:
       print('Clicked Edit');
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Admin_MemberEdit(data: data,)));
+          context,
+          MaterialPageRoute(
+              builder: (context) => Admin_MemberEdit(
+                    data: data,
+                  )));
       break;
     case 1:
       print('Clicked Delete');

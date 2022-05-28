@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_Admin/home/admin_home.dart';
-import 'package:recycle_plus/screens/_Admin/page2.dart';
+import 'package:recycle_plus/screens/_Admin/news/news.dart';
 import 'package:recycle_plus/screens/_Admin/page3.dart';
 
 import '../../components/appbar_title.dart';
@@ -102,7 +102,7 @@ class _Admin_TabbarHomeState extends State<Admin_TabbarHome> {
             physics: const NeverScrollableScrollPhysics(), //ไม่ต้องเลื่อนได้,
             children: [
               Admin_HomeScreen(),
-              PageTestA2(),
+              Admin_NewsScreen(),
               PageTestA3(),
             ],
           ),
