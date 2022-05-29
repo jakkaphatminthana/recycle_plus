@@ -24,5 +24,5 @@ final Map<String, WidgetBuilder> routes = {
   Admin_TabbarHome.routeName: (context) => Admin_TabbarHome(),
   Admin_MemberScreen.routeName: (context) => Admin_MemberScreen(),
   Admin_NewsScreen.routeName:(context) => Admin_NewsScreen(),
-  Admin_NewsAdd.routeName:(context) => Admin_NewsScreen(),
+  Admin_NewsAdd.routeName:(context) => Admin_NewsAdd(),
 };

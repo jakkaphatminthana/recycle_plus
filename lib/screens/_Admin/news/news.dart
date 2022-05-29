@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_Admin/news/listWidget.dart';
+import 'package:recycle_plus/screens/_Admin/news/news_add.dart';
 
 class Admin_NewsScreen extends StatefulWidget {
   //Location page
@@ -11,7 +12,6 @@ class Admin_NewsScreen extends StatefulWidget {
 }
 
 class _Admin_NewsScreenState extends State<Admin_NewsScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +69,8 @@ class _Admin_NewsScreenState extends State<Admin_NewsScreen> {
   Widget buildFloatingButton() => FloatingActionButton(
         child: const Icon(Icons.add),
         backgroundColor: const Color(0xFF00883C),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, Admin_NewsAdd.routeName);
+        },
       );
 }
