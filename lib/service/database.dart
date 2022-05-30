@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/sponsor_model.dart';
 import 'package:recycle_plus/models/user_model.dart';
+import 'package:uuid/uuid.dart';
 
 //=======================================================================================================
 //TODO : ติดต่อกับ firebase
@@ -14,14 +15,14 @@ class DatabaseEZ {
   static DatabaseEZ instance = DatabaseEZ._();
   DatabaseEZ._();
 
-  //TODO 1. News Database
+  //TODO 1. GET News Database
   Stream<List<NewsModel>> getDataNews() => FirebaseFirestore.instance
       .collection('news')
       .snapshots()
       .map((snapshot) =>
           snapshot.docs.map((doc) => NewsModel.formJson(doc.data())).toList());
 
-  //TODO 2. Sponsor Database
+  //TODO 2. GET Sponsor Database
   Stream<List<SponsorModel>> getLogoSponsor() => FirebaseFirestore.instance
       .collection('sposor')
       .snapshots()
@@ -29,7 +30,7 @@ class DatabaseEZ {
           .map((doc) => SponsorModel.formJson(doc.data()))
           .toList());
 
-  //TODO 3.1 User Data
+  //TODO 3.1 GET User Data
   Stream<List<UserModelV2>> getUserData() => FirebaseFirestore.instance
       .collection('users')
       .snapshots()
@@ -37,7 +38,7 @@ class DatabaseEZ {
           .map((doc) => UserModelV2.fromJson(doc.data()))
           .toList());
 
-  //TODO 3.2 User State
+  //TODO 3.2 GET User State
   //Note : ลักษณะการเขียนเหมือนอันบน แต่เขียนแบบตัวแปร
   Stream<List<UserModel>> getStateUser() {
     final reference = FirebaseFirestore.instance.collection('users');
@@ -97,5 +98,26 @@ class DatabaseEZ {
         .then((value) => print("อัพเดตรูปภาพ"))
         .catchError((error) => print("Failed to update user: $error"));
   }
-}
 
+//----------------------------------------------------------------------------------------------------------
+  //TODO : ADD News data
+  Future createNews({String? titile, String? content, String? image}) async {
+    final reference = FirebaseFirestore.instance.collection('news').doc();
+    //generate ID
+    var uid = Uuid();
+    final idEZ = uid.v1();
+
+    await FirebaseFirestore.instance
+        .collection('news')
+        .doc(idEZ)
+        .set({
+          "id": idEZ,
+          "title": titile,
+          "content" : content,
+          "image" : image,
+          "timeUpdate" : DateTime.now(),
+        })
+        .then((value) => print("Add data success"))
+        .catchError((error) => print("Faild : $error"));
+  }
+}
