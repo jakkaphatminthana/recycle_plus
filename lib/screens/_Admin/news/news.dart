@@ -6,7 +6,9 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:recycle_plus/screens/_Admin/news/news_edit.dart';
 import 'package:recycle_plus/service/database.dart';
+import 'package:intl/intl.dart';
 
 class Admin_NewsScreen extends StatefulWidget {
   //Location page
@@ -32,7 +34,6 @@ class _Admin_NewsScreenState extends State<Admin_NewsScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 10.0),
-
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: _collectionNews.snapshots().asBroadcastStream(),
@@ -42,26 +43,40 @@ class _Admin_NewsScreenState extends State<Admin_NewsScreen> {
                     return const Center(child: CircularProgressIndicator());
                   } else {
                     //TODO : Fetch data here
-                    return ListView();
+                    return ListView(
+                      children: [
+                        ...snapshot.data!.docs
+                            .map((QueryDocumentSnapshot<Object?> data) {
+                          //ได้ตัว Data มาละ ----------<<<
+                          final String title = data.get("title");
+                          final String content = data.get("content");
+                          final String image = data.get("image");
+                          final datetime = data.get("timeUpdate");
+
+                          //จะแสดงผลข้อมูลที่ได้ในรูปแบบไหน =---------------------------
+                          return ListWidget(
+                            imageURL: image,
+                            title: title,
+                            content: content,
+                            dateTimeEZ: datetime,
+                            press: () {
+                              //ไปหน้าแก้ไขโดยที่ ส่งค่าข้อมูลไปด้วย
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      Admin_NewsEdit(data: data),
+                                ),
+                              );
+                            },
+                          );
+                        }),
+                      ],
+                    );
                   }
                 },
               ),
             ),
-            //TODO : Show Data
-
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            //   child: InkWell(
-            //     onTap: () {},
-            //     child: ListWidget(
-            //       imageURL: 'https://picsum.photos/seed/159/600',
-            //       title: "Titleasdfahjdkagkljdhqijgiqekjqweiqwyuiqwyei",
-            //       subtitle:
-            //           "subtitleasdgahahdahdashdajhdaskjhdajkshdaskjdhadhajhdasdsaddadaasdadadadadaadsad",
-            //       press: () {},
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),

@@ -1,28 +1,33 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:recycle_plus/components/appbar_title.dart';
-import 'package:recycle_plus/components/font.dart';
+import 'package:flutter/services.dart';
 import 'package:recycle_plus/models/varidator.dart';
 import 'package:recycle_plus/screens/_Admin/news/textfieldStyle.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/service/database.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../../../components/font.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-class Admin_NewsAdd extends StatefulWidget {
-  //Location page
-  static String routeName = "/Admin_AddNewsItem";
+class Admin_NewsEdit extends StatefulWidget {
+  //ก่อนจะเรียกหน้านี้จำเป็นต้องมี paramiter data
+  const Admin_NewsEdit({required this.data});
+  final data; //data Querysnapshot
 
   @override
-  State<Admin_NewsAdd> createState() => _Admin_NewsAddState();
+  State<Admin_NewsEdit> createState() => _Admin_NewsEditState();
 }
 
-class _Admin_NewsAddState extends State<Admin_NewsAdd> {
+class _Admin_NewsEditState extends State<Admin_NewsEdit> {
   //formkey = ตัวแสดงตัวแบบยูนืคของฟอร์มนี้
   //db = ติดต่อ firebase
   final _formKey = GlobalKey<FormState>();
   DatabaseEZ db = DatabaseEZ.instance;
+
+  //TFC_Title = ใช้เก็บค่า textfield ของ Title
+  //TFC_Content = ใช้เก็บค่า textfield ของ Content
+  late TextEditingController _TFC_Title;
+  late TextEditingController _TFC_Content;
 
   String? value_title;
   String? value_content;
@@ -62,42 +67,53 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
 
   @override
   Widget build(BuildContext context) {
-//=====================================================================================================
+    final titleFB = widget.data!.get("title");
+    final contentFB = widget.data!.get("content");
+    var imageFB = widget.data!.get("image");
+
+    //กำหนดค่าเริ่มต้นของ textfield ให้แสดงเป็นไปตามข้อมูล firebase
+    _TFC_Title = (value_title == null)
+        ? TextEditingController(text: titleFB) //ค่าเริ่มต้นตาม firebase
+        : TextEditingController(text: value_title); //ค่าที่กำลังป้อน
+
+    _TFC_Content = (value_content == null)
+        ? TextEditingController(text: contentFB) //ค่าเริ่มต้นตาม firebase
+        : TextEditingController(text: value_content); //ค่าที่กำลังป้อน
+
+    //==========================================================================================
     return Scaffold(
       //TODO 1. Appbar header
       appBar: AppBar(
         backgroundColor: const Color(0xFF00883C),
         automaticallyImplyLeading: true,
         centerTitle: true,
-        title: const AppbarTitle(),
+        title: Text("แก้ไขข่าวสาร", style: Roboto16_B_white),
         actions: [
           Center(
             child: Padding(
               padding: const EdgeInsets.only(right: 10.0),
               child: ElevatedButton(
-                child: Text("เผยแพร่", style: Roboto14_B_white),
+                child: Text("บันทึก", style: Roboto14_B_white),
                 style: ElevatedButton.styleFrom(primary: Colors.amber),
                 onPressed: () async {
                   //เมื่อกรอกข้อมูลถูกต้อง
                   if (_formKey.currentState!.validate()) {
                     //สั่งประมวลผลข้อมูลที่กรอก
                     _formKey.currentState?.save();
-                    // print("value_image = ${value_image}");
-                    // print("image_file = ${image_file}");
-                    // print("image_path = ${image_path}");
-                    // print("image_name = ${image_name}");
+                    print("imageFB = $imageFB");
+                    print("value_image = $value_image");
 
-                    // print("value_title = ${value_title}");
-                    // print("value_content = ${value_content}");
-                    var image_url = await uploadImage(
-                      gallery: image_path,
-                      image: image_file,
-                      img_name: image_name,
-                    );
+                    print("value_title = $value_title");
+                    print("value_content = $value_content");
 
-                    print("URL = ${image_url}");
+                    if (value_image != null) {
+                      var image_url = await uploadImage(
+                        gallery: image_path,
+                        image: image_file,
+                        img_name: image_name,
+                      );
 
-                    //TODO : upload on firebase
+                      //TODO : upload on firebase
                     await db
                         .createNews(
                           titile: value_title,
@@ -105,13 +121,13 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
                           image: image_url,
                         )
                         .then(
-                          (value) => Navigator.of(context)
-                              .pushReplacementNamed(Admin_TabbarHome.routeName),
+                          (value) => Navigator.push(context, MaterialPageRoute(builder: (context) => Admin_TabbarHome(1)))
                         )
                         .catchError(
                           (error) =>
                               const Text("Something is wrong please try again"),
                         );
+                    }
                   }
                 },
               ),
@@ -119,7 +135,7 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
           ),
         ],
       ),
-      //-------------------------------------------------------------------------------------------
+      //---------------------------------------------------------------------------------------
       body: Form(
         key: _formKey,
         child: Center(
@@ -130,11 +146,9 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const SizedBox(height: 10.0),
-                      Text("เพิ่มข่าวสาร", style: Roboto18_B_black),
                       const SizedBox(height: 20.0),
 
-                      //TODO 2. Upload File
+                      //TODO 2. Upload Image
                       GestureDetector(
                         onTap: () => pickImage(), //เลือกรูปภาพ
                         child: Container(
@@ -157,7 +171,7 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
                           ),
                           //TODO : ตรวจสอบว่าได้เลือกรูปภาพ หรือยัง
                           child: (value_image != null)
-                              //1. ถ้าได้เลือกรูปภาพแล้ว
+                              //1. ถ้าได้เลือกรูปภาพใหม่ แทน
                               ? Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -170,46 +184,65 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
                                     ),
                                   ],
                                 )
-                              //2. ไม่ได้เลือกรูปภาพ
-                              : Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.add_circle,
-                                      color: Color(0xCD00883C),
-                                      size: 70,
+                              //2. รูปจากฐานข้อมูล และยังไม่ได้เลือกรูปภาพใหม่
+                              : (imageFB != null)
+                                  ? Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(5.0),
+                                          child: Image.network(
+                                            imageFB!,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+
+                                  //3. ลบรูปภาพออก และไม่ได้เลือกรูปอะไรเลย
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          Icons.add_circle,
+                                          color: Color(0xCD00883C),
+                                          size: 70,
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsetsDirectional
+                                              .fromSTEB(5, 10, 5, 10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text('Upload image',
+                                                  style: Roboto16_B_black),
+                                              Text('ขนาดไม่เกิน 20 MB',
+                                                  style: Roboto12_black),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              5, 10, 5, 10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Upload image',
-                                              style: Roboto16_B_black),
-                                          Text('ขนาดไม่เกิน 20 MB',
-                                              style: Roboto12_black),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
                         ),
                       ),
                       const SizedBox(height: 10.0),
 
                       //TODO : ชื่อไฟล์รุปภาพ
                       Center(
-                        //หากเลือกรูปภาพแล้ว ค่อยแสดง
+                        //หากเลือกรูปภาพใหม่ หรือ มีรูปภาพในระบบ ก็ให้แสดงชื่อไฟล์
                         child: (value_image != null)
                             ? Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(image_name!, style: Roboto12_black),
+                                  Text(
+                                    image_name!,
+                                    style: Roboto12_black,
+                                  ),
                                   const SizedBox(height: 5.0),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -241,15 +274,50 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
                                   ),
                                 ],
                               )
-                            : null,
+                            : (value_image == null && imageFB != null)
+                                ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          GestureDetector(
+                                            child: const Icon(
+                                              Icons.replay_circle_filled,
+                                              color: Color(0xFFE0AB3A),
+                                              size: 40,
+                                            ),
+                                            onTap: () {
+                                              pickImage();
+                                            },
+                                          ),
+                                          const SizedBox(width: 10.0),
+                                          GestureDetector(
+                                            child: const Icon(
+                                              Icons.cancel,
+                                              color: Color(0xFFff5963),
+                                              size: 40,
+                                            ),
+                                            onTap: () {
+                                              setState(() {
+                                                imageFB = null;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  )
+                                : null,
                       ),
-
                       const SizedBox(height: 30.0),
 
                       //TODO 3. Textfield Title
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: TextFormField(
+                          controller: _TFC_Title,
                           obscureText: false,
                           style: Roboto14_black,
                           decoration: styleTextFieldNews(
@@ -276,6 +344,7 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
                                     MediaQuery.of(context).size.width * 0.89,
                               ),
                               child: TextFormField(
+                                controller: _TFC_Content,
                                 //พิมพ์หลายบรรทัดได้
                                 keyboardType: TextInputType.multiline,
                                 maxLines: null,
@@ -303,7 +372,7 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
     );
   }
 
-//===================================================================================================
+  //===================================================================================================
 //TODO : อัพโหลด ภาพลงใน Storage ใน firebase
   uploadImage({gallery, image, img_name}) async {
     // กำหนด _storage ให้เก็บ FirebaseStorage (สโตเลท)

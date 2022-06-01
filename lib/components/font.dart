@@ -162,6 +162,13 @@ final Roboto14_B_white = GoogleFonts.getFont(
   fontWeight: FontWeight.bold,
 );
 
+final Roboto14_B_yellow = GoogleFonts.getFont(
+  'Roboto',
+  fontSize: 14,
+  color: const Color(0xFFE0AB3A),
+  fontWeight: FontWeight.bold,
+);
+
 final Roboto14_U_black = GoogleFonts.getFont(
   'Roboto',
   fontSize: 14,
@@ -186,6 +193,8 @@ final Roboto14_white = GoogleFonts.getFont(
   fontSize: 14,
   color: Colors.white,
 );
+
+
 
 
 
