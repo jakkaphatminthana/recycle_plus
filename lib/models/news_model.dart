@@ -43,33 +43,29 @@
 //New template ไปดูใน youtube มา
 
 class NewsModel {
-  String id;
-  final String header;
-  final String subtitle;
-  final String image;
-  final String content;
+  String? id;
+  String? title;
+  String? image;
+  String? content;
 
   NewsModel({
-    this.id = '',
-    required this.header,
-    required this.subtitle,
-    required this.image,
-    required this.content,
+    this.id,
+    this.image,
+    this.title,
+    this.content,
   });
 
   Map<String, dynamic> toJson() => {
     'id' : id,
-    'header' : header,
-    'subtitle' : subtitle,
     'image' : image,
+    'title' : title,
     'content' : content,
   };
 
   static NewsModel formJson(Map<String, dynamic> json) => NewsModel(
         id: json['id'],
         image: json['image'],
-        header: json['header'],
-        subtitle: json['subtitle'],
+        title: json['title'],
         content: json['content'],
       );
 }

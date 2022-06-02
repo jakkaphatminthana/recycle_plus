@@ -9,6 +9,7 @@ import 'package:recycle_plus/service/database.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:uuid/uuid.dart';
 
 class Admin_NewsAdd extends StatefulWidget {
   //Location page
@@ -89,13 +90,18 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
 
                     // print("value_title = ${value_title}");
                     // print("value_content = ${value_content}");
+
+                    //generate ID เพื่อใช้สร้าง id unique
+                    var uid = Uuid();
+                    final uuid = uid.v1();
+
+                    //อัพโหลดรูปภาพลง storage
                     var image_url = await uploadImage(
                       gallery: image_path,
                       image: image_file,
                       img_name: image_name,
+                      uid: uuid,
                     );
-
-                    print("URL = ${image_url}");
 
                     //TODO : upload on firebase
                     await db
@@ -103,10 +109,16 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
                           titile: value_title,
                           content: value_content,
                           image: image_url,
+                          uid: uuid,
                         )
                         .then(
-                          (value) => Navigator.of(context)
-                              .pushReplacementNamed(Admin_TabbarHome.routeName),
+                          (value) => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  Admin_TabbarHome(1), //หน้า News
+                            ),
+                          ),
                         )
                         .catchError(
                           (error) =>
@@ -305,7 +317,7 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
 
 //===================================================================================================
 //TODO : อัพโหลด ภาพลงใน Storage ใน firebase
-  uploadImage({gallery, image, img_name}) async {
+  uploadImage({gallery, image, img_name, uid}) async {
     // กำหนด _storage ให้เก็บ FirebaseStorage (สโตเลท)
     final _storage = FirebaseStorage.instance;
     // เอา path ที่เราเลือกจากเครื่องมาเเปลงเป็น File เพื่อเอาไปอัพโหลดลงใน Storage ใน Firebase
@@ -315,7 +327,7 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
       //Upload to Firebase
       var snapshot = await _storage
           .ref()
-          .child("images/news/$img_name") //แหล่งเก็บภาพนี้
+          .child("images/news/$uid") //แหล่งเก็บภาพนี้
           .putFile(file);
       //เอาลิ้ง url จากภาพที่เราได้อัปโหลดไป เอาออกมากเก็บไว้ใน downloadUrl
       var downloadURL = await snapshot.ref.getDownloadURL();

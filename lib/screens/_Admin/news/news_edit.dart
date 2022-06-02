@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/varidator.dart';
 import 'package:recycle_plus/screens/_Admin/news/textfieldStyle.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
@@ -100,33 +101,68 @@ class _Admin_NewsEditState extends State<Admin_NewsEdit> {
                   if (_formKey.currentState!.validate()) {
                     //สั่งประมวลผลข้อมูลที่กรอก
                     _formKey.currentState?.save();
-                    print("imageFB = $imageFB");
-                    print("value_image = $value_image");
+                    // print("imageFB = $imageFB");
+                    // print("value_image = $value_image");
 
-                    print("value_title = $value_title");
-                    print("value_content = $value_content");
+                    // print("value_title = $value_title");
+                    // print("value_content = $value_content");
 
+                    //ถ้าเปลี่ยนรูป ก็ต้องอัพโหลดรูปใหม่อีก
                     if (value_image != null) {
+                      print("start to upload");
                       var image_url = await uploadImage(
                         gallery: image_path,
                         image: image_file,
                         img_name: image_name,
+                        uid: widget.data!.get('id'),
                       );
 
                       //TODO : upload on firebase
-                    await db
-                        .createNews(
-                          titile: value_title,
-                          content: value_content,
-                          image: image_url,
-                        )
-                        .then(
-                          (value) => Navigator.push(context, MaterialPageRoute(builder: (context) => Admin_TabbarHome(1)))
-                        )
-                        .catchError(
-                          (error) =>
-                              const Text("Something is wrong please try again"),
-                        );
+                      await db
+                          .updateNews(
+                            newsID: NewsModel(id: widget.data!.get("id")),
+                            titleEZ: NewsModel(title: value_title),
+                            contentEZ: NewsModel(content: value_content),
+                            imageEZ: NewsModel(image: image_url),
+                          )
+                          .then(
+                            (value) => Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Admin_TabbarHome(1), //หน้า News
+                              ),
+                            ),
+                          )
+                          .catchError(
+                            (error) => const Text(
+                              "Something is wrong please try again",
+                            ),
+                          );
+                      //ถ้าใช้รูปเดิม เปลี่ยนแค่เนื้อหา
+                    } else {
+                      //TODO : upload on firebase
+                      await db
+                          .updateNews(
+                            newsID: NewsModel(id: widget.data!.get("id")),
+                            titleEZ: NewsModel(title: value_title),
+                            contentEZ: NewsModel(content: value_content),
+                            imageEZ: NewsModel(image: imageFB),
+                          )
+                          .then(
+                            (value) => Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Admin_TabbarHome(1), //หน้า News
+                              ),
+                            ),
+                          )
+                          .catchError(
+                            (error) => const Text(
+                              "Something is wrong please try again",
+                            ),
+                          );
                     }
                   }
                 },
@@ -374,7 +410,7 @@ class _Admin_NewsEditState extends State<Admin_NewsEdit> {
 
   //===================================================================================================
 //TODO : อัพโหลด ภาพลงใน Storage ใน firebase
-  uploadImage({gallery, image, img_name}) async {
+  uploadImage({gallery, image, img_name, uid}) async {
     // กำหนด _storage ให้เก็บ FirebaseStorage (สโตเลท)
     final _storage = FirebaseStorage.instance;
     // เอา path ที่เราเลือกจากเครื่องมาเเปลงเป็น File เพื่อเอาไปอัพโหลดลงใน Storage ใน Firebase
@@ -384,7 +420,7 @@ class _Admin_NewsEditState extends State<Admin_NewsEdit> {
       //Upload to Firebase
       var snapshot = await _storage
           .ref()
-          .child("images/news/$img_name") //แหล่งเก็บภาพนี้
+          .child("images/news/$uid") //แหล่งเก็บภาพนี้
           .putFile(file);
       //เอาลิ้ง url จากภาพที่เราได้อัปโหลดไป เอาออกมากเก็บไว้ใน downloadUrl
       var downloadURL = await snapshot.ref.getDownloadURL();

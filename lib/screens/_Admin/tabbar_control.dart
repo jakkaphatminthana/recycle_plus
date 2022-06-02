@@ -8,7 +8,10 @@ import 'package:recycle_plus/screens/_Admin/page3.dart';
 import '../../components/appbar_title.dart';
 
 class Admin_TabbarHome extends StatefulWidget {
-  const Admin_TabbarHome({ Key? key }) : super(key: key);
+  //เลือกลำดับหน้าของ Tabbar
+  int selectPage;
+  Admin_TabbarHome(this.selectPage, {Key? key}) : super(key: key);
+
   //Location page
   static String routeName = "/Admin_Home";
 
@@ -46,8 +49,11 @@ class _Admin_TabbarHomeState extends State<Admin_TabbarHome> {
       ],
     );
   }
+  
+  
 
 //==================================================================================================================
+
   @override
   Widget build(BuildContext context) {
     //TODO 2. ทำให้ไม่สามารถกด back page ได้
@@ -60,13 +66,14 @@ class _Admin_TabbarHomeState extends State<Admin_TabbarHome> {
         return false;
       },
       child: DefaultTabController(
+        initialIndex: widget.selectPage,
         length: 3,
         child: Scaffold(
           //TODO 3. Appbar Header
           appBar: AppBar(
             backgroundColor: const Color(0xFF00883C),
             automaticallyImplyLeading: false,
-            title:const Padding(
+            title: const Padding(
               padding: EdgeInsets.only(left: 10.0),
               child: AppbarTitle(),
             ),

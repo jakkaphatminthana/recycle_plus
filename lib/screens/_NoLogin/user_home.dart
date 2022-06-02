@@ -126,7 +126,7 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
 
                     //Show data แบบทั้งหมด
                     return ListView(
-                      children: news.map(buildNewsBanner).toList(),
+                      // children: news.map(buildNewsBanner).toList(),
                     );
                   } else {
                     return const Center(child: CircularProgressIndicator());
@@ -141,15 +141,15 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
 
 //===================================================================================================
 //TODO : News Widget
-Widget buildNewsBanner(NewsModel news) => Container(
-      padding: const EdgeInsets.only(bottom: 5.0),
-      width: double.infinity,
-      height: 120.0,
-      child: Image.network(
-        news.image,
-        fit: BoxFit.cover,
-      ),
-    );
+// Widget buildNewsBanner(NewsModel news) => Container(
+//       padding: const EdgeInsets.only(bottom: 5.0),
+//       width: double.infinity,
+//       height: 120.0,
+//       child: Image.network(
+//         news.image,
+//         fit: BoxFit.cover,
+//       ),
+//     );
 
 //TODO : Logo Sponsor Widget
 Widget buildLogoSponsor(SponsorModel sponsor) => Padding(

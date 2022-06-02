@@ -234,34 +234,54 @@
 
 
 ### หน้าข่าวสาร (ผู้ดูแลระบบ)
-<img src="https://user-images.githubusercontent.com/58208814/170850764-eb53359d-8d4b-4b0a-8388-fdbc4f92340d.PNG" width="250"> 
+<img src="https://user-images.githubusercontent.com/58208814/171413602-23bef5a3-8f2c-4f1a-b4af-66ed4db188a6.PNG" width="250"> 
 
 #### Front-end
 - :heavy_check_mark: Design
 #### System
-- :x: เชื่อมต่อข้อมูล Firebase
-    - :x: แสดงรายการข่าวสาร
+- :heavy_check_mark: เชื่อมต่อข้อมูล Firebase
+    - :heavy_check_mark: แสดงรายการข่าวสาร
+    - :heavy_check_mark: convert time 
     - :warning: กำหนดให้แสดงข้อมูลก่อน 10 อันแล้วค่อย กดดูเพิ่มเติม
 - :heavy_check_mark: ควบคุม widget
     - :heavy_check_mark: titile เมื่อเกิน 30 คำให้เติม ...
     - :heavy_check_mark: content ขึ้นบรรทัดใหม่ auto และเมื่อเกินให้เติม ...
-- :x: กดรายการข่าวแล้วไป "หน้าแก้ไขข่าวสาร" โดยส่ง ID ไปอ้างอิง
+- :heavy_check_mark: กดรายการข่าวแล้วไป "หน้าแก้ไขข่าวสาร" โดยส่ง ID ไปอ้างอิง
 - :heavy_check_mark: กดเพิ่มข่าวสารแล้วไป "หน้าเพิ่มข่าวสาร"
 
 ### หน้าเพิ่มข่าวสาร (ผู้ดูแลระบบ)
-<img src="https://user-images.githubusercontent.com/58208814/170850761-87048532-701c-4961-bc90-91a782cf9ad0.PNG" width="250"> 
+<img src="https://user-images.githubusercontent.com/58208814/171413616-0c5a9383-15c3-41c8-b676-73440407907e.PNG" width="250"> <img src="https://user-images.githubusercontent.com/58208814/171413628-30b09608-52fe-4d4e-b2dd-7b1d60c8461d.PNG" width="250"> 
 
 #### Front-end
 - :heavy_check_mark: Design
 #### System
-- :x: เชื่อมต่อข้อมูล Firebase
-- :x: อัพโหลดรูปภาพ
-    - :x: เมื่อมีรูปให้เปลี่ยน widget เป็นแก้ไขรูป
-    - :x: ห้ามให้ค่าว่าง
-    - :x: สามารถอัพโหลดลง firestore
+- :heavy_check_mark: เชื่อมต่อข้อมูล Firebase
+- :heavy_check_mark: อัพโหลดรูปภาพ
+    - :heavy_check_mark: เมื่อมีรูปให้เปลี่ยน widget เป็นแก้ไขรูป
+    - :heavy_check_mark: ห้ามให้ค่าว่าง
+    - :heavy_check_mark: ล้างค่ารูปภาพได้
+    - :heavy_check_mark: สามารถอัพโหลดลง firestore
 - :heavy_check_mark: เพิ่มชื่อหัวเรื่อง โดยห้ามมีค่าว่าง
 - :heavy_check_mark: เพิ่มเนื้อหาข่าว โดยสามารถพิมพ์ แล้วขึ้นบรรทัดใหม่ได้ auto
-- :x: สามารถอัพโหลดลง firebase database
+- :heavy_check_mark: สามารถอัพโหลดลง firebase database
+- :heavy_check_mark: เพิ่มเสร็จแล้ว ไปหน้าแรก tabbar ที่ 2
+
+### หน้าแก้ไขข่าวสาร (ผู้ดูแลระบบ)
+<img src="https://user-images.githubusercontent.com/58208814/171413642-0f029fb8-209d-47ac-8e6d-47347fbd66c0.PNG" width="250"> 
+
+#### Front-end
+- :heavy_check_mark: Design
+#### System
+- :heavy_check_mark: เชื่อมต่อข้อมูล Firebase
+- :heavy_check_mark: อัพโหลดรูปภาพ
+    - :heavy_check_mark: เมื่อมีรูปให้เปลี่ยน widget เป็นแก้ไขรูป
+    - :heavy_check_mark: ห้ามให้ค่าว่าง
+    - :heavy_check_mark: ล้างค่ารูปภาพ แล้วกลับไปรูปเดิม
+    - :heavy_check_mark: สามารถอัพโหลดลง firestore
+- :heavy_check_mark: ชื่อหัวเรื่องและเนื้อหา ห้ามมีค่าว่าง
+- :heavy_check_mark: เนื้อหาข่าว โดยสามารถพิมพ์ แล้วขึ้นบรรทัดใหม่ได้ auto
+- :heavy_check_mark: สามารถอัพโหลดลง firebase database
+- :heavy_check_mark: แก้ไขเสร็จแล้ว ไปหน้าแรก tabbar ที่ 2
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <!------------------------------------------------------------------------------------------------------------------------>

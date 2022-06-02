@@ -54,8 +54,8 @@ class ListWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        title.length > 30
-                            ? title.substring(0, 30) + '...'
+                        title.length > 25
+                            ? title.substring(0, 25) + '...'
                             : title,
                         style: Roboto16_B_green,
                       ),
@@ -98,6 +98,6 @@ class ListWidget extends StatelessWidget {
   String formattedDate(timeStamp) {
     var dateFromTimeStamp =
         DateTime.fromMillisecondsSinceEpoch(timeStamp.seconds * 1000);
-    return DateFormat('dd-MM-yyyy').format(dateFromTimeStamp);
+    return DateFormat('dd/MM/yyyy').format(dateFromTimeStamp);
   }
 }

@@ -99,23 +99,47 @@ class DatabaseEZ {
         .catchError((error) => print("Failed to update user: $error"));
   }
 
+  //TODO : Update News
+  Future<void> updateNews({
+    NewsModel? newsID,
+    NewsModel? titleEZ,
+    NewsModel? contentEZ,
+    NewsModel? imageEZ,
+  }) {
+    final reference = FirebaseFirestore.instance.collection('news');
+
+    return reference
+        .doc(newsID?.id)
+        .update({
+          'title': titleEZ?.title,
+          'content': contentEZ?.content,
+          'image': imageEZ?.image,
+          'timeUpdate': DateTime.now(),
+        })
+        .then((value) => print("update news title"))
+        .catchError((error) => print("Failed to update news: $error"));
+  }
+
 //----------------------------------------------------------------------------------------------------------
   //TODO : ADD News data
-  Future createNews({String? titile, String? content, String? image}) async {
+  Future createNews({
+    String? titile,
+    String? content,
+    String? image,
+    String? uid,
+  }) async {
     final reference = FirebaseFirestore.instance.collection('news').doc();
     //generate ID
-    var uid = Uuid();
-    final idEZ = uid.v1();
 
     await FirebaseFirestore.instance
         .collection('news')
-        .doc(idEZ)
+        .doc(uid)
         .set({
-          "id": idEZ,
+          "id": uid,
           "title": titile,
-          "content" : content,
-          "image" : image,
-          "timeUpdate" : DateTime.now(),
+          "content": content,
+          "image": image,
+          "timeUpdate": DateTime.now(),
         })
         .then((value) => print("Add data success"))
         .catchError((error) => print("Faild : $error"));
