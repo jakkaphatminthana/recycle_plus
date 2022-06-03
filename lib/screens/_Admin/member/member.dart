@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recycle_plus/components/appbar_title.dart';
+import 'package:recycle_plus/components/appbar/appbar_title.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/models/user_model.dart';
 import 'package:recycle_plus/screens/_Admin/member/member_detail/member_detail.dart';
@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/service/database.dart';
 
 class Admin_MemberScreen extends StatefulWidget {
@@ -27,15 +28,19 @@ class _Admin_MemberScreenState extends State<Admin_MemberScreen> {
   final CollectionReference _collectionUser =
       FirebaseFirestore.instance.collection('users');
 
-  //customIcon = Set icon Search
-  //customAppbar = Widget Appbar title
-  //backIcon = เปิดปิดฟังก์ชั่นกดกลับ
-  Icon customIcon = const Icon(Icons.search);
-  Widget customAppbarTitle = const AppbarTitle();
-  bool backIcon = true;
-
   @override
   Widget build(BuildContext context) {
+    //customIcon = Set icon Search
+    //customAppbar = Widget Appbar title
+    //backIcon = เปิดปิดฟังก์ชั่นกดกลับ
+    Icon customIcon = const Icon(Icons.search);
+    Widget customAppbarTitle = AppbarTitle(
+      press: () => Navigator.popAndPushNamed(
+        context,
+        Admin_TabbarHome.routeName,
+      ),
+    );
+    bool backIcon = true;
 //==============================================================================================
 //ส่วนหัวด้านบน หน้าจอโทรศัพท์
     return Scaffold(

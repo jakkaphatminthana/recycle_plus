@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:recycle_plus/components/appbar/appbar_title.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:recycle_plus/screens/_NoLogin/user_home.dart';
+import 'package:recycle_plus/screens/_NoLogin/home/user_home.dart';
 import 'package:recycle_plus/screens/_NoLogin/page2.dart';
 import 'package:recycle_plus/screens/_NoLogin/page3.dart';
 import 'package:recycle_plus/screens/_NoLogin/page4.dart';
@@ -68,16 +69,12 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
           appBar: AppBar(
             backgroundColor: const Color(0xFF00883C),
             automaticallyImplyLeading: false,
-            leading: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Image.asset(
-                "assets/image/logo.png",
-                width: 100,
-                height: 100,
-                fit: BoxFit.cover,
+            title: AppbarTitle(
+              press: () => Navigator.popAndPushNamed(
+                context,
+                Member_TabbarHome.routeName,
               ),
             ),
-            title: Text("RECYCLE+", style: Roboto18_white),
             //Icon Menu bar
             actions: [
               IconButton(

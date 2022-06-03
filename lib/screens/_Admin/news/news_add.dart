@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:recycle_plus/components/appbar_title.dart';
+import 'package:recycle_plus/components/appbar/appbar_title.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/models/varidator.dart';
 import 'package:recycle_plus/screens/_Admin/news/textfieldStyle.dart';
@@ -70,7 +70,12 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
         backgroundColor: const Color(0xFF00883C),
         automaticallyImplyLeading: true,
         centerTitle: true,
-        title: const AppbarTitle(),
+        title: AppbarTitle(
+          press: () => Navigator.popAndPushNamed(
+            context,
+            Admin_TabbarHome.routeName,
+          ),
+        ),
         actions: [
           Center(
             child: Padding(

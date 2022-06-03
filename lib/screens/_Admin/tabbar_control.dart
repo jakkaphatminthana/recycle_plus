@@ -5,7 +5,7 @@ import 'package:recycle_plus/screens/_Admin/home/admin_home.dart';
 import 'package:recycle_plus/screens/_Admin/news/news.dart';
 import 'package:recycle_plus/screens/_Admin/page3.dart';
 
-import '../../components/appbar_title.dart';
+import '../../components/appbar/appbar_title.dart';
 
 class Admin_TabbarHome extends StatefulWidget {
   //เลือกลำดับหน้าของ Tabbar
@@ -20,8 +20,6 @@ class Admin_TabbarHome extends StatefulWidget {
 }
 
 class _Admin_TabbarHomeState extends State<Admin_TabbarHome> {
-  Widget customAppbarTitle = const AppbarTitle();
-
   //TODO 1. Set Tabbar list here
   TabBar get _tabbar {
     return const TabBar(
@@ -49,8 +47,6 @@ class _Admin_TabbarHomeState extends State<Admin_TabbarHome> {
       ],
     );
   }
-  
-  
 
 //==================================================================================================================
 
@@ -73,9 +69,16 @@ class _Admin_TabbarHomeState extends State<Admin_TabbarHome> {
           appBar: AppBar(
             backgroundColor: const Color(0xFF00883C),
             automaticallyImplyLeading: false,
-            title: const Padding(
-              padding: EdgeInsets.only(left: 10.0),
-              child: AppbarTitle(),
+            title: Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: AppbarTitle(
+                press: () {
+                  Navigator.popAndPushNamed(
+                    context,
+                    Admin_TabbarHome.routeName,
+                  );
+                },
+              ),
             ),
             //Icon Menu bar
             actions: [

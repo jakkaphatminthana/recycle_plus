@@ -124,12 +124,12 @@ class _LoginSuccessState extends State<LoginSuccess> {
                                   ),
                                   //เมื่อกดปุ่มนี้แล้วทำอะไรต่อ
                                   onPressed: () {
-                                    if (data['role'] == "member" ||
-                                        data['role'] == "sponsor") {
+                                    if (data['role'] == "Member" ||
+                                        data['role'] == "Sponsor") {
                                       Navigator.of(context)
                                           .pushReplacementNamed(
                                               Member_TabbarHome.routeName);
-                                    } else if (data['role'] == "admin") {
+                                    } else if (data['role'] == "Admin") {
                                       Navigator.pushNamed(
                                           context, Admin_TabbarHome.routeName);
                                     } else {
