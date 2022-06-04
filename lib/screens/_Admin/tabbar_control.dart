@@ -4,6 +4,7 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_Admin/home/admin_home.dart';
 import 'package:recycle_plus/screens/_Admin/news/news.dart';
 import 'package:recycle_plus/screens/_Admin/page3.dart';
+import 'package:recycle_plus/screens/_Admin/setting/setting.dart';
 
 import '../../components/appbar/appbar_title.dart';
 
@@ -84,11 +85,14 @@ class _Admin_TabbarHomeState extends State<Admin_TabbarHome> {
             actions: [
               IconButton(
                 icon: const FaIcon(
-                  FontAwesomeIcons.solidUserCircle,
+                  Icons.settings,
                   color: Colors.white,
                   size: 30,
                 ),
-                onPressed: () {},
+                onPressed: () => Navigator.pushNamed(
+                  context,
+                  Admin_SettingMore.routeName,
+                ),
               ),
             ],
             elevation: 2.0,

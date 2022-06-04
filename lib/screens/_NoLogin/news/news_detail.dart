@@ -1,15 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/appbar/appbar_title.dart';
-import 'package:recycle_plus/components/appbar/appbar_user.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_NoLogin/tabbar_control.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:recycle_plus/service/database.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
-class NewsDetailScreen extends StatelessWidget {
-  const NewsDetailScreen({Key? key}) : super(key: key);
+class NewsDetailScreen extends StatefulWidget {
+  //ก่อนจะเรียกหน้านี้จำเป็นต้องมี paramiter data
+  const NewsDetailScreen({required this.data});
+  final data;
+
+  @override
+  State<NewsDetailScreen> createState() => _NewsDetailScreenState();
+}
+
+class _NewsDetailScreenState extends State<NewsDetailScreen> {
+  //db = ติดต่อ firebase
+  DatabaseEZ db = DatabaseEZ.instance;
 
   @override
   Widget build(BuildContext context) {
+    final image = widget.data!.get('image');
+    final title = widget.data!.get('title');
+    final content = widget.data!.get('content');
+    final timedate = widget.data!.get('timeUpdate');
+
+//=====================================================================================================
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF00883C),
@@ -55,7 +73,7 @@ class NewsDetailScreen extends StatelessWidget {
                     child: Align(
                       alignment: const AlignmentDirectional(0, 0),
                       child: Image.network(
-                        'https://picsum.photos/seed/778/600',
+                        image,
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height * 1,
                         fit: BoxFit.cover,
@@ -79,8 +97,10 @@ class NewsDetailScreen extends StatelessWidget {
                             maxHeight: 200.0,
                             maxWidth: MediaQuery.of(context).size.width,
                           ),
-                          child: Text('Hello Worlddashhadjshjhashaskjhadka',
-                              style: Roboto18_B_green),
+                          child: Text(
+                            title,
+                            style: Roboto18_B_green,
+                          ),
                         ),
                         const SizedBox(height: 10.0),
 
@@ -94,7 +114,7 @@ class NewsDetailScreen extends StatelessWidget {
                             ),
                             const SizedBox(width: 5.0),
                             Text(
-                              '20/05/2022',
+                              formattedDate(timedate),
                               style: Roboto14_gray,
                             )
                           ],
@@ -115,8 +135,10 @@ class NewsDetailScreen extends StatelessWidget {
                             maxHeight: 1000.0,
                             maxWidth: MediaQuery.of(context).size.width,
                           ),
-                          child: Text('Hello Worlddashhadjshjhashaskjhadka',
-                              style: Roboto14_black),
+                          child: Text(
+                            content,
+                            style: Roboto14_black,
+                          ),
                         ),
                       ],
                     ),
@@ -129,5 +151,13 @@ class NewsDetailScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+  //===================================================================================================
+
+  //TODO : Format Time
+  String formattedDate(timeStamp) {
+    var dateFromTimeStamp =
+        DateTime.fromMillisecondsSinceEpoch(timeStamp.seconds * 1000);
+    return DateFormat('dd/MM/yyyy').format(dateFromTimeStamp);
   }
 }
