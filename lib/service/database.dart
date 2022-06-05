@@ -120,7 +120,9 @@ class DatabaseEZ {
         .catchError((error) => print("Failed to update news: $error"));
   }
 
-//----------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------------------------------
+//TODO : ADD
+
   //TODO : ADD News data
   Future createNews({
     String? titile,
@@ -143,5 +145,39 @@ class DatabaseEZ {
         })
         .then((value) => print("Add data success"))
         .catchError((error) => print("Faild : $error"));
+  }
+
+  //TODO : ADD Logo Sponsor
+  Future createLogoSponsor({
+    String? uid,
+    String? image,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('sponsor').doc();
+    //generate ID
+
+    await FirebaseFirestore.instance
+        .collection('sponsor')
+        .doc(uid)
+        .set({
+          "id": uid,
+          "image": image,
+          "timeUpload": DateTime.now(),
+        })
+        .then((value) => print("Add data success"))
+        .catchError((error) => print("Faild : $error"));
+  }
+
+//-------------------------------------------------------------------------------------------------------------------
+//TODO : DELETE
+
+  Future deleteLogoSponsor({String? uid}) async {
+    final reference = FirebaseFirestore.instance.collection('sponsor').doc();
+
+    await FirebaseFirestore.instance
+        .collection('sponsor')
+        .doc(uid)
+        .delete()
+        .then((value) => print("Delete Logo success"))
+        .catchError((error) => print("Delete Faild: $error"));
   }
 }
