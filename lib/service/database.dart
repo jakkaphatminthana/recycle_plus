@@ -120,6 +120,26 @@ class DatabaseEZ {
         .catchError((error) => print("Failed to update news: $error"));
   }
 
+  //TODO : Update News
+  Future<void> updateLogoSponsor({
+    String? LogoID,
+    String? imageURL,
+  }) {
+    final reference = FirebaseFirestore.instance.collection('news');
+
+    print("LogoID = $LogoID");
+    print("imageURL = $imageURL");
+
+    return reference
+        .doc(LogoID)
+        .update({
+          'image': imageURL,
+          'timeUpdate': DateTime.now(),
+        })
+        .then((value) => print("update news title"))
+        .catchError((error) => print("Failed to update news: $error"));
+  }
+
 //---------------------------------------------------------------------------------------------------------------------
 //TODO : ADD
 
@@ -170,7 +190,7 @@ class DatabaseEZ {
 //-------------------------------------------------------------------------------------------------------------------
 //TODO : DELETE
 
-  Future deleteLogoSponsor({String? uid}) async {
+  Future deleteLogoSponsor({String? uid, BuildContext? context}) async {
     final reference = FirebaseFirestore.instance.collection('sponsor').doc();
 
     await FirebaseFirestore.instance

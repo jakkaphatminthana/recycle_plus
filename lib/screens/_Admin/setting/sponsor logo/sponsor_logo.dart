@@ -69,10 +69,11 @@ class _Admin_LogoSponsorState extends State<Admin_LogoSponsor> {
       if (image_url != null) {
         await db.createLogoSponsor(uid: uuid, image: image_url).then(
               //Refresh Page
-              (value) => Navigator.pushAndRemoveUntil(
+              (value) => Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => Admin_LogoSponsor()),
-                (Route<dynamic> route) => false,
+                MaterialPageRoute(
+                  builder: (BuildContext context) => super.widget,
+                ),
               ),
             );
       }
@@ -114,6 +115,8 @@ class _Admin_LogoSponsorState extends State<Admin_LogoSponsor> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(height: 10.0),
+                  Text('หากแก้ไขรูปแล้วรูปยังไม่เปลี่ยน ระบบกำลังอัพโหลดอยู่', style: Roboto14_black),
                   const SizedBox(height: 10.0),
 
                   //TODO : GridView Setting

@@ -1,6 +1,8 @@
 //หน้ารันสั่งแอป ให้ทำงาน
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/routes.dart';
+import 'package:recycle_plus/screens/_Admin/setting/setting.dart';
+import 'package:recycle_plus/screens/_Admin/setting/sponsor%20logo/sponsor_logo.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/screens/_NoLogin/tabbar_control.dart';
 import 'package:recycle_plus/screens/start/start.dart';
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: StartScreen.routeName,
+      initialRoute: Admin_SettingMore.routeName,
       routes: routes,
     );
   }
