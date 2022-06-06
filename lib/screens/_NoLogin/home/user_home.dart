@@ -198,7 +198,7 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
 Widget buildLogoSponsor(SponsorModel sponsor) => Padding(
       padding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
       child: Image.network(
-        sponsor.logo,
+        sponsor.image,
         width: 50,
         height: 50,
         fit: BoxFit.cover,

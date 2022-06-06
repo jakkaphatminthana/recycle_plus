@@ -71,8 +71,12 @@ class _CardLogoState extends State<CardLogo> {
         await db.updateLogoSponsor(LogoID: logoID, imageURL: image_url).then(
             //Refresh Page
             (value) {
-          Navigator.pop(context);
-          Navigator.pushNamed(context, Admin_LogoSponsor.routeName);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => Admin_LogoSponsor(),
+            ),
+          );
         });
       }
     } on PlatformException catch (e) {
@@ -215,5 +219,4 @@ class _CardLogoState extends State<CardLogo> {
       return Text("ไม่พบรูปภาพ");
     }
   }
-
 }

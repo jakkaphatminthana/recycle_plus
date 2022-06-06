@@ -6,6 +6,7 @@ import 'package:recycle_plus/screens/_NoLogin/home/user_home.dart';
 import 'package:recycle_plus/screens/_NoLogin/page2.dart';
 import 'package:recycle_plus/screens/_NoLogin/page3.dart';
 import 'package:recycle_plus/screens/_NoLogin/page4.dart';
+import 'package:recycle_plus/screens/_NoLogin/profile/profile.dart';
 
 class Member_TabbarHome extends StatefulWidget {
   const Member_TabbarHome({Key? key}) : super(key: key);
@@ -91,7 +92,9 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
                   color: Colors.white,
                   size: 30,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, Member_ProfileScreen.routeName);
+                },
               ),
             ],
             elevation: 2.0,

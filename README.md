@@ -121,7 +121,7 @@
     - :warning: มีข้อความยินดีต้อนรับ "ชื่อผู้ใช้"
 
 ### หน้าแรก (ผู้ใช้ทั่วไป)
-<img src="https://user-images.githubusercontent.com/58208814/161980781-9b87cd48-9ac8-44e7-98c9-562437b46c65.png" width="250">
+<img src="https://user-images.githubusercontent.com/58208814/172160515-d903f50c-e230-4f94-accc-73c7d6151d39.PNG" width="250">
 
 #### Front-end
 - :heavy_check_mark: Design
@@ -130,10 +130,22 @@
     - :x: false = ไม่สามารถกดเมนูบน ข่าวสารได้ หากกดแล้วจะไปยัง "หน้าโปรดล็อคอิน" 
     - :x: false = ไม่สามารถกดเมนูบน Appbar ได้หากกดแล้วจะไปยัง "หน้าโปรดล็อคอิน"
 - :heavy_check_mark: สามารถกด Tabbar
-- :x: สามารถเข้าดูรายละเอียด ข่าวสารได้
+- :heavy_check_mark: สามารถเข้าดูรายละเอียด ข่าวสารได้
 - :warning: Wallet จะต้องไม่แสดงอะไร
-- :warning: ดึงข้อมูล Sponsor จาก Firebase มาแสดง 
-- :warning: ดึงข้อมูล ข่าวสาร จาก Firebase มาแสดง 
+- :heavy_check_mark: ดึงข้อมูล Sponsor จาก Firebase มาแสดง 
+- :heavy_check_mark: ดึงข้อมูล ข่าวสาร จาก Firebase มาแสดง 
+
+### หน้าอ่านข่าว (ผู้ใช้ทั่วไป)
+<img src="https://user-images.githubusercontent.com/58208814/172160562-6da4e957-73ef-4269-9503-4fc513ebf0b8.PNG" width="250">
+
+#### Front-end
+- :heavy_check_mark: Design
+#### System
+- :heavy_check_mark: เชื่อมต่อ Firebase
+    - :heavy_check_mark: ดึงข้อมูลภาพมาแสดง
+    - :heavy_check_mark: ทำให้เนื้อหาข่าว ขึ้นบรรทัดเอง auto
+    - :warning: แสดงยอดวิว
+    - :warning: ได้รับ XP. หากอ่านจบถึงล่างสุดของหน้า
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <!------------------------------------------------------------------------------------------------------------------------>
@@ -159,7 +171,7 @@
 ## Actor 5 : ผู้ดูแลระบบ
 
 ### หน้าแผงควบคุม (ผู้ดูแลระบบ)
-<img src="https://user-images.githubusercontent.com/58208814/167799080-cb67b261-6e77-45d1-b800-55fee63a8df4.PNG" width="250">
+<img src="https://user-images.githubusercontent.com/58208814/172160618-cb827221-5808-46c8-8a48-cda18dc185e1.PNG" width="250">
 
 #### Front-end
 - :heavy_check_mark: Design
@@ -170,7 +182,8 @@
 - :x: กดเมนู "Misson List" แล้วไป "หน้ารายการภารกิจ"
 - :heavy_check_mark: กดเมนู "Member" แล้วไป "หน้าข้อมูลสมาชิกในระบบ"
 - :x: กดเมนู "Verify" แล้วไป "หน้าตรวจสอบการยืนยันตัวตน"
-- :warning: ตัวสอบสถานะ login" ถ้าเป็น false ให้ไปล็อคอิน
+- :heavy_check_mark: กดไอคอน "Setting" แล้วไปยัง "หน้าตั้งค่า"
+- :warning: ตรวจสอบสถานะ login" ถ้าเป็น false ให้ไปล็อคอิน
 
 ### หน้าข้อมูลสมาชิกในระบบ (ผู้ดูแลระบบ)
 <img src="https://user-images.githubusercontent.com/58208814/167799091-fb1ce18b-a892-4c0e-805c-4e469425c99d.PNG" width="250">
@@ -282,6 +295,31 @@
 - :heavy_check_mark: เนื้อหาข่าว โดยสามารถพิมพ์ แล้วขึ้นบรรทัดใหม่ได้ auto
 - :heavy_check_mark: สามารถอัพโหลดลง firebase database
 - :heavy_check_mark: แก้ไขเสร็จแล้ว ไปหน้าแรก tabbar ที่ 2
+
+### หน้าตั้งค่าเพิ่มเติม (ผู้ดูแลระบบ)
+<img src="https://user-images.githubusercontent.com/58208814/172160586-1fef642d-e3a0-4108-9e51-96ecb23518c3.PNG" width="250"> 
+
+#### Front-end
+- :warning: Design
+#### System
+- :heavy_check_mark: เมนูสำหรับ Sponsor
+    - :heavy_check_mark: กดเมนู "โลโก้สปอนเซอร์" แล้วไปหน้า "จัดการโลโก้"
+    - :warning: เมนูส่งใบแสดงผลประกอปการ
+
+### หน้าจัดการโลโก้ (ผู้ดูแลระบบ)
+<img src="https://user-images.githubusercontent.com/58208814/172160739-7c94b863-3bfb-41c2-90b2-86babedff7af.PNG" width="250"> <img src="hhttps://user-images.githubusercontent.com/58208814/172160717-69a533ba-da6e-4994-ad58-286d9e3e883f.gif" width="250"> <img src="https://user-images.githubusercontent.com/58208814/172160726-b335c081-1e6a-4406-bbd7-30874432482d.gif" width="250"> 
+
+#### Front-end
+- :heavy_check_mark: Design
+#### System
+- :heavy_check_mark: เชื่อมต่อ Firebase
+    - :heavy_check_mark: แสดงรายการ logo ในระบบ
+- :heavy_check_mark: แก้ไขโลโก้ได้ โดยการเลือกรูปใหม่
+    - :heavy_check_mark: ลบข้อมูลภาพจาก Storage และแทนที่
+    - :heavy_check_mark: อัพเดตข้อมูลลงใน Firebase
+- :heavy_check_mark: สามารถลบโลโก้ออกได้ 
+    - :heavy_check_mark: ลบข้อมูลภาพจาก Storage
+    - :heavy_check_mark: ลบข้อมูลจาก Firebase
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <!------------------------------------------------------------------------------------------------------------------------>

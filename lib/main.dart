@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: Admin_SettingMore.routeName,
+      initialRoute: StartScreen.routeName,
       routes: routes,
     );
   }

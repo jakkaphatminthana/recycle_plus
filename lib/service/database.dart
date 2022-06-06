@@ -24,7 +24,7 @@ class DatabaseEZ {
 
   //TODO 2. GET Sponsor Database
   Stream<List<SponsorModel>> getLogoSponsor() => FirebaseFirestore.instance
-      .collection('sposor')
+      .collection('sponsor')
       .snapshots()
       .map((snapshot) => snapshot.docs
           .map((doc) => SponsorModel.formJson(doc.data()))

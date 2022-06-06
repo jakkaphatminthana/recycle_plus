@@ -1,19 +1,15 @@
 class SponsorModel {
-  final String logo;
-  final String name;
+  final String image;
 
   SponsorModel({
-    required this.logo,
-    required this.name,
+    required this.image,
   });
 
   Map<String, dynamic> toJson() => {
-    'logo' : logo,
-    'name' : name,
+    'image' : image,
   };
 
   static SponsorModel formJson(Map<String, dynamic> json) => SponsorModel(
-        logo: json['logo'],
-        name: json['name'],
+        image: json['image'],
       );
 }
