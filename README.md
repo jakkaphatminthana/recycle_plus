@@ -307,7 +307,7 @@
     - :warning: เมนูส่งใบแสดงผลประกอปการ
 
 ### หน้าจัดการโลโก้ (ผู้ดูแลระบบ)
-<img src="https://user-images.githubusercontent.com/58208814/172160739-7c94b863-3bfb-41c2-90b2-86babedff7af.PNG" width="250"> <img src="hhttps://user-images.githubusercontent.com/58208814/172160717-69a533ba-da6e-4994-ad58-286d9e3e883f.gif" width="250"> <img src="https://user-images.githubusercontent.com/58208814/172160726-b335c081-1e6a-4406-bbd7-30874432482d.gif" width="250"> 
+<img src="https://user-images.githubusercontent.com/58208814/172160739-7c94b863-3bfb-41c2-90b2-86babedff7af.PNG" width="250"> <img src="https://user-images.githubusercontent.com/58208814/172160717-69a533ba-da6e-4994-ad58-286d9e3e883f.gif" width="250"> <img src="https://user-images.githubusercontent.com/58208814/172160726-b335c081-1e6a-4406-bbd7-30874432482d.gif" width="250"> 
 
 #### Front-end
 - :heavy_check_mark: Design
