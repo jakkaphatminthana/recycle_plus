@@ -43,8 +43,8 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
           iconMargin: EdgeInsets.only(top: 10.0),
         ),
         Tab(
-          text: 'ฮีโร่ของฉัน',
-          icon: FaIcon(FontAwesomeIcons.disease, size: 30),
+          text: 'ท้าท้าย',
+          icon: FaIcon(FontAwesomeIcons.trophy, size: 30),
           iconMargin: EdgeInsets.only(top: 10.0),
         ),
       ],

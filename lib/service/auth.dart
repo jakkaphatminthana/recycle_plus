@@ -92,4 +92,9 @@ class AuthService {
       return "not_work";
     }
   }
+
+  //TODO 4. SingOut
+  Future SignOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
 }
