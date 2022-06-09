@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: Member_TabbarHome.routeName,
+      initialRoute: Admin_TabbarHome.routeName,
       routes: routes,
     );
   }

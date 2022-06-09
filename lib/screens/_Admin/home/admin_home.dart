@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recycle_plus/screens/_Admin/home/list_menu.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/screens/_Admin/member/member.dart';
+import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
 
 class Admin_HomeScreen extends StatefulWidget {
   const Admin_HomeScreen({Key? key}) : super(key: key);
@@ -20,11 +21,13 @@ class _Admin_HomeScreenState extends State<Admin_HomeScreen> {
           children: [
             const SizedBox(height: 10.0),
             ListMenu(
-              header: "Amount of Garbage",
+              header: "Garbage Trash",
               subtitle: "ข้อมูลขยะในระบบ",
               iconEZ: const FaIcon(FontAwesomeIcons.trash, size: 28),
               colorEZ: const Color(0xFFFD9090),
-              press: () {},
+              press: () {
+                Navigator.pushNamed(context, Admin_TrashControl.routeName);
+              },
             ),
             const SizedBox(height: 10.0),
             ListMenu(
