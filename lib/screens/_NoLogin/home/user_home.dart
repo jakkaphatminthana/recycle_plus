@@ -5,6 +5,7 @@ import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/sponsor_model.dart';
 import 'package:recycle_plus/screens/_NoLogin/home/news_widget.dart';
 import 'package:recycle_plus/screens/_NoLogin/news/news_detail.dart';
+import 'package:recycle_plus/screens/_NoLogin/trash/trash_reward.dart';
 import 'package:recycle_plus/screens/start/start.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -56,7 +57,10 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
                               height: MediaQuery.of(context).size.height * 0.22,
                               fit: BoxFit.cover,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Member_TrashRate.routeName);
+                            },
                           ),
                           const SizedBox(height: 120.0),
 
@@ -163,7 +167,8 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => NewsDetailScreen(data: data),
+                                  builder: (context) =>
+                                      NewsDetailScreen(data: data),
                                 ),
                               );
                             },

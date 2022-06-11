@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/screens/_Admin/trash/list_trash.dart';
+import 'package:recycle_plus/screens/_Admin/trash/trash_edit.dart';
 import 'package:recycle_plus/service/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -75,7 +76,18 @@ class _Admin_TrashControlState extends State<Admin_TrashControl> {
                                   token: token_double,
                                   exp: exp_double,
                                   description: description,
-                                  press: () {},
+                                  press: () {
+                                    //ไปหน้าแก้ไขโดยที่ ส่งค่าข้อมูลไปด้วย
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Admin_TrashEdit(data: data),
+                                      ),
+                                    );
+                                    // print("token = ${token.runtimeType}");
+                                    // print("token change = ${token_double.runtimeType}");
+                                  },
                                 ),
                                 const SizedBox(height: 17.0),
                               ],

@@ -4,6 +4,7 @@ import 'package:recycle_plus/routes.dart';
 import 'package:recycle_plus/screens/_Admin/setting/setting.dart';
 import 'package:recycle_plus/screens/_Admin/setting/sponsor%20logo/sponsor_logo.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
+import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
 import 'package:recycle_plus/screens/_NoLogin/tabbar_control.dart';
 import 'package:recycle_plus/screens/start/start.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: Admin_TabbarHome.routeName,
+      initialRoute: Member_TabbarHome.routeName,
       routes: routes,
     );
   }
