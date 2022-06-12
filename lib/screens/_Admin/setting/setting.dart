@@ -3,6 +3,8 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_Admin/setting/list%20menu.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/screens/_Admin/setting/sponsor%20logo/sponsor_logo.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:recycle_plus/screens/login/body_login.dart';
 
 class Admin_SettingMore extends StatelessWidget {
   //Location page
@@ -10,6 +12,13 @@ class Admin_SettingMore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //เรียกใช้ Firebase Authentication
+    final _auth = firebase_auth.FirebaseAuth.instance;
+    //กำหนดตัวแปรที่บอกว่า ตอนนี้ใครกำลังเข้าใช้งานอยู่
+    firebase_auth.User? _user;
+    _user = _auth.currentUser;
+
+    //=======================================================================================
     return Scaffold(
       //TODO 1. Appbar Header
       appBar: AppBar(
@@ -65,7 +74,17 @@ class Admin_SettingMore extends StatelessWidget {
               ),
             ),
             //เมื่อกดปุ่มนี้แล้วทำอะไรต่อ
-            onPressed: () {},
+            onPressed: () {
+              _auth
+                  .signOut()
+                  .then(
+                    (value) => Navigator.popAndPushNamed(
+                      context,
+                      LoginScreen.routeName,
+                    ),
+                  )
+                  .catchError((err) => print("SignOut Faild : $err"));
+            },
           ),
         ],
       ),

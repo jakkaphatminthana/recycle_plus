@@ -121,7 +121,7 @@
     - :warning: มีข้อความยินดีต้อนรับ "ชื่อผู้ใช้"
 
 ### หน้าแรก (ผู้ใช้ทั่วไป)
-<img src="https://user-images.githubusercontent.com/58208814/172160515-d903f50c-e230-4f94-accc-73c7d6151d39.PNG" width="250">
+<img src="https://user-images.githubusercontent.com/58208814/173233782-1fb4704e-455b-4b8c-b8d4-6b529c08809f.PNG-" width="250">
 
 #### Front-end
 - :heavy_check_mark: Design
@@ -134,8 +134,10 @@
 - :warning: Wallet จะต้องไม่แสดงอะไร
 - :heavy_check_mark: ดึงข้อมูล Sponsor จาก Firebase มาแสดง 
 - :heavy_check_mark: ดึงข้อมูล ข่าวสาร จาก Firebase มาแสดง 
+- :heavy_check_mark: สามารถดูโปรไฟล์
+- :x: ใช้งานแสกน QR code
 
-### หน้าอ่านข่าว (ผู้ใช้ทั่วไป)
+### หน้าอ่านข่าว 
 <img src="https://user-images.githubusercontent.com/58208814/172160562-6da4e957-73ef-4269-9503-4fc513ebf0b8.PNG" width="250">
 
 #### Front-end
@@ -146,6 +148,35 @@
     - :heavy_check_mark: ทำให้เนื้อหาข่าว ขึ้นบรรทัดเอง auto
     - :warning: แสดงยอดวิว
     - :warning: ได้รับ XP. หากอ่านจบถึงล่างสุดของหน้า
+
+### หน้าอัตราแลกเปลี่ยนขยะ (ผู้ใช้ทั่วไป)
+<img src="https://user-images.githubusercontent.com/58208814/173234160-74cb0523-2e30-494f-89e7-e6c1311d1283.PNG" width="250">
+
+#### Front-end
+- :heavy_check_mark: Design
+#### System
+- :heavy_check_mark: เชื่อมต่อ Firebase
+    - :heavy_check_mark: แสดงข้อมูล token, exp
+    - :heavy_check_mark: การแสดงข้อมูลต้องเป็นเป็น Strame
+- :heavy_check_mark: ลักษณะขยะ auto new line แค่ 2 บรรทัด
+    
+### หน้าโปรไฟล์ (ผู้ใช้ทั่วไป)
+<img src="https://user-images.githubusercontent.com/58208814/173234159-0a39c7ba-b720-4e9f-a266-305c7eeb7cf1.PNG" width="250">
+
+#### Front-end
+- :heavy_check_mark: Design
+#### System
+- :x: เชื่อมต่อ Firebase
+    - :x: แสดงข้อมูล Name, Email, รูปภาพ
+    - :x: แสดงข้อมูล จำนวน Level
+    - :x: แสดงสถานะการยืนยันตัวตน
+        - :x: ถ้ายังไม่ยืนยันให้สามารถกด เข้ามาทำการยืนยันได้
+        - :x: ถ้ายืนยันแล้ว ให้แสดงเฉยๆ
+- :x: เมนูต่างๆ กดได้
+- :x: Sign out ออกระบบได้
+- :x: แก้ไขข้อมูลโปรไฟล์ได้
+- :x: เช็คว่าเป็นเจ้าของ user หรือไม่ด้วย
+- :x: แสดงข้อมูล Wallet
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <!------------------------------------------------------------------------------------------------------------------------>
@@ -320,6 +351,34 @@
 - :heavy_check_mark: สามารถลบโลโก้ออกได้ 
     - :heavy_check_mark: ลบข้อมูลภาพจาก Storage
     - :heavy_check_mark: ลบข้อมูลจาก Firebase
+
+### หน้าข้อมูลขยะ (ผู้ดูแลระบบ)
+<img src="https://user-images.githubusercontent.com/58208814/173233802-8610ad42-ae7b-4867-8d74-9a63a08cc9c8.PNG" width="250"> 
+
+#### Front-end
+- :heavy_check_mark: Design
+#### System
+- :heavy_check_mark: เชื่อมต่อ Firebase
+    - :heavy_check_mark: แสดงข้อมูล token, exp
+    - :heavy_check_mark: แสดงรายละเอียดขยะ
+    - :heavy_check_mark: ยกตัวอย่างเผื่อจำไม่ได้
+- :heavy_check_mark: เมื่อกดคลิกแล้วให้ส่ง id ไปอ้างอิงในหน้าแก้ไขข้อมูล
+- :heavy_check_mark: แสดงข้อมูลแบบ Strame
+
+### หน้าแก้ไขข้อมูลขยะ (ผู้ดูแลระบบ)
+<img src="https://user-images.githubusercontent.com/58208814/173233804-3cb37754-9f64-4606-ac14-0fa010578ef8.PNG" width="250"> 
+
+#### Front-end
+- :warning: Design
+#### System
+- :heavy_check_mark: เชื่อมต่อ Firebase
+    - :heavy_check_mark: แสดงข้อมูล token, exp
+        - :heavy_check_mark: 1.เปลี่ยนข้อมูล token, exp จาก String เป็น int
+        - :heavy_check_mark: 2.แยกใส่ List เพื่อนำไปใช้ใน NumberPicker
+        - :x: 3.เลื่อนตัวเลขเปลี่ยนค่า แบบทันที
+- :x: สามารถบันทึกข้อมูล
+- :x: pop-up แก้ไขราคา
+    
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <!------------------------------------------------------------------------------------------------------------------------>
