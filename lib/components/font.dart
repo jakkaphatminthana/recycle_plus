@@ -16,6 +16,13 @@ final Russo26_gray = GoogleFonts.getFont(
 );
 
 //Roboto
+final Roboto30_B_black = GoogleFonts.getFont(
+  'Roboto',
+  fontSize: 30,
+  fontWeight: FontWeight.bold,
+  color: Colors.black,
+);
+
 final Roboto25_B_black = GoogleFonts.getFont(
   'Roboto',
   fontSize: 25,

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/appbar/appbar_title.dart';
 import 'package:recycle_plus/components/font.dart';
+import 'package:recycle_plus/screens/_NoLogin/exchange/exchange.dart';
 import 'package:recycle_plus/screens/_NoLogin/home/user_home.dart';
 import 'package:recycle_plus/screens/_NoLogin/page2.dart';
-import 'package:recycle_plus/screens/_NoLogin/page3.dart';
 import 'package:recycle_plus/screens/_NoLogin/page4.dart';
 import 'package:recycle_plus/screens/_NoLogin/profile/profile.dart';
 
@@ -118,7 +118,7 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
             children: [
               User_HomeScreen(),
               PageTest2(),
-              PageTest3(),
+              Member_ExchangeScreen(),
               PageTest4(),
             ],
           ),

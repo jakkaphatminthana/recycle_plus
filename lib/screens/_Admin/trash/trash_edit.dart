@@ -1,31 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:recycle_plus/screens/_Admin/trash/np_trash.dart';
 
 class Admin_TrashEdit extends StatefulWidget {
   //ก่อนจะเรียกหน้านี้จำเป็นต้องมี paramiter data
-  const Admin_TrashEdit({required this.data});
-  final data; //data Querysnapshot
+  const Admin_TrashEdit({
+    required this.token1,
+    required this.token2,
+    required this.exp1,
+    required this.exp2,
+  });
+  //data Querysnapshot
+  final token1;
+  final token2;
+  final exp1;
+  final exp2;
 
   @override
   State<Admin_TrashEdit> createState() => _Admin_TrashEditState();
 }
 
 class _Admin_TrashEditState extends State<Admin_TrashEdit> {
-
   @override
   Widget build(BuildContext context) {
-    final token = widget.data!.get("token");
-
-    List<String> token_split = token.split(".");
-    final token_map = token_split.asMap();
-    final token1 = token_map[0];
-    final token2 = token_map[1];
-
-    final token_double = double.parse(token);
-    var token1_int = int.parse(token1!);
-    var token2_int = int.parse(token2!);
-
     //================================================================================================
     return Scaffold(
       appBar: AppBar(
@@ -33,6 +31,7 @@ class _Admin_TrashEditState extends State<Admin_TrashEdit> {
         automaticallyImplyLeading: true,
         elevation: 0.0,
         centerTitle: true,
+        title: Text("ปรับผลตอบแทน", style: Roboto16_B_white),
       ),
       //----------------------------------------------------------------------------
       body: Column(
@@ -53,9 +52,9 @@ class _Admin_TrashEditState extends State<Admin_TrashEdit> {
                       children: [
                         //TODO 2. Image Type
                         Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
+                          padding: const EdgeInsets.only(top: 20.0),
                           child: Image.asset(
-                            "assets/image/pete_black.png",
+                            "assets/image/pete_w.png",
                             width: 100,
                             height: 100,
                           ),
@@ -65,7 +64,7 @@ class _Admin_TrashEditState extends State<Admin_TrashEdit> {
                           padding: const EdgeInsets.only(top: 10.0),
                           child: Text(
                             "โพลิเอทิลีนเทเรฟทาเลต",
-                            style: Roboto16_black,
+                            style: Roboto16_white,
                           ),
                         ),
                       ],
@@ -88,81 +87,109 @@ class _Admin_TrashEditState extends State<Admin_TrashEdit> {
                       child: Column(
                         children: [
                           const SizedBox(height: 20.0),
+                          //TODO 4. Tabbar Menu
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              child: DefaultTabController(
+                                length: 2,
+                                initialIndex: 0,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 45,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[300],
+                                        borderRadius: BorderRadius.circular(
+                                          25.0,
+                                        ),
+                                      ),
+                                      child: TabBar(
+                                        indicator: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25.0),
+                                          color: const Color(0xFF389B61),
+                                        ),
+                                        labelColor: Colors.white,
+                                        unselectedLabelColor: Colors.black,
+                                        tabs: [
+                                          //TODO 4.1 Tabbar Token
+                                          Tab(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  "assets/image/token.png",
+                                                  width: 30,
+                                                  height: 30,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                const SizedBox(width: 5.0),
+                                                Text(
+                                                  "Token",
+                                                  style: Roboto20_B_white,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
 
-                          ElevatedButton(
-                            child: Text("print token value",
-                                style: Roboto16_B_white),
-                            onPressed: () {
-                              print("token = ${token}");
-                              print("token Type= ${token.runtimeType}");
-                              print("token_map = ${token_map}");
-                              print("token1_int = ${token1_int}");
-                              print("token2_int = ${token2_int}");
-                            },
-                          ),
-                          const SizedBox(height: 20.0),
+                                          //TODO 4.2 Tabbar Token
+                                          Tab(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                  "assets/image/exp2.png",
+                                                  width: 28,
+                                                  height: 28,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                const SizedBox(width: 5.0),
+                                                Text(
+                                                  "Experience",
+                                                  style: Roboto20_B_white,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
 
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              NumberPicker(
-                                value: token1_int,
-                                minValue: 0,
-                                maxValue: 99,
-                                step: 1,
-                                itemHeight: 50,
-                                axis: Axis.vertical,
-                                onChanged: (value) =>
-                                    setState(() => token1_int = value),
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                    top: BorderSide(
-                                        color: Colors.black, width: 2.0),
-                                    bottom: BorderSide(
-                                        color: Colors.black, width: 2.0),
-                                  ),
+                                    //TODO 5. Tabbar View
+                                    Expanded(
+                                      child: TabBarView(
+                                        children: [
+                                          Column(
+                                            children: [
+                                              const SizedBox(height: 40.0),
+                                              PickNumber(
+                                                title: "Token Rate",
+                                                number1: widget.token1,
+                                                number2: widget.token2,
+                                              ),
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              const SizedBox(height: 40.0),
+                                              PickNumber(
+                                                title: "EXP Rate",
+                                                number1: widget.exp1,
+                                                number2: widget.exp2,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
-                              const SizedBox(width: 20.0),
-                              NumberPicker(
-                                value: token2_int,
-                                minValue: 0,
-                                maxValue: 99,
-                                step: 1,
-                                itemHeight: 50,
-                                axis: Axis.vertical,
-                                onChanged: (value) =>
-                                    setState(() => token2_int = value),
-                                decoration: const BoxDecoration(
-                                  border: Border(
-                                    top: BorderSide(
-                                        color: Colors.black, width: 2.0),
-                                    bottom: BorderSide(
-                                        color: Colors.black, width: 2.0),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          // Container(
-                          //   width: 100,
-                          //   height: 100,
-                          //   decoration: BoxDecoration(color: Colors.grey),
-                          //   child: NumberPicker(
-                          //     value: num,
-                          //     minValue: 00,
-                          //     maxValue: 90,
-                          //     step: 10,
-                          //     haptics: true,
-                          //     axis: Axis.horizontal,
-                          //     onChanged: (value) => setState(() {
-                          //       num = value;
-                          //     }),
-                          //   ),
-                          // ),
-                          // const SizedBox(height: 10.0),
-                          // Text("Current value : $num", style: Roboto16_B_black),
+                            ),
+                          )
                         ],
                       ),
                     ),

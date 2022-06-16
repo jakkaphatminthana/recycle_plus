@@ -77,12 +77,29 @@ class _Admin_TrashControlState extends State<Admin_TrashControl> {
                                   exp: exp_double,
                                   description: description,
                                   press: () {
+                                    //TODO : แปลงค่า String to Int[0,1]
+                                    final data_map_token = data_SplitText(token);
+                                    final token1 = data_map_token[0];
+                                    final token2 = data_map_token[1];
+                                    var token1_int = int.parse(token1!);
+                                    var token2_int = int.parse(token2!);
+
+                                    final data_map_exp = data_SplitText(exp);
+                                    final exp1 = data_map_exp[0];
+                                    final exp2 = data_map_exp[1];
+                                    var exp1_int = int.parse(exp1!);
+                                    var exp2_int = int.parse(exp2!);
+
                                     //ไปหน้าแก้ไขโดยที่ ส่งค่าข้อมูลไปด้วย
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            Admin_TrashEdit(data: data),
+                                        builder: (context) => Admin_TrashEdit(
+                                          token1: token1_int,
+                                          token2: token2_int,
+                                          exp1: exp1_int,
+                                          exp2: exp2_int,
+                                        ),
                                       ),
                                     );
                                     // print("token = ${token.runtimeType}");
@@ -104,5 +121,11 @@ class _Admin_TrashControlState extends State<Admin_TrashControl> {
         ),
       ),
     );
+  }
+
+  data_SplitText(data) {
+    List<String> data_split = data.split(".");
+    final data_map = data_split.asMap();
+    return data_map;
   }
 }
