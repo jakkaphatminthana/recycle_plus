@@ -57,7 +57,9 @@ class _Admin_TrashControlState extends State<Admin_TrashControl> {
                         ...snapshot.data!.docs.map(
                           (QueryDocumentSnapshot<Object?> data) {
                             //ได้ตัว Data มาละ ----------<<<
+                            final String id_trash = data.get('id');
                             final String image = data.get('image');
+                            final String image_white = data.get('image_white');
                             final String title = data.get("title");
                             final String subtitle = data.get("subtitle");
                             final String token = data.get("token");
@@ -78,7 +80,8 @@ class _Admin_TrashControlState extends State<Admin_TrashControl> {
                                   description: description,
                                   press: () {
                                     //TODO : แปลงค่า String to Int[0,1]
-                                    final data_map_token = data_SplitText(token);
+                                    final data_map_token =
+                                        data_SplitText(token);
                                     final token1 = data_map_token[0];
                                     final token2 = data_map_token[1];
                                     var token1_int = int.parse(token1!);
@@ -95,6 +98,9 @@ class _Admin_TrashControlState extends State<Admin_TrashControl> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => Admin_TrashEdit(
+                                          id_trash: id_trash,
+                                          image: image_white,
+                                          subtitle: subtitle,
                                           token1: token1_int,
                                           token2: token2_int,
                                           exp1: exp1_int,

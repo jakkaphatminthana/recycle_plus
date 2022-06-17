@@ -6,12 +6,18 @@ import 'package:recycle_plus/screens/_Admin/trash/np_trash.dart';
 class Admin_TrashEdit extends StatefulWidget {
   //ก่อนจะเรียกหน้านี้จำเป็นต้องมี paramiter data
   const Admin_TrashEdit({
+    required this.id_trash,
+    required this.image,
+    required this.subtitle,
     required this.token1,
     required this.token2,
     required this.exp1,
     required this.exp2,
   });
   //data Querysnapshot
+  final String id_trash;
+  final String image;
+  final String subtitle;
   final token1;
   final token2;
   final exp1;
@@ -53,8 +59,8 @@ class _Admin_TrashEditState extends State<Admin_TrashEdit> {
                         //TODO 2. Image Type
                         Padding(
                           padding: const EdgeInsets.only(top: 20.0),
-                          child: Image.asset(
-                            "assets/image/pete_w.png",
+                          child: Image.network(
+                            widget.image,
                             width: 100,
                             height: 100,
                           ),
@@ -63,7 +69,7 @@ class _Admin_TrashEditState extends State<Admin_TrashEdit> {
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0),
                           child: Text(
-                            "โพลิเอทิลีนเทเรฟทาเลต",
+                            widget.subtitle,
                             style: Roboto16_white,
                           ),
                         ),
@@ -76,7 +82,7 @@ class _Admin_TrashEditState extends State<Admin_TrashEdit> {
                     padding: const EdgeInsets.only(top: 190.0),
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
+                      height: MediaQuery.of(context).size.height * 0.6,
                       decoration: const BoxDecoration(
                         color: Color(0xFFEEEEEE),
                         borderRadius: BorderRadius.only(
@@ -166,6 +172,7 @@ class _Admin_TrashEditState extends State<Admin_TrashEdit> {
                                             children: [
                                               const SizedBox(height: 40.0),
                                               PickNumber(
+                                                id_trash: widget.id_trash,
                                                 title: "Token Rate",
                                                 number1: widget.token1,
                                                 number2: widget.token2,
@@ -176,6 +183,7 @@ class _Admin_TrashEditState extends State<Admin_TrashEdit> {
                                             children: [
                                               const SizedBox(height: 40.0),
                                               PickNumber(
+                                                id_trash: widget.id_trash,
                                                 title: "EXP Rate",
                                                 number1: widget.exp1,
                                                 number2: widget.exp2,

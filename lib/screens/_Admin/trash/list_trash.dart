@@ -67,7 +67,7 @@ class ListTrash extends StatelessWidget {
                             //TODO 1.2 Header Text Type
                             Row(
                               children: [
-                                Text(title, style: Roboto18_B_black),
+                                Text("$title : ", style: Roboto18_B_black),
                                 Text(subtitle, style: Roboto16_black),
                               ],
                             ),

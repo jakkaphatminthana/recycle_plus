@@ -8,6 +8,7 @@ import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/sponsor_model.dart';
 import 'package:recycle_plus/models/user_model.dart';
 import 'package:uuid/uuid.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 //=======================================================================================================
 //TODO : ติดต่อกับ firebase
@@ -138,6 +139,31 @@ class DatabaseEZ {
         })
         .then((value) => print("update news title"))
         .catchError((error) => print("Failed to update news: $error"));
+  }
+
+  //TODO : Update Reward Trash
+  Future<void> updateTrashReward({
+    String? uid,
+    String? token,
+    String? exp,
+  }) {
+    final reference = FirebaseFirestore.instance.collection('trash');
+
+    if (token != null) {
+      return reference.doc(uid).update({"token": token}).then((value) {
+        Fluttertoast.showToast(
+          msg: "Update Sucess",
+          gravity: ToastGravity.BOTTOM,
+        );
+      }).catchError((error) => print("Failed to update token: $error"));
+    } else {
+      return reference.doc(uid).update({"exp": exp}).then((value) {
+        Fluttertoast.showToast(
+          msg: "Update Sucess",
+          gravity: ToastGravity.BOTTOM,
+        );
+      }).catchError((error) => print("Failed to update exp: $error"));
+    }
   }
 
 //---------------------------------------------------------------------------------------------------------------------

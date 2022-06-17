@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:recycle_plus/service/database.dart';
 
 class PickNumber extends StatefulWidget {
   PickNumber({
@@ -9,20 +11,28 @@ class PickNumber extends StatefulWidget {
     required this.number1,
     required this.number2,
     required this.title,
+    required this.id_trash,
   }) : super(key: key);
 
   var number1;
   var number2;
   final String title;
+  final String id_trash;
 
   @override
   State<PickNumber> createState() => _PickNumberState();
 }
 
 class _PickNumberState extends State<PickNumber> {
+  //formkey = ตัวแสดงตัวแบบยูนืคของฟอร์มนี้
+  //db = ติดต่อ firebase
+  final _formKey = GlobalKey<FormState>();
+  DatabaseEZ db = DatabaseEZ.instance;
+
   //นำมารับค่าแทนซึ่งใช้ใน numberpiker เพราะ แก้บัคตัวเลขไม่ขยับ
   var num1;
   var num2;
+  var header;
 
   @override
   void initState() {
@@ -30,6 +40,7 @@ class _PickNumberState extends State<PickNumber> {
     super.initState();
     num1 = widget.number1;
     num2 = widget.number2;
+    header = widget.title;
   }
 
   @override
@@ -40,7 +51,7 @@ class _PickNumberState extends State<PickNumber> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("${widget.title} : ", style: Roboto16_B_black),
+            Text("$header : ", style: Roboto16_B_black),
             const SizedBox(width: 5.0),
             Text("$num1.$num2", style: Roboto16_B_green),
           ],
@@ -51,7 +62,7 @@ class _PickNumberState extends State<PickNumber> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //TODO : NumberPick 1
+            //TODO 2.1 NumberPick 1
             NumberPicker(
               value: (num1 != null) ? num1 : widget.number1,
               minValue: 0,
@@ -76,7 +87,7 @@ class _PickNumberState extends State<PickNumber> {
             Text(".", style: Roboto30_B_black),
             const SizedBox(width: 10.0),
 
-            //TODO : NumberPick 2
+            //TODO 2.2 NumberPick 2
             NumberPicker(
               value: (num2 != null) ? num2 : widget.number2,
               minValue: 0,
@@ -112,8 +123,23 @@ class _PickNumberState extends State<PickNumber> {
               borderRadius: BorderRadius.circular(20.0),
             ),
           ),
-          child: Text("SAVE", style: Roboto18_B_white),
-          onPressed: () {},
+          child: Text("UPDATE", style: Roboto18_B_white),
+          onPressed: () async {
+            //รวมตัวเลขให้เป็น ทศนิยม
+            var num_str = "$num1.$num2";
+            // print("num1 = $num1");
+            // print("num2 = $num2");
+            // print("num = $num_str");
+
+            if (header == "Token Rate") {
+              //TODO : Update Token
+              await db.updateTrashReward(uid: widget.id_trash, token: num_str);
+
+            } else if (header == "EXP Rate"){
+              //TODO : Update EXP
+              await db.updateTrashReward(uid: widget.id_trash, exp: num_str);
+            }
+          },
         ),
       ],
     );

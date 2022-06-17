@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: Admin_TrashControl.routeName,
+      initialRoute: Admin_TabbarHome.routeName,
       routes: routes,
     );
   }
