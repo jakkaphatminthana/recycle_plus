@@ -142,8 +142,8 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
                   const SizedBox(height: 20.0),
 
                   //TODO 6. Wallet Widget
-                  Center(
-                    child: Wallet_card,
+                  const Center(
+                    child: Wallet_card(colorEZ: Color(0xFFEEEEEE)),
                   ),
                   const SizedBox(height: 30.0),
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/font.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/exchange.dart';
 import 'package:recycle_plus/screens/_Admin/home/admin_home.dart';
 import 'package:recycle_plus/screens/_Admin/news/news.dart';
 import 'package:recycle_plus/screens/_Admin/page3.dart';
@@ -117,7 +118,7 @@ class _Admin_TabbarHomeState extends State<Admin_TabbarHome> {
             children: [
               Admin_HomeScreen(),
               Admin_NewsScreen(),
-              PageTestA3(),
+              Admin_Exchange(),
             ],
           ),
         ),

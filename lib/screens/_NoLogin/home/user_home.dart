@@ -70,7 +70,7 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
                             child: Padding(
                               padding: const EdgeInsets.only(top: 140),
                               child: GestureDetector(
-                                child: Wallet_card,
+                                child: const Wallet_card(colorEZ: Color(0xFFEEEEEE)),
                                 onTap: () {},
                               ),
                             ),

@@ -10,6 +10,7 @@ import 'package:recycle_plus/screens/start/start.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:recycle_plus/screens/success/verify_email.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: Admin_TabbarHome.routeName,
+      initialRoute: VerifyEmail.routeName,
       routes: routes,
     );
   }
