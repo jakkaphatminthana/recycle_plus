@@ -64,256 +64,259 @@ class _Admin_NewsAddState extends State<Admin_NewsAdd> {
   @override
   Widget build(BuildContext context) {
 //=====================================================================================================
-    return Scaffold(
-      //TODO 1. Appbar header
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF00883C),
-        automaticallyImplyLeading: true,
-        centerTitle: true,
-        title: AppbarTitle(
-          press: () => Navigator.popAndPushNamed(
-            context,
-            Admin_TabbarHome.routeName,
-          ),
-        ),
-        actions: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10.0),
-              child: ElevatedButton(
-                child: Text("เผยแพร่", style: Roboto14_B_white),
-                style: ElevatedButton.styleFrom(primary: Colors.amber),
-                onPressed: () async {
-                  //เมื่อกรอกข้อมูลถูกต้อง
-                  if (_formKey.currentState!.validate()) {
-                    //สั่งประมวลผลข้อมูลที่กรอก
-                    _formKey.currentState?.save();
-                    // print("value_image = ${value_image}");
-                    // print("image_file = ${image_file}");
-                    // print("image_path = ${image_path}");
-                    // print("image_name = ${image_name}");
-
-                    // print("value_title = ${value_title}");
-                    // print("value_content = ${value_content}");
-
-                    //generate ID เพื่อใช้สร้าง id unique
-                    var uid = Uuid();
-                    final uuid = uid.v1();
-
-                    //อัพโหลดรูปภาพลง storage
-                    var image_url = await uploadImage(
-                      gallery: image_path,
-                      image: image_file,
-                      img_name: image_name,
-                      uid: uuid,
-                    );
-
-                    //TODO : upload on firebase
-                    await db
-                        .createNews(
-                          titile: value_title,
-                          content: value_content,
-                          image: image_url,
-                          uid: uuid,
-                        )
-                        .then(
-                          (value) => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  Admin_TabbarHome(1), //หน้า News
-                            ),
-                          ),
-                        )
-                        .catchError(
-                          (error) =>
-                              const Text("Something is wrong please try again"),
-                        );
-                  }
-                },
-              ),
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        //TODO 1. Appbar header
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF00883C),
+          automaticallyImplyLeading: true,
+          centerTitle: true,
+          title: AppbarTitle(
+            press: () => Navigator.popAndPushNamed(
+              context,
+              Admin_TabbarHome.routeName,
             ),
           ),
-        ],
-      ),
-      //-------------------------------------------------------------------------------------------
-      body: Form(
-        key: _formKey,
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10.0),
-                      Text("เพิ่มข่าวสาร", style: Roboto18_B_black),
-                      const SizedBox(height: 20.0),
+          actions: [
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: ElevatedButton(
+                  child: Text("เผยแพร่", style: Roboto14_B_white),
+                  style: ElevatedButton.styleFrom(primary: Colors.amber),
+                  onPressed: () async {
+                    //เมื่อกรอกข้อมูลถูกต้อง
+                    if (_formKey.currentState!.validate()) {
+                      //สั่งประมวลผลข้อมูลที่กรอก
+                      _formKey.currentState?.save();
+                      // print("value_image = ${value_image}");
+                      // print("image_file = ${image_file}");
+                      // print("image_path = ${image_path}");
+                      // print("image_name = ${image_name}");
 
-                      //TODO 2. Upload File
-                      GestureDetector(
-                        onTap: () => pickImage(), //เลือกรูปภาพ
-                        child: Container(
-                          width: 200,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFfafafa),
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.grey,
-                                offset: Offset(1, 2),
-                                blurRadius: 4,
+                      // print("value_title = ${value_title}");
+                      // print("value_content = ${value_content}");
+
+                      //generate ID เพื่อใช้สร้าง id unique
+                      var uid = Uuid();
+                      final uuid = uid.v1();
+
+                      //อัพโหลดรูปภาพลง storage
+                      var image_url = await uploadImage(
+                        gallery: image_path,
+                        image: image_file,
+                        img_name: image_name,
+                        uid: uuid,
+                      );
+
+                      //TODO : upload on firebase
+                      await db
+                          .createNews(
+                            titile: value_title,
+                            content: value_content,
+                            image: image_url,
+                            uid: uuid,
+                          )
+                          .then(
+                            (value) => Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Admin_TabbarHome(1), //หน้า News
                               ),
-                            ],
-                            border: Border.all(
-                              color: Colors.black,
-                              width: 1,
                             ),
-                          ),
-                          //TODO : ตรวจสอบว่าได้เลือกรูปภาพ หรือยัง
-                          child: (value_image != null)
-                              //1. ถ้าได้เลือกรูปภาพแล้ว
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Image.file(
-                                        value_image!,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              //2. ไม่ได้เลือกรูปภาพ
-                              : Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.add_circle,
-                                      color: Color(0xCD00883C),
-                                      size: 70,
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              5, 10, 5, 10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text('Upload image',
-                                              style: Roboto16_B_black),
-                                          Text('ขนาดไม่เกิน 20 MB',
-                                              style: Roboto12_black),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
+                          )
+                          .catchError(
+                            (error) => const Text(
+                                "Something is wrong please try again"),
+                          );
+                    }
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+        //-------------------------------------------------------------------------------------------
+        body: Form(
+          key: _formKey,
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10.0),
+                        Text("เพิ่มข่าวสาร", style: Roboto18_B_black),
+                        const SizedBox(height: 20.0),
 
-                      //TODO : ชื่อไฟล์รุปภาพ
-                      Center(
-                        //หากเลือกรูปภาพแล้ว ค่อยแสดง
-                        child: (value_image != null)
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(image_name!, style: Roboto12_black),
-                                  const SizedBox(height: 5.0),
-                                  Row(
+                        //TODO 2. Upload File
+                        GestureDetector(
+                          onTap: () => pickImage(), //เลือกรูปภาพ
+                          child: Container(
+                            width: 200,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFfafafa),
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.grey,
+                                  offset: Offset(1, 2),
+                                  blurRadius: 4,
+                                ),
+                              ],
+                              border: Border.all(
+                                color: Colors.black,
+                                width: 1,
+                              ),
+                            ),
+                            //TODO : ตรวจสอบว่าได้เลือกรูปภาพ หรือยัง
+                            child: (value_image != null)
+                                //1. ถ้าได้เลือกรูปภาพแล้ว
+                                ? Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      GestureDetector(
-                                        child: const Icon(
-                                          Icons.replay_circle_filled,
-                                          color: Color(0xFFE0AB3A),
-                                          size: 40,
+                                      Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: Image.file(
+                                          value_image!,
+                                          fit: BoxFit.cover,
                                         ),
-                                        onTap: () {
-                                          pickImage();
-                                        },
                                       ),
-                                      const SizedBox(width: 10.0),
-                                      GestureDetector(
-                                        child: const Icon(
-                                          Icons.cancel,
-                                          color: Color(0xFFff5963),
-                                          size: 40,
+                                    ],
+                                  )
+                                //2. ไม่ได้เลือกรูปภาพ
+                                : Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(
+                                        Icons.add_circle,
+                                        color: Color(0xCD00883C),
+                                        size: 70,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(5, 10, 5, 10),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text('Upload image',
+                                                style: Roboto16_B_black),
+                                            Text('ขนาดไม่เกิน 20 MB',
+                                                style: Roboto12_black),
+                                          ],
                                         ),
-                                        onTap: () {
-                                          setState(() {
-                                            value_image = null;
-                                          });
-                                        },
                                       ),
                                     ],
                                   ),
-                                ],
-                              )
-                            : null,
-                      ),
-
-                      const SizedBox(height: 30.0),
-
-                      //TODO 3. Textfield Title
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: TextFormField(
-                          obscureText: false,
-                          style: Roboto14_black,
-                          decoration: styleTextFieldNews(
-                            'Title',
-                            'เพิ่มหัวเรื่องข่าว',
                           ),
-                          validator: ValidatorEmpty,
-                          onSaved: (value) => value_title = value,
                         ),
-                      ),
-                      const SizedBox(height: 20.0),
+                        const SizedBox(height: 10.0),
 
-                      //TODO 4. Textfield content
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //พื้นที่ขยายได้
-                            ConstrainedBox(
-                              constraints: BoxConstraints(
-                                maxHeight: 400,
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.89,
-                              ),
-                              child: TextFormField(
-                                //พิมพ์หลายบรรทัดได้
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                minLines: 1,
-                                style: Roboto14_black,
-                                decoration: styleTextFieldNews(
-                                  'Content',
-                                  'เพิ่มเนื้อหาของข่าวสาร',
-                                ),
-                                validator: ValidatorEmpty,
-                                onSaved: (value) => value_content = value,
-                              ),
-                            ),
-                          ],
+                        //TODO : ชื่อไฟล์รุปภาพ
+                        Center(
+                          //หากเลือกรูปภาพแล้ว ค่อยแสดง
+                          child: (value_image != null)
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(image_name!, style: Roboto12_black),
+                                    const SizedBox(height: 5.0),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        GestureDetector(
+                                          child: const Icon(
+                                            Icons.replay_circle_filled,
+                                            color: Color(0xFFE0AB3A),
+                                            size: 40,
+                                          ),
+                                          onTap: () {
+                                            pickImage();
+                                          },
+                                        ),
+                                        const SizedBox(width: 10.0),
+                                        GestureDetector(
+                                          child: const Icon(
+                                            Icons.cancel,
+                                            color: Color(0xFFff5963),
+                                            size: 40,
+                                          ),
+                                          onTap: () {
+                                            setState(() {
+                                              value_image = null;
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                )
+                              : null,
                         ),
-                      ),
-                    ],
+
+                        const SizedBox(height: 30.0),
+
+                        //TODO 3. Textfield Title
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: TextFormField(
+                            obscureText: false,
+                            style: Roboto14_black,
+                            decoration: styleTextFieldNews(
+                              'Title',
+                              'เพิ่มหัวเรื่องข่าว',
+                            ),
+                            validator: ValidatorEmpty,
+                            onSaved: (value) => value_title = value,
+                          ),
+                        ),
+                        const SizedBox(height: 20.0),
+
+                        //TODO 4. Textfield content
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //พื้นที่ขยายได้
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxHeight: 400,
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.89,
+                                ),
+                                child: TextFormField(
+                                  //พิมพ์หลายบรรทัดได้
+                                  keyboardType: TextInputType.multiline,
+                                  maxLines: null,
+                                  minLines: 1,
+                                  style: Roboto14_black,
+                                  decoration: styleTextFieldNews(
+                                    'Content',
+                                    'เพิ่มเนื้อหาของข่าวสาร',
+                                  ),
+                                  validator: ValidatorEmpty,
+                                  onSaved: (value) => value_content = value,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

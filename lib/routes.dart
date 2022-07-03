@@ -25,7 +25,6 @@ final Map<String, WidgetBuilder> routes = {
   RegisterScreen.routeName: (context) => RegisterScreen(),
   PleaseLogin.routeName: (context) => PleaseLogin(),
   ForgotPasswordScreen.routeName:(context) => ForgotPasswordScreen(),
-  VerifyEmail.routeName:(context) => VerifyEmail(),
   LoginSuccess.routeName: (context) => LoginSuccess(),
   RegisterSuccess.routeName: (context) => RegisterSuccess(),
   Member_TabbarHome.routeName: (context) => Member_TabbarHome(),

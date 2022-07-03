@@ -72,182 +72,185 @@ class _Admin_MemberEditState extends State<Admin_MemberEdit> {
         ? TextEditingController(text: Name) //ค่าเริ่มต้นตาม firebase
         : TextEditingController(text: value_name); //ค่าที่กำลังป้อน
 //========================================================================================
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF00883C),
-        automaticallyImplyLeading: true,
-        title: Text("Edit Profile", style: Roboto18_B_white),
-        centerTitle: true,
-      ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Align(
-            alignment: const AlignmentDirectional(0, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 20.0),
-                //TODO 1. Image Profile
-                GestureDetector(
-                  onTap: () => pickImage(),
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: 100,
-                        height: 100,
-                        clipBehavior: Clip.antiAlias,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(width: 1),
-                        ),
-                        //TODO : หากมีการอัปโหลดรูปมาใหม่ จะแสดงรูปใหม่
-                        child: (value_image != null)
-                            ? Image.file(value_image!)
-                            : Image.network(ImageProfile),
-                      ),
-                      Container(
-                        width: 100,
-                        height: 100,
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(96, 0, 0, 0),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
-                              size: 30,
-                            ),
-                            Text("แก้ไขรูปภาพ", style: Roboto12_B_white),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                const SizedBox(height: 20.0),
-
-                //TODO 2. Form Name
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: TextFormField(
-                    controller: _textNameControl,
-                    autofocus: true,
-                    obscureText: false,
-                    style: Roboto14_black,
-                    decoration: styleTextFieldEdit('Name', 'Enter your name'),
-                    validator: ValidatorEmpty,
-                    onChanged: (value) => value_name = value,
-                    onSaved: (value2) => value_name = value2,
-                  ),
-                ),
-                const SizedBox(height: 20.0),
-
-                //TODO 3. Dropdown Role
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    height: 45,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black, width: 1),
-                    ),
-                    //ลบเส้นออกใต้ออก
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        //TODO : ทำให้แสดงยศที่ตั้งไว้
-                        hint: (UserRole == null)
-                            ? const Text("เลือกระดับผู้ใช้งาน")
-                            : Text(UserRole, style: Roboto14_black),
-                        style: Roboto14_black,
-                        value: value_role,
-                        isExpanded: true, //ทำให้กว้าง
-                        //TODO : รายการที่กดเลือกได้
-                        items: RoleType.map(
-                          (value) => DropdownMenuItem(
-                            value: value,
-                            child: Text(value, style: Roboto14_black),
+    return GestureDetector(
+      onTap:() => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF00883C),
+          automaticallyImplyLeading: true,
+          title: Text("Edit Profile", style: Roboto18_B_white),
+          centerTitle: true,
+        ),
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Align(
+              alignment: const AlignmentDirectional(0, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 20.0),
+                  //TODO 1. Image Profile
+                  GestureDetector(
+                    onTap: () => pickImage(),
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: 100,
+                          height: 100,
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(width: 1),
                           ),
-                        ).toList(),
-                        onChanged: (value) {
-                          setState(() {
-                            value_role = value;
-                          });
-                          print("valueEZ = ${value_role}");
-                        },
+                          //TODO : หากมีการอัปโหลดรูปมาใหม่ จะแสดงรูปใหม่
+                          child: (value_image != null)
+                              ? Image.file(value_image!)
+                              : Image.network(ImageProfile),
+                        ),
+                        Container(
+                          width: 100,
+                          height: 100,
+                          decoration: const BoxDecoration(
+                            color: Color.fromARGB(96, 0, 0, 0),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                              Text("แก้ไขรูปภาพ", style: Roboto12_B_white),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 20.0),
+
+                  //TODO 2. Form Name
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: TextFormField(
+                      controller: _textNameControl,
+                      autofocus: true,
+                      obscureText: false,
+                      style: Roboto14_black,
+                      decoration: styleTextFieldEdit('Name', 'Enter your name'),
+                      validator: ValidatorEmpty,
+                      onChanged: (value) => value_name = value,
+                      onSaved: (value2) => value_name = value2,
+                    ),
+                  ),
+                  const SizedBox(height: 20.0),
+
+                  //TODO 3. Dropdown Role
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      height: 45,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black, width: 1),
+                      ),
+                      //ลบเส้นออกใต้ออก
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          //TODO : ทำให้แสดงยศที่ตั้งไว้
+                          hint: (UserRole == null)
+                              ? const Text("เลือกระดับผู้ใช้งาน")
+                              : Text(UserRole, style: Roboto14_black),
+                          style: Roboto14_black,
+                          value: value_role,
+                          isExpanded: true, //ทำให้กว้าง
+                          //TODO : รายการที่กดเลือกได้
+                          items: RoleType.map(
+                            (value) => DropdownMenuItem(
+                              value: value,
+                              child: Text(value, style: Roboto14_black),
+                            ),
+                          ).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              value_role = value;
+                            });
+                            print("valueEZ = ${value_role}");
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 30.0),
+                  const SizedBox(height: 30.0),
 
-                //TODO 4. Button Update
-                ElevatedButton(
-                    child: Text("Update", style: Roboto20_B_white),
-                    style: ElevatedButton.styleFrom(
-                      primary: const Color(0xFF00883C),
-                      fixedSize: const Size(160, 45),
-                      elevation: 2.0, //เงา
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
+                  //TODO 4. Button Update
+                  ElevatedButton(
+                      child: Text("Update", style: Roboto20_B_white),
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color(0xFF00883C),
+                        fixedSize: const Size(160, 45),
+                        elevation: 2.0, //เงา
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
                       ),
-                    ),
-                    //เมื่อกดปุ่มนี้แล้วทำอะไรต่อ
-                    onPressed: () async {
-                      //เมื่อกรอกข้อมูลถูกต้อง
-                      if (_formKey.currentState!.validate()) {
-                        //สั่งประมวลผลข้อมูลที่กรอก
-                        _formKey.currentState?.save();
-                        // print("value_name = ${value_name}");
-                        // print("value_role = ${value_role}");
-                        // print("value_image = ${value_image}");
-                        // print("_textNameControl= ${_textNameControl.text}");
-
-                        //เช็คว่าเลือกรูปยัง
-                        if (value_image != null) {
-                          // print("image1 = ${image1}");
-                          // print("image2 = ${image2}");
+                      //เมื่อกดปุ่มนี้แล้วทำอะไรต่อ
+                      onPressed: () async {
+                        //เมื่อกรอกข้อมูลถูกต้อง
+                        if (_formKey.currentState!.validate()) {
+                          //สั่งประมวลผลข้อมูลที่กรอก
+                          _formKey.currentState?.save();
+                          // print("value_name = ${value_name}");
+                          // print("value_role = ${value_role}");
                           // print("value_image = ${value_image}");
-                          // print("File(image1) = ${File(image1)}");
-                          // print("value_image!.path = ${value_image!.path}");
+                          // print("_textNameControl= ${_textNameControl.text}");
 
-                          // String basename = value_image!.path.split('/').last;
-                          // print("basename, filename = ${basename}");
+                          //เช็คว่าเลือกรูปยัง
+                          if (value_image != null) {
+                            // print("image1 = ${image1}");
+                            // print("image2 = ${image2}");
+                            // print("value_image = ${value_image}");
+                            // print("File(image1) = ${File(image1)}");
+                            // print("value_image!.path = ${value_image!.path}");
 
-                          // final destination = 'profile/$basename';
-                          // print("destination = ${destination}");
+                            // String basename = value_image!.path.split('/').last;
+                            // print("basename, filename = ${basename}");
 
-                          await uploadImage(
-                            gallery: image1,
-                            image: image2,
-                            userId: widget.data!.get('id'),
-                          );
+                            // final destination = 'profile/$basename';
+                            // print("destination = ${destination}");
+
+                            await uploadImage(
+                              gallery: image1,
+                              image: image2,
+                              userId: widget.data!.get('id'),
+                            );
+                          }
+
+                          //เช็คว่าได้แก้ไขชื่อต่างจากเดิมไหม
+                          if (value_name != Name) {
+                            await db.updateUserName(
+                              userID: UserModel(id: widget.data!.get('id')),
+                              username: UserModel(name: value_name),
+                            );
+                          }
+
+                          //เช็คว่าได้แก้ไขไหม
+                          if (value_role != UserRole && value_role != null) {
+                            await db.updateUserRole(
+                              userID: UserModel(id: widget.data!.get('id')),
+                              role: UserModel(role: value_role),
+                            );
+                          }
+                          Navigator.pop(context);
                         }
-
-                        //เช็คว่าได้แก้ไขชื่อต่างจากเดิมไหม
-                        if (value_name != Name) {
-                          await db.updateUserName(
-                            userID: UserModel(id: widget.data!.get('id')),
-                            username: UserModel(name: value_name),
-                          );
-                        }
-
-                        //เช็คว่าได้แก้ไขไหม
-                        if (value_role != UserRole && value_role != null) {
-                          await db.updateUserRole(
-                            userID: UserModel(id: widget.data!.get('id')),
-                            role: UserModel(role: value_role),
-                          );
-                        }
-                        Navigator.pop(context);
-                      }
-                    }),
-              ],
+                      }),
+                ],
+              ),
             ),
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/models/user_model.dart';
 import 'package:recycle_plus/models/varidator.dart';
 import 'package:recycle_plus/screens/success/success_register.dart';
+import 'package:recycle_plus/screens/success/verify_email.dart';
 import 'package:recycle_plus/service/auth.dart';
 
 import '../../components/textfield.dart';
@@ -82,7 +83,14 @@ class _RegisterFormState extends State<RegisterForm> {
                   //Check error register
                   if (value != "not_work") {
                     _formKey.currentState?.reset();
-                    Navigator.pushNamed(context, RegisterSuccess.routeName);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            VerifyEmail(name: inputEmail.name),
+                      ),
+                    );
                   } else {
                     setState(() => isLoading = false);
                   }

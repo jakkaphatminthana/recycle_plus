@@ -7,6 +7,7 @@ import 'package:recycle_plus/screens/_NoLogin/home/user_home.dart';
 import 'package:recycle_plus/screens/_NoLogin/page2.dart';
 import 'package:recycle_plus/screens/_NoLogin/page4.dart';
 import 'package:recycle_plus/screens/_NoLogin/profile/profile.dart';
+import 'package:recycle_plus/screens/success/verify_email.dart';
 
 class Member_TabbarHome extends StatefulWidget {
   const Member_TabbarHome({Key? key}) : super(key: key);

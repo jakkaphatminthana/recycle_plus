@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthService {
@@ -21,20 +22,20 @@ class AuthService {
         //TODO : อ้างอิง User ปัจจุบันตอนนี้
         User? userEZ = FirebaseAuth.instance.currentUser;
 
-        //TODO : สร้าง Model Database Profile
-        await FirebaseFirestore.instance
-            .collection("users")
-            .doc(userEZ?.uid)
-            .set({
-          "id": userEZ?.uid,
-          "email": email,
-          "name": name,
-          "role": "Member",
-          "verify": false,
-          "address": "",
-          "image":
-              "https://firebasestorage.googleapis.com/v0/b/recycleplus-feecd.appspot.com/o/images%2Fuser.png?alt=media&token=70f2d6d9-e17a-40fa-b04f-71e7f6ab14f6",
-        });
+        // //TODO : สร้าง Model Database Profile
+        // await FirebaseFirestore.instance
+        //     .collection("users")
+        //     .doc(userEZ?.uid)
+        //     .set({
+        //   "id": userEZ?.uid,
+        //   "email": email,
+        //   "name": name,
+        //   "role": "Member",
+        //   "verify": false,
+        //   "address": "",
+        //   "image":
+        //       "https://firebasestorage.googleapis.com/v0/b/recycleplus-feecd.appspot.com/o/images%2Fuser.png?alt=media&token=70f2d6d9-e17a-40fa-b04f-71e7f6ab14f6",
+        // });
       });
 
       //TODO : Check Error
@@ -96,5 +97,39 @@ class AuthService {
   //TODO 4. SingOut
   Future SignOut() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  //TODO 5. Verify Email
+  Future sendVerifyEmail() async {
+    try {
+      final user = _auth.currentUser!;
+      await user.sendEmailVerification();
+    } catch (e) {
+      print("Error Verify Email : $e");
+    }
+  }
+
+  //TODO 6. Create Database Profile
+  Future createProfile(String name) async {
+    try {
+      User? userEZ = FirebaseAuth.instance.currentUser;
+
+      //สร้าง Model Database Profile
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(userEZ?.uid)
+          .set({
+        "id": userEZ?.uid,
+        "email": userEZ?.email,
+        "name": name,
+        "role": "Member",
+        "verify": false,
+        "address": "",
+        "image":
+            "https://firebasestorage.googleapis.com/v0/b/recycleplus-feecd.appspot.com/o/images%2Fuser.png?alt=media&token=70f2d6d9-e17a-40fa-b04f-71e7f6ab14f6",
+      });
+    } catch (e) {
+      print("Error create profile faild : $e");
+    }
   }
 }

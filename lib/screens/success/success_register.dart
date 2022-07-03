@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterSuccess extends StatelessWidget {
-  const RegisterSuccess({Key? key}) : super(key: key);
   //Location page
   static String routeName = "/RegisterSuccess";
+
+  //เรียกใช้ Firebase Authentication
+  final _auth = FirebaseAuth.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    if (user != null) {
+      _auth.signOut();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +72,8 @@ class RegisterSuccess extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20.0)),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, LoginScreen.routeName);
+                      print("user = $user");
+                      // Navigator.pushNamed(context, LoginScreen.routeName);
                     }),
               ],
             ),
