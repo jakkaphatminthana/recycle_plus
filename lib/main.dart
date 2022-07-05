@@ -16,6 +16,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:recycle_plus/screens/success/success_login.dart';
 import 'package:recycle_plus/screens/success/verify_email.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:recycle_plus/screens/success/welcome.dart';
 
 import 'models/user_model.dart';
 import 'screens/_NoLogin/home/user_home.dart';
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      //initialRoute: Member_ProfileScreen.routeName,
+      //initialRoute: WelcomeScreen.routeName,
       routes: routes,
 
       //TODO : ใช้ดักทางสำหรับ user ไม่มีบัญชีและไม่ยืนยันบัญชี
@@ -74,7 +75,7 @@ class MyApp extends StatelessWidget {
                 //     );
                 //   },
                 // );
-                return LoginSuccess();
+                return WelcomeScreen();
               } else if (snapshot.hasData) {
                 return VerifyEmail(name: null);
               } else {

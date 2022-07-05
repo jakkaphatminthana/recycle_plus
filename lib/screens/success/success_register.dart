@@ -1,25 +1,56 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class RegisterSuccess extends StatelessWidget {
+class RegisterSuccess extends StatefulWidget {
   //Location page
   static String routeName = "/RegisterSuccess";
 
+  @override
+  State<RegisterSuccess> createState() => _RegisterSuccessState();
+}
+
+class _RegisterSuccessState extends State<RegisterSuccess> {
   //เรียกใช้ Firebase Authentication
   final _auth = FirebaseAuth.instance;
-  User? user = FirebaseAuth.instance.currentUser;
 
+  User? user = FirebaseAuth.instance.currentUser;
+  //ตัวจับเวลา
+  Timer? timer;
+
+  //TODO : initState = ทำการเรียกใช้ทุกครั้ง เมื่อเข้ามาหน้านี้
   @override
   void initState() {
+    super.initState();
+
     if (user != null) {
-      _auth.signOut();
+      timer = Timer.periodic(
+        const Duration(seconds: 3),
+        (_) => signoutEZ(),
+      );
     }
+  }
+
+  //TODO : dispose = เมื่อสิ้นสุด initState แล้วให้เรียกใช้
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  //TODO : ทำให้ออกจากระบบก่อน เพื่อให้ล็อคอินใหม่
+  Future signoutEZ() async {
+    await _auth.signOut();
+    //รีเฟรชสถานะผู้ใช้
+    await _auth.currentUser!.reload();
   }
 
   @override
   Widget build(BuildContext context) {
+    //================================================================================================================
     return Scaffold(
       //TODO 1. Appbar
       appBar: AppBar(
@@ -72,8 +103,7 @@ class RegisterSuccess extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20.0)),
                     ),
                     onPressed: () {
-                      print("user = $user");
-                      // Navigator.pushNamed(context, LoginScreen.routeName);
+                      Navigator.pushNamed(context, LoginScreen.routeName);
                     }),
               ],
             ),

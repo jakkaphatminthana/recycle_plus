@@ -5,7 +5,10 @@ import 'package:recycle_plus/models/user_model.dart';
 import 'package:recycle_plus/models/varidator.dart';
 import 'package:recycle_plus/screens/forgotPass/forgotPass.dart';
 import 'package:recycle_plus/screens/success/success_login.dart';
+import 'package:recycle_plus/screens/success/verify_email.dart';
+import 'package:recycle_plus/screens/success/welcome.dart';
 import 'package:recycle_plus/service/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Form_Login extends StatefulWidget {
   const Form_Login({Key? key}) : super(key: key);
@@ -23,6 +26,7 @@ class _Form_LoginState extends State<Form_Login> {
   final AuthService _auth = AuthService();
   EmailModel inputEmail = EmailModel();
   bool isLoading = false;
+  User? user = FirebaseAuth.instance.currentUser;
 
   //-----------------------------------------------------------------------------------------------------------------------
   @override
@@ -94,7 +98,17 @@ class _Form_LoginState extends State<Form_Login> {
                   //Check error register
                   if (value != "not_work") {
                     _formKey.currentState?.reset();
-                    Navigator.pushNamed(context, LoginSuccess.routeName);
+
+                    //ตรวจสอบว่ายืนยันอีเมลยัง?
+                    if (user?.emailVerified == true) {
+                      Navigator.pushNamed(context, WelcomeScreen.routeName);
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => VerifyEmail(name: null)),
+                      );
+                    }
                   } else {
                     setState(() => isLoading = false);
                   }

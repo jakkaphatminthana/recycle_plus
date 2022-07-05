@@ -67,12 +67,12 @@ class AuthService {
       if (e.code == 'user-not-found') {
         Fluttertoast.showToast(
           msg: "ไม่พบบัญชีนี้",
-          gravity: ToastGravity.CENTER,
+          gravity: ToastGravity.BOTTOM,
         );
       } else if (e.code == 'wrong-password') {
         Fluttertoast.showToast(
           msg: "รหัสผ่านผิดหรืออีเมลไม่ถูกต้อง",
-          gravity: ToastGravity.CENTER,
+          gravity: ToastGravity.BOTTOM,
         );
       }
       return "not_work";

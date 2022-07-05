@@ -16,6 +16,7 @@ import 'package:recycle_plus/screens/login_no/login_no.dart';
 import 'package:recycle_plus/screens/register/body_register.dart';
 import 'package:recycle_plus/screens/start/start.dart';
 import 'package:recycle_plus/screens/success/success_login.dart';
+import 'package:recycle_plus/screens/success/welcome.dart';
 import 'package:recycle_plus/screens/success/success_register.dart';
 import 'package:recycle_plus/screens/success/verify_email.dart';
 
@@ -25,6 +26,7 @@ final Map<String, WidgetBuilder> routes = {
   RegisterScreen.routeName: (context) => RegisterScreen(),
   PleaseLogin.routeName: (context) => PleaseLogin(),
   ForgotPasswordScreen.routeName:(context) => ForgotPasswordScreen(),
+  WelcomeScreen.routeName:(context) => WelcomeScreen(),
   LoginSuccess.routeName: (context) => LoginSuccess(),
   RegisterSuccess.routeName: (context) => RegisterSuccess(),
   Member_TabbarHome.routeName: (context) => Member_TabbarHome(),

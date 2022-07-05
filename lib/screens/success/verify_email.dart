@@ -159,27 +159,31 @@ class _VerifyEmailState extends State<VerifyEmail> {
                             ),
                           ),
                           onPressed: () {
-                            // final test = auth.currentUser!.emailVerified;
-                            // print("emailVerifie = $test");
+                            //auth_package.sendVerifyEmail();
 
-                            // final UserMail = user?.email.toString();
-                            // List<String>? splited = UserMail?.split("@");
-                            // final data_map = splited?.asMap();
-                            // final nameEmail = data_map![0];
+                            final test = auth.currentUser!.emailVerified;
+                            print("emailVerifie = $test");
 
-                            // print("nameField= $nameEmail");
-                            // print("nameReal = ${widget.name}");
+                            final UserMail = user?.email.toString();
+                            List<String>? splited = UserMail?.split("@");
+                            final data_map = splited?.asMap();
+                            final nameEmail = data_map![0];
+
+                            print("nameField= $nameEmail");
+                            print("nameReal = ${widget.name}");
+                            print("user current = $user");
                           },
                         ),
                         const SizedBox(height: 20.0),
 
                         //TODO 5. Cancle text
                         GestureDetector(
-                          onTap: () {
-                            Navigator.pushReplacementNamed(
+                          child: Text("ยกเลิก", style: Roboto18_B_green),
+                          onTap: () async {
+                            await FirebaseAuth.instance.signOut();
+                            await Navigator.pushReplacementNamed(
                                 context, LoginScreen.routeName);
                           },
-                          child: Text("ยกเลิก", style: Roboto18_B_green),
                         ),
                       ],
                     ),
