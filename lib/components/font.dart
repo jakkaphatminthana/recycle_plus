@@ -130,6 +130,13 @@ final Roboto16_B_green = GoogleFonts.getFont(
   color: Colors.green,
 );
 
+final Roboto16_B_greenB = GoogleFonts.getFont(
+  'Roboto',
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
+  color: const Color(0xFF108A46),
+);
+
 final Roboto16_B_black = GoogleFonts.getFont(
   'Roboto',
   fontSize: 16,

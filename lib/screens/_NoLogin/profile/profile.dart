@@ -9,7 +9,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
 
 class Member_ProfileScreen extends StatefulWidget {
-  const Member_ProfileScreen({Key? key}) : super(key: key);
   //Location Page
   static String routeName = "/MyProfile";
 

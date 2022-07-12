@@ -21,31 +21,32 @@ class _RegisterSuccessState extends State<RegisterSuccess> {
   //ตัวจับเวลา
   Timer? timer;
 
-  //TODO : initState = ทำการเรียกใช้ทุกครั้ง เมื่อเข้ามาหน้านี้
-  @override
-  void initState() {
-    super.initState();
+  // //TODO : initState = ทำการเรียกใช้ทุกครั้ง เมื่อเข้ามาหน้านี้
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    if (user != null) {
-      timer = Timer.periodic(
-        const Duration(seconds: 3),
-        (_) => signoutEZ(),
-      );
-    }
-  }
+  //   if (user != null) {
+  //     timer = Timer.periodic(
+  //       const Duration(seconds: 3),
+  //       (_) => signoutEZ(),
+  //     );
+  //   }
+  // }
 
-  //TODO : dispose = เมื่อสิ้นสุด initState แล้วให้เรียกใช้
-  @override
-  void dispose() {
-    timer?.cancel();
-    super.dispose();
-  }
+  // //TODO : dispose = เมื่อสิ้นสุด initState แล้วให้เรียกใช้
+  // @override
+  // void dispose() {
+  //   timer?.cancel();
+  //   super.dispose();
+  // }
 
   //TODO : ทำให้ออกจากระบบก่อน เพื่อให้ล็อคอินใหม่
   Future signoutEZ() async {
     await _auth.signOut();
     //รีเฟรชสถานะผู้ใช้
-    await _auth.currentUser!.reload();
+    //await _auth.currentUser!.reload();
+    //timer?.cancel();
   }
 
   @override
@@ -102,7 +103,8 @@ class _RegisterSuccessState extends State<RegisterSuccess> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0)),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      await signoutEZ();
                       Navigator.pushNamed(context, LoginScreen.routeName);
                     }),
               ],

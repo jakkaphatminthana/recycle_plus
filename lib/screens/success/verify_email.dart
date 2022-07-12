@@ -48,6 +48,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
         const Duration(seconds: 3),
         (_) => checkEmailVerified(),
       );
+      //cooldown button ไว้
+      cooldownStart();
     }
   }
 
@@ -83,6 +85,38 @@ class _VerifyEmailState extends State<VerifyEmail> {
       } else {
         await auth_package.createProfile(widget.name!);
       }
+    }
+  }
+
+  //----------------------------------------------------------------------------
+  //TODO : function cooldown resend
+  //cooldown = ตัวนับเวลา
+  //maxSeconds = นับจากเลขสูงสุด
+  //second = วินาที
+  Timer? _cooldown;
+  static const maxSeconds = 10;
+  int seconds = maxSeconds;
+
+  void cooldownStart() {
+    //นับเวลาทีละ 1 วินาที
+    _cooldown = Timer.periodic(Duration(seconds: 1), (_) {
+      if (seconds > 0) {
+        setState(() {
+          seconds--;
+        });
+      } else {
+        stopTimerCooldown();
+      }
+    });
+  }
+
+  void stopTimerCooldown() {
+    _cooldown?.cancel();
+    //รีเซ็ทเวลาใหม่
+    if (seconds == 0) {
+      setState(() {
+        seconds = maxSeconds;
+      });
     }
   }
 
@@ -144,36 +178,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         const SizedBox(height: 30.0),
 
                         //TODO 4.Button Send
-                        ElevatedButton.icon(
-                          icon: const FaIcon(
-                            Icons.email,
-                            size: 25,
-                          ),
-                          label:
-                              Text("ส่งใหม่อีกครั้ง", style: Roboto16_B_white),
-                          style: ElevatedButton.styleFrom(
-                            fixedSize: const Size(300, 45),
-                            primary: const Color(0xFF389B61),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                          ),
-                          onPressed: () {
-                            //auth_package.sendVerifyEmail();
-
-                            final test = auth.currentUser!.emailVerified;
-                            print("emailVerifie = $test");
-
-                            final UserMail = user?.email.toString();
-                            List<String>? splited = UserMail?.split("@");
-                            final data_map = splited?.asMap();
-                            final nameEmail = data_map![0];
-
-                            print("nameField= $nameEmail");
-                            print("nameReal = ${widget.name}");
-                            print("user current = $user");
-                          },
-                        ),
+                        buildButton(),
                         const SizedBox(height: 20.0),
 
                         //TODO 5. Cancle text
@@ -191,6 +196,35 @@ class _VerifyEmailState extends State<VerifyEmail> {
                 ),
               ),
             ),
+    );
+  }
+
+//=======================================================================================================
+  //TODO : Widget Button Resend
+  Widget buildButton() {
+    //เช็คว่ากำลังนับคูลดาว์อยู่ไหม
+    final _isRuning = (_cooldown == null) ? false : _cooldown!.isActive;
+    return ElevatedButton.icon(
+      icon: const FaIcon(
+        Icons.email,
+        size: 25,
+      ),
+      label: (_isRuning)
+          ? Text("สามารถส่งอีกครั้งใน... $seconds", style: Roboto16_B_gray)
+          : Text("ส่งใหม่อีกครั้ง", style: Roboto16_B_white),
+      style: ElevatedButton.styleFrom(
+        fixedSize: const Size(300, 45),
+        primary: const Color(0xFF389B61),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+      ),
+      onPressed: (_isRuning)
+          ? null
+          : () {
+              cooldownStart();
+              auth_package.sendVerifyEmail();
+            },
     );
   }
 }

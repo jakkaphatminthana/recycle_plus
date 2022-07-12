@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
+import 'package:recycle_plus/service/auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({Key? key}) : super(key: key);
+  StartScreen({Key? key}) : super(key: key);
   //Location Route Page
   static String routeName = "/start";
+
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +81,7 @@ class StartScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
+                      print("Start user = $user");
                       Navigator.pushNamed(context, LoginScreen.routeName);
                     },
                   ),

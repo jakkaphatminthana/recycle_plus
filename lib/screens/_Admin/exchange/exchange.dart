@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/font.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/ListProduct.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/add_product/add_product.dart';
 
 class Admin_Exchange extends StatefulWidget {
   const Admin_Exchange({Key? key}) : super(key: key);
@@ -10,8 +12,12 @@ class Admin_Exchange extends StatefulWidget {
 }
 
 class _Admin_ExchangeState extends State<Admin_Exchange> {
+  final title = "ดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดด";
+  final subtitle = "'สสสสสสสสสสสสสสสสสสสสสสสสสสสสสสสสสสส";
+
   @override
   Widget build(BuildContext context) {
+    //=====================================================================================
     return Scaffold(
       body: Column(
         children: [
@@ -95,69 +101,22 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
                     ),
 
                     //TODO 5. List Product
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 8, 5, 0),
-                      child: Material(
-                        //เงา
-                        color: Colors.transparent,
-                        elevation: 1,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Container(
-                          //กล่องใส่เนื้อหา
-                          width: MediaQuery.of(context).size.width,
-                          height: 90,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEEEEEE),
-                            boxShadow: const [
-                              BoxShadow(
-                                //กำหนดเงา
-                                color: Color(0x7F000000),
-                                offset: Offset(1, 1.5),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: const Color(0xB29F9F9F),
-                              width: 1,
-                            ),
-                          ),
-                          //TODO 5.1 เนื้อหาในกล่อง Container
-                          child: Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Row(
-                              children: [
-                                //TODO 5.2 Image Product
-                                Container(
-                                  width: 90,
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFEEEEEE),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(5),
-                                    child: Image.network(
-                                      'https://picsum.photos/seed/159/600',
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                
-                                //TODO 5.3 Title name product
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
-                                  child: Column(),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
+                    ListProduct(
+                      imageURL: "",
+                      title: title,
+                      subtitle: subtitle,
+                      token: "1000",
+                      amount: "150",
+                      press: () {},
+                    ),
+                    ListProduct(
+                      imageURL: "",
+                      title: title,
+                      subtitle: subtitle,
+                      token: "1000",
+                      amount: "150",
+                      press: () {},
+                    ),
                   ],
                 ),
               ),
@@ -176,6 +135,8 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
   Widget buildFloatingButton() => FloatingActionButton(
         child: const Icon(Icons.add),
         backgroundColor: const Color(0xFF00883C),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed(Admin_AddProduct.routeName);
+        },
       );
 }

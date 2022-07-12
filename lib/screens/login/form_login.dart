@@ -26,7 +26,6 @@ class _Form_LoginState extends State<Form_Login> {
   final AuthService _auth = AuthService();
   EmailModel inputEmail = EmailModel();
   bool isLoading = false;
-  User? user = FirebaseAuth.instance.currentUser;
 
   //-----------------------------------------------------------------------------------------------------------------------
   @override
@@ -98,6 +97,8 @@ class _Form_LoginState extends State<Form_Login> {
                   //Check error register
                   if (value != "not_work") {
                     _formKey.currentState?.reset();
+                    User? user = FirebaseAuth.instance.currentUser;
+                    print("Login User = $user");
 
                     //ตรวจสอบว่ายืนยันอีเมลยัง?
                     if (user?.emailVerified == true) {

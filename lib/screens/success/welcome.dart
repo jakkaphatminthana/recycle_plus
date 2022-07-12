@@ -22,6 +22,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   //เชื่อมต่อ firebase datastore
   DatabaseEZ db = DatabaseEZ.instance;
 
+  //ไปหน้าอื่นโดยที่ delay เวลาไว้
+  void gotoNextPage(routeName) async {
+    await Future.delayed(const Duration(seconds: 3));
+    Navigator.pushReplacementNamed(context, routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     //ดึงเอกสาร id ของ user ทั้งหมด
@@ -117,11 +123,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   //TODO 5. Button Check role
                                   if (data['role'] == "Member" ||
                                       data['role'] == "Sponsor") {
-                                    Navigator.of(context).pushReplacementNamed(
-                                        Member_TabbarHome.routeName);
+                                    gotoNextPage(Member_TabbarHome.routeName);
                                   } else if (data['role'] == "Admin") {
-                                    Navigator.pushNamed(
-                                        context, Admin_TabbarHome.routeName);
+                                    gotoNextPage(Admin_TabbarHome.routeName);
                                   } else {
                                     //ERROR ถ้าเกิดไม่มีข้อมูล role
                                     return Column(

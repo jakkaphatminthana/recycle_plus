@@ -6,6 +6,7 @@ import 'package:recycle_plus/screens/_Admin/home/admin_home.dart';
 import 'package:recycle_plus/screens/_Admin/news/news.dart';
 import 'package:recycle_plus/screens/_Admin/page3.dart';
 import 'package:recycle_plus/screens/_Admin/setting/setting.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../components/appbar/appbar_title.dart';
 
@@ -22,6 +23,7 @@ class Admin_TabbarHome extends StatefulWidget {
 }
 
 class _Admin_TabbarHomeState extends State<Admin_TabbarHome> {
+  User? user = FirebaseAuth.instance.currentUser;
   //TODO 1. Set Tabbar list here
   TabBar get _tabbar {
     return const TabBar(
@@ -85,16 +87,18 @@ class _Admin_TabbarHomeState extends State<Admin_TabbarHome> {
             //Icon Menu bar
             actions: [
               IconButton(
-                icon: const FaIcon(
-                  Icons.settings,
-                  color: Colors.white,
-                  size: 30,
-                ),
-                onPressed: () => Navigator.pushNamed(
-                  context,
-                  Admin_SettingMore.routeName,
-                ),
-              ),
+                  icon: const FaIcon(
+                    Icons.settings,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  onPressed: () {
+                    print("User now = $user");
+                    Navigator.pushNamed(
+                      context,
+                      Admin_SettingMore.routeName,
+                    );
+                  }),
             ],
             elevation: 2.0,
 
