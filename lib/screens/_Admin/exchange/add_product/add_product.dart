@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:recycle_plus/screens/_Admin/exchange/add_product/detail.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/add_product/1_detail/1_detail.dart';
 
 class Admin_AddProduct extends StatefulWidget {
   const Admin_AddProduct({Key? key}) : super(key: key);
@@ -25,7 +25,11 @@ class _Admin_AddProductState extends State<Admin_AddProduct> {
           state:
               (_activeStepIndex <= 0) ? StepState.indexed : StepState.complete,
           title: Text("Description", style: Roboto14_B_black),
-          content: AddProduct_detail(name: name),
+          content: AddProduct_detail(
+            name: name,
+            categoryEZ: category,
+            description: description,
+          ),
           // content: const Center(child: Text("ชื่อสินค้า")),
         ),
         Step(
@@ -43,7 +47,9 @@ class _Admin_AddProductState extends State<Admin_AddProduct> {
           content: Container(
             child: Column(
               children: [
+                Text("Category: ${category.text}"),
                 Text("Name: ${name.text}"),
+                Text("Description: ${description.text}"),
               ],
             ),
           ),
@@ -54,58 +60,76 @@ class _Admin_AddProductState extends State<Admin_AddProduct> {
   @override
   Widget build(BuildContext context) {
     //=================================================================================================
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF00883C),
-        title: const Text("Add Product"),
-        centerTitle: true,
-      ),
-      body: SafeArea(
-        child: Theme(
-          data: ThemeData(
-            colorScheme: Theme.of(context).colorScheme.copyWith(
-                  primary: const Color(0xFF00883C),
-                ),
-          ),
-          child: Stepper(
-            steps: stepList(),
-            type: StepperType.horizontal,
-            currentStep: _activeStepIndex,
-            // onStepContinue: () {
-            //   //เมื่อไปหน้าต่อไป ต้องให้ currentIndex เพิ่มตามด้วย
-            //   if (_activeStepIndex < (stepList().length - 1)) {
-            //     _activeStepIndex += 1;
-            //   }
-            //   setState(() {});
-            // },
-            // onStepCancel: () {
-            //   //ป้องกัน index ทะลุเกิน 0 (-1,-2)
-            //   if (_activeStepIndex == 0) {
-            //     return;
-            //   }
-            //   _activeStepIndex -= 1;
-            //   setState(() {});
-            // },
-            controlsBuilder: (BuildContext context, ControlsDetails controls) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      child: Text("Next", style: Roboto16_B_white),
-                      onPressed: () {},
-                    ),
-                    const SizedBox(width: 20.0),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text("Cancle", style: Roboto16_B_gray),
-                    ),
-                  ],
-                ),
-              );
-            },
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFF00883C),
+          title: const Text("Add Product"),
+          centerTitle: true,
+        ),
+        body: SafeArea(
+          child: Theme(
+            data: ThemeData(
+              colorScheme: Theme.of(context).colorScheme.copyWith(
+                    primary: const Color(0xFF00883C),
+                  ),
+            ),
+            child: Stepper(
+              steps: stepList(),
+              type: StepperType.horizontal,
+              currentStep: _activeStepIndex,
+              onStepContinue: () {
+                // print("name = ${name.text}");
+                // print("description = ${description.text}");
+
+                if (name.text == "") {
+                  print("NOOOOOOOO");
+                }
+
+                //เมื่อไปหน้าต่อไป ต้องให้ currentIndex เพิ่มตามด้วย
+                if (_activeStepIndex < (stepList().length - 1)) {
+                  _activeStepIndex += 1;
+                }
+                setState(() {});
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              onStepCancel: () {
+                //ป้องกัน index ทะลุเกิน 0 (-1,-2)
+                if (_activeStepIndex == 0) {
+                  return;
+                }
+                _activeStepIndex -= 1;
+                setState(() {});
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              // controlsBuilder: (BuildContext context, ControlsDetails controls) {
+              //   return Padding(
+              //     padding: const EdgeInsets.only(top: 20.0),
+              //     child: Row(
+              //       crossAxisAlignment: CrossAxisAlignment.center,
+              //       mainAxisAlignment: MainAxisAlignment.center,
+              //       children: [
+              //         ElevatedButton(
+              //           child: Text("Continue", style: Roboto16_B_white),
+              //           style: ElevatedButton.styleFrom(
+              //             fixedSize: const Size(130, 40),
+              //           ),
+              //           onPressed: () {},
+              //         ),
+              //         const SizedBox(width: 20.0),
+              //         TextButton(
+              //           child: Text("Cancle", style: Roboto16_B_gray),
+              //           style: TextButton.styleFrom(
+              //             fixedSize: const Size(130, 40),
+              //           ),
+              //           onPressed: () {},
+              //         ),
+              //       ],
+              //     ),
+              //   );
+              // },
+            ),
           ),
         ),
       ),

@@ -94,7 +94,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
   //maxSeconds = นับจากเลขสูงสุด
   //second = วินาที
   Timer? _cooldown;
-  static const maxSeconds = 10;
+  static const maxSeconds = 30;
   int seconds = maxSeconds;
 
   void cooldownStart() {
