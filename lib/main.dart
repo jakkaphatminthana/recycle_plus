@@ -23,7 +23,15 @@ import 'screens/_NoLogin/home/user_home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    //WebSite Setting
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyBBn9rb7-CY496A4hXojwO2d6Q7EFAnFb8",
+      appId: "1:767127615361:android:f4704462f7b28db2eb1a80",
+      messagingSenderId: "767127615361",
+      projectId: "recycleplus-feecd",
+    ),
+  );
   runApp(MyApp());
 }
 
@@ -47,7 +55,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      //initialRoute: WelcomeScreen.routeName,
+      //initialRoute: LoginScreen.routeName,
       routes: routes,
 
       //TODO : ใช้ดักทางสำหรับ user ไม่มีบัญชีและไม่ยืนยันบัญชี

@@ -21,53 +21,18 @@ class AddProduct_detail extends StatefulWidget {
 }
 
 class _AddProduct_detailState extends State<AddProduct_detail> {
+  //formkey = ตัวแสดงตัวแบบยูนืคของฟอร์มนี้
+  //db = ติดต่อ firebase
+  final formKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<ScaffoldState>();
-
 //======================================================================================================
     return Form(
       key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //TODO 1.Header Image
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("อัปโหลดรูปภาพ", style: Roboto14_B_black),
-            ],
-          ),
-          const SizedBox(height: 5.0),
-
-          //TODO 2. Upload Image
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 130,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF1F2F3),
-                borderRadius: BorderRadius.circular(5),
-                border: Border.all(
-                  width: 1,
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.image,
-                    color: Color(0xFFD1D1D1),
-                    size: 30,
-                  ),
-                  const SizedBox(width: 10.0),
-                  Text("Adding your image", style: Roboto14_B_brightGray),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20.0),
 
           //TODO 3. Head category
           Text("ประเภทสินค้า", style: Roboto14_B_black),
