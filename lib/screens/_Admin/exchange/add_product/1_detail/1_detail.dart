@@ -22,7 +22,6 @@ class AddProduct_detail extends StatefulWidget {
 
 class _AddProduct_detailState extends State<AddProduct_detail> {
   //formkey = ตัวแสดงตัวแบบยูนืคของฟอร์มนี้
-  //db = ติดต่อ firebase
   final formKey = GlobalKey<ScaffoldState>();
 
   @override

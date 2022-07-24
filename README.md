@@ -37,6 +37,8 @@
 #### System
 - :x: กดปุ่มแล้วไปที่ หน้าแรก
 
+
+
 ### หน้าโปรดเข้าสู่ระบบ
 <img src="https://user-images.githubusercontent.com/58208814/165307081-6c5ecb55-02be-415a-9213-7f998bda5c11.PNG" width="250">
 
@@ -46,45 +48,54 @@
 - :heavy_check_mark: กดปุ่ม "Login" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
 - :heavy_check_mark: กดปุ่ม "Back" แล้วไปยังหน้าที่แล้ว
 
+
+
 ### หน้าเข้าสู่ระบบ
-<img src="https://user-images.githubusercontent.com/58208814/165306626-775134d8-69dc-47c5-945f-44c74c56aebe.PNG" width="250">
+update: 24/07/2022
+
+<img src="https://user-images.githubusercontent.com/58208814/165306626-775134d8-69dc-47c5-945f-44c74c56aebe.PNG" width="250"> 
 
 #### Front-end
 - :heavy_check_mark: Design
 #### System
-- :heavy_check_mark: กดไอคอน "สมัครสมาชิก" แล้วไปยัง "หน้าสมัครสมาชิก" 
-- :heavy_check_mark: กดไอข้อความ "forgot password" แล้วไปยัง "หน้าลืมรหัสผ่าน" 
-- :warning: กดไอคอน "Google" แล้วไปยัง "การล็อคอินผ่าน Google" 
-- :heavy_check_mark: กดปุ่ม "Login" แล้วไปยัง "หน้าเข้าสู่ระบบสำเร็จ" 
+- :heavy_check_mark: กดไอคอนสมัครสมาชิก แล้วไปยัง -> "หน้าสมัครสมาชิก" 
+- :heavy_check_mark: กดไอข้อความ "forgot password" แล้วไปยัง -> "หน้าลืมรหัสผ่าน" 
+- :warning: กดไอคอน "Google" แล้วไปยัง -> "การล็อคอินผ่าน Google" 
+- :heavy_check_mark: กดปุ่ม "Login" แล้วไปยัง -> "หน้านำทางเมื่อเข้าสู่ระบบ" 
 - :heavy_check_mark: เชื่อมต่อ Firebase Authentication
 - :heavy_check_mark: ล็อคอินผ่าน Firebase
 - :heavy_check_mark: validation from input 
-    - :heavy_check_mark: validation from email 
-    - :heavy_check_mark: validation from password
-    - :heavy_check_mark: แสดงข้อความ Error
 - :heavy_check_mark: validation login error
     - :heavy_check_mark: validation email ต้องมีในระบบ
     - :heavy_check_mark: validation password ต้องเมตซ์กัน
     - :heavy_check_mark: แสดงข้อความ Error
 
+
+
 ### หน้าสมัครสมาชิก
-<img src="https://user-images.githubusercontent.com/58208814/165306639-123ee1b3-1ab6-4b18-a278-ba4f04dd2f70.PNG" width="250">
+update: 24/07/2022
+
+<img src="https://user-images.githubusercontent.com/58208814/165306639-123ee1b3-1ab6-4b18-a278-ba4f04dd2f70.PNG" width="250"> &nbsp; &nbsp; <img src="https://user-images.githubusercontent.com/58208814/165306658-eca19532-66f9-4e54-9744-657a1be62068.PNG" width="250">
 
 #### Front-end
 - :heavy_check_mark: Design
 #### System
-- :heavy_check_mark: กดข้อความ "เข้าสู่ระบบ" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
-- :heavy_check_mark: กดปุ่ม "Register" แล้วไปยัง "หน้าสมัครสมาชิกสำเร็จ" 
+:one: หน้าสมัครสมาชิก
+- :heavy_check_mark: กดข้อความ "เข้าสู่ระบบ" แล้วไปยัง -> "หน้าเข้าสู่ระบบ" 
+- :heavy_check_mark: กดปุ่ม "Register" แล้วไปยัง -> "หน้ายืนยันอีเมล" 
 - :heavy_check_mark: เชื่อมต่อ Firebase Authentication
-- :heavy_check_mark: สมัครสมาชิกผ่าน Firebase
+    - :heavy_check_mark: สมัครสมาชิกผ่าน Firebase
+    - :heavy_check_mark: กำหนดชื่ออีเมล เป็นชื่อของผู้ใช้ในกรณีที่ผู้ใช้ออกแอป
 - :heavy_check_mark: validation from input 
-    - :heavy_check_mark: validation from email 
-    - :heavy_check_mark: validation from password
-    - :heavy_check_mark: แสดงข้อความ Error
 - :heavy_check_mark: register error report
     - :heavy_check_mark: validation email ห้ามซ้ำ
     - :heavy_check_mark: validation password ห้ามน้อยกว่า 6 ตัว
     - :heavy_check_mark: แสดงข้อความ Error
+
+:two: หน้าสมัครสมาชิกสำเร็จ
+- :heavy_check_mark: กดปุ่มแล้วไป -> "หน้าเข้าสู่ระบบ"
+
+
 
 ### หน้าลืมรหัสผ่าน
 <img src="https://user-images.githubusercontent.com/58208814/165306651-4205111e-1f87-45f6-b475-e157d0f62210.PNG" width="250">
@@ -100,28 +111,47 @@
 - :heavy_check_mark: ในหน้า Pop-up กดตกลงแล้ว ส่งลิงค์รีเช็ตรหัสทาง Gmail แล้วกลับไปยังหน้าที่แล้ว
 
 
-### หน้าสมัครสมาชิกสำเร็จ
-<img src="https://user-images.githubusercontent.com/58208814/165306658-eca19532-66f9-4e54-9744-657a1be62068.PNG" width="250">
+
+### หน้ายืนยันอีเมล
+update: 24/07/2022
+
+<img src="https://user-images.githubusercontent.com/58208814/180635750-a165ccaf-04c2-4cff-8337-ac2a636d77af.PNG" width="250"> &nbsp; <img src="https://user-images.githubusercontent.com/58208814/180635754-24341a13-7663-4f60-9b07-4e97cff697f7.PNG" width="600">
 
 #### Front-end
 - :heavy_check_mark: Design
 #### System
-- :heavy_check_mark: กดปุ่ม "Back to login" แล้วไปยัง "หน้าเข้าสู่ระบบ" 
+- :heavy_check_mark: เชื่อมต่อ Firebase
+    - :heavy_check_mark: สร้างบัญชี Auth (ไม่งั้นส่งอีเมลให้ไม่ได้)
+    - :heavy_check_mark: ส่งลิงค์ยืนยันอีเมล
+    - :heavy_check_mark: สร้างบัญชี Auth
+    - :warning: ลบบัญชี Auth ออกเมื่อไม่ยืนยันอีเมล 24 ชั่วโมง
+- :heavy_check_mark: เมื่อเข้าแอปมา ถ้าไม่ได้ยืนยันอีเมลให้เริ่มต้นด้วยหน้านี้
+- :heavy_check_mark: นับถอยหลัง 30 วินาทีต่อการกดส่ง
+- :heavy_check_mark: สถานะยืนยันผ่านแล้วให้นำทางไป -> "หน้านำทางเมื่อเข้าสู่ระบบ"
+- :heavy_check_mark: กดปุ่มยกเลิกให้ไป -> "หน้าเข้าสู่ระบบ" พร้อมกับ logout ออก
 
-### หน้าเข้าสู่ระบบสำเร็จ
-<img src="https://user-images.githubusercontent.com/58208814/165306670-a0f7acb5-0afc-477a-ae28-4476eaa787c9.PNG" width="250">
+
+
+### หน้านำทางเมื่อเข้าสู่ระบบ
+update: 24/07/2022
+
+<img src="https://user-images.githubusercontent.com/58208814/180635759-cf5ee500-5d93-48dd-8e51-8144f47d1028.gif" width="250">
 
 #### Front-end
 - :heavy_check_mark: Design
 #### System
-- :heavy_check_mark: กดปุ่ม "Back to home" แล้วไปยัง "หน้าแรก" 
-- :heavy_check_mark: ตรวจสอบ role ของ user จากฐานข้อมูล member
-    - :heavy_check_mark: หากมี role เป็น member หรือ sponsor ให้ไปหน้าแรกของสมาชิก
+- :heavy_check_mark: save user state
+- :heavy_check_mark: user ยังเข้าแอปครั้งแรก -> "หน้าเริ่มต้น"
+- :heavy_check_mark: user ยังไม่ยืนยันอีเมล -> "หน้ายืนยันอีเมล"
+- :heavy_check_mark: user เคยเข้าสู่ระบบ -> "หน้าแรก"
     - :heavy_check_mark: หากมี role เป็น admin ให้ไปหน้าแรกของแอดมิน
-    - :warning: มีข้อความยินดีต้อนรับ "ชื่อผู้ใช้"
+
+
 
 ### หน้าแรก (ผู้ใช้ทั่วไป)
-<img src="https://user-images.githubusercontent.com/58208814/173233782-1fb4704e-455b-4b8c-b8d4-6b529c08809f.PNG-" width="250">
+update: 24/07/2022
+
+<img src="https://user-images.githubusercontent.com/58208814/173233782-1fb4704e-455b-4b8c-b8d4-6b529c08809f.PNG" width="250">
 
 #### Front-end
 - :heavy_check_mark: Design
@@ -137,6 +167,8 @@
 - :heavy_check_mark: สามารถดูโปรไฟล์
 - :x: ใช้งานแสกน QR code
 
+
+
 ### หน้าอ่านข่าว 
 <img src="https://user-images.githubusercontent.com/58208814/172160562-6da4e957-73ef-4269-9503-4fc513ebf0b8.PNG" width="250">
 
@@ -149,6 +181,8 @@
     - :warning: แสดงยอดวิว
     - :warning: ได้รับ XP. หากอ่านจบถึงล่างสุดของหน้า
 
+
+
 ### หน้าอัตราแลกเปลี่ยนขยะ (ผู้ใช้ทั่วไป)
 <img src="https://user-images.githubusercontent.com/58208814/173234160-74cb0523-2e30-494f-89e7-e6c1311d1283.PNG" width="250">
 
@@ -159,7 +193,9 @@
     - :heavy_check_mark: แสดงข้อมูล token, exp
     - :heavy_check_mark: การแสดงข้อมูลต้องเป็นเป็น Strame
 - :heavy_check_mark: ลักษณะขยะ auto new line แค่ 2 บรรทัด
-    
+
+
+
 ### หน้าโปรไฟล์ (ผู้ใช้ทั่วไป)
 <img src="https://user-images.githubusercontent.com/58208814/173234159-0a39c7ba-b720-4e9f-a266-305c7eeb7cf1.PNG" width="250">
 
@@ -173,10 +209,23 @@
         - :x: ถ้ายังไม่ยืนยันให้สามารถกด เข้ามาทำการยืนยันได้
         - :x: ถ้ายืนยันแล้ว ให้แสดงเฉยๆ
 - :x: เมนูต่างๆ กดได้
-- :x: Sign out ออกระบบได้
+- :heavy_check_mark: Sign out ออกระบบได้
 - :x: แก้ไขข้อมูลโปรไฟล์ได้
 - :x: เช็คว่าเป็นเจ้าของ user หรือไม่ด้วย
 - :x: แสดงข้อมูล Wallet
+
+
+
+### หน้าแลกของรางวัล (ผู้ใช้ทั่วไป)
+update: 24/07/2022
+
+<img src="https://user-images.githubusercontent.com/58208814/180635756-21bee64c-0771-4acd-8c37-59ffa18ea647.PNG" width="250">
+
+#### Front-end
+- :heavy_check_mark: Design
+#### System
+- :x: เชื่อมต่อ Firebase
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <!------------------------------------------------------------------------------------------------------------------------>
@@ -365,8 +414,12 @@
 - :heavy_check_mark: เมื่อกดคลิกแล้วให้ส่ง id ไปอ้างอิงในหน้าแก้ไขข้อมูล
 - :heavy_check_mark: แสดงข้อมูลแบบ Strame
 
+
+
 ### หน้าแก้ไขข้อมูลขยะ (ผู้ดูแลระบบ)
-<img src="https://user-images.githubusercontent.com/58208814/173233804-3cb37754-9f64-4606-ac14-0fa010578ef8.PNG" width="250"> 
+update: 24/07/2022
+
+<img src="https://user-images.githubusercontent.com/58208814/180635743-3a40a6e8-2ec6-4a8c-af9c-8e7625a7c39c.gif" width="250"> 
 
 #### Front-end
 - :warning: Design
@@ -375,10 +428,21 @@
     - :heavy_check_mark: แสดงข้อมูล token, exp
         - :heavy_check_mark: 1.เปลี่ยนข้อมูล token, exp จาก String เป็น int
         - :heavy_check_mark: 2.แยกใส่ List เพื่อนำไปใช้ใน NumberPicker
-        - :x: 3.เลื่อนตัวเลขเปลี่ยนค่า แบบทันที
-- :x: สามารถบันทึกข้อมูล
-- :x: pop-up แก้ไขราคา
-    
+        - :heavy_check_mark: 3.เลื่อนตัวเลขเปลี่ยนค่า แบบทันที
+    - :heavy_check_mark: สามารถบันทึกข้อมูล
+
+
+
+### หน้าของรางวัล (ผู้ดูแลระบบ)
+update: 24/07/2022
+
+<img src="https://user-images.githubusercontent.com/58208814/180635747-7d077b02-e782-49d1-90e0-df0b6db9c18f.PNG" width="250"> 
+
+#### Front-end
+- :warning: Design
+#### System
+- :x: เชื่อมต่อ Firebase
+- :heavy_check_mark: กดเพิ่มสินค้าไป -> "หน้าเพิ่มสินค้า"
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <!------------------------------------------------------------------------------------------------------------------------>

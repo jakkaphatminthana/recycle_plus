@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/add_product/1_detail/1_detail.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/add_product/2_setting/2_setting.dart';
 import 'package:recycle_plus/service/database.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,6 +28,10 @@ class _Admin_AddProductState extends State<Admin_AddProduct> {
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
   TextEditingController category = TextEditingController();
+  TextEditingController price = TextEditingController();
+  TextEditingController amount = TextEditingController();
+  bool pickup = false;
+  bool delivery = false;
 
 //------------------------------------------------------------------------------------------------------------------
   //TODO 1. Stepper
@@ -58,7 +63,13 @@ class _Admin_AddProductState extends State<Admin_AddProduct> {
           state:
               (_activeStepIndex <= 1) ? StepState.indexed : StepState.complete,
           title: const Text("Product"),
-          content: const Center(child: Text("รูปภาพ")),
+          //TODO 1.2 เนื้อหาในหน้าที่ 2
+          content: AddProduct_Setting(
+            price: price,
+            amount: amount,
+            pickup: pickup,
+            delivery: delivery,
+          ),
         ),
         //------------------------------------------------------<< 3
         //Stepper Page 3
