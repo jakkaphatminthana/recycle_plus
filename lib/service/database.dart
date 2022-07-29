@@ -213,6 +213,41 @@ class DatabaseEZ {
         .catchError((error) => print("Faild : $error"));
   }
 
+  //TODO : ADD Product Data
+  Future createProduct({
+    String? uid,
+    String? image,
+    String? category,
+    String? name,
+    String? description,
+    double? token,
+    int? amount,
+    bool? pickup,
+    bool? delivery
+    
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('products').doc();
+    //generate ID
+
+    await FirebaseFirestore.instance
+        .collection('products')
+        .doc(uid)
+        .set({
+          "id": uid,
+          "image" : image,
+          "category" : category,
+          "name" : name,
+          "description" : description,
+          "token" : token,
+          "amount" : amount,
+          "pickup" : pickup,
+          "delivery" : delivery,
+          "timeUpdate": DateTime.now(),
+        })
+        .then((value) => print("Add data success"))
+        .catchError((error) => print("Faild : $error"));
+  }
+
 //-------------------------------------------------------------------------------------------------------------------
 //TODO : DELETE
 

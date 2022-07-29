@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../1_detail/product_textfield.dart';
+import '../../product_textfield.dart';
 
 class AddProduct_Setting extends StatefulWidget {
   AddProduct_Setting({
@@ -16,8 +16,8 @@ class AddProduct_Setting extends StatefulWidget {
 
   TextEditingController price = TextEditingController();
   TextEditingController amount = TextEditingController();
-  bool pickup;
-  bool delivery;
+  TextEditingController pickup = TextEditingController();
+  TextEditingController delivery = TextEditingController();
 
   @override
   State<AddProduct_Setting> createState() => _AddProduct_SettingState();
@@ -26,15 +26,20 @@ class AddProduct_Setting extends StatefulWidget {
 class _AddProduct_SettingState extends State<AddProduct_Setting> {
   //formkey = ตัวแสดงตัวแบบยูนืคของฟอร์มนี้
   final formKey = GlobalKey<ScaffoldState>();
-  var status_pickup;
+  bool pickupBool = false;
+  bool deliveryBool = false;
 
   //TODO : เมื่อกด Switch
-  onChangeStatus(bool newValue, String type) {
+  onChangeStatus(bool newValue, String type) async {
     setState(() {
       if (type == "เข้ามารับเอง") {
-        widget.pickup = newValue;
-      } else if (type == "รถขนส่งให้") {
-        widget.delivery = newValue;
+        pickupBool = newValue;
+        widget.pickup.text = "$newValue";
+        widget.delivery.text = "$deliveryBool";
+      } else if (type == "รถขนส่ง") {
+        deliveryBool = newValue;
+        widget.delivery.text = "$newValue";
+        widget.pickup.text = "$pickupBool";
       }
     });
   }
@@ -81,17 +86,17 @@ class _AddProduct_SettingState extends State<AddProduct_Setting> {
           Text("การนำส่งสินค้า", style: Roboto14_B_black),
           const SizedBox(height: 5.0),
 
-          //TODO 3. CheckList 1
+          //TODO 3. CheckList
           _buildCheckList(
             "เข้ามารับเอง",
-            widget.pickup,
-            const FaIcon(FontAwesomeIcons.handHoldingMedical),
+            pickupBool,
+            const FaIcon(FontAwesomeIcons.store),
             onChangeStatus,
           ),
           _buildCheckList(
             "รถขนส่ง",
-            widget.delivery,
-            const FaIcon(FontAwesomeIcons.handHoldingMedical),
+            deliveryBool,
+            const FaIcon(FontAwesomeIcons.truck),
             onChangeStatus,
           ),
         ],
@@ -116,8 +121,8 @@ class _AddProduct_SettingState extends State<AddProduct_Setting> {
       activeColor: const Color(0xFF00883C),
       onChanged: (value) {
         onChangeMethod(value, title);
-        print("picker = ${widget.pickup}");
-        print("delivery = ${widget.delivery}");
+        print("picker = ${pickupBool}");
+        print("delivery = ${deliveryBool}");
       },
     );
   }

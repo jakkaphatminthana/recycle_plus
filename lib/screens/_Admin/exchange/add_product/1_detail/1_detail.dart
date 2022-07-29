@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/models/varidator.dart';
-import 'package:recycle_plus/screens/_Admin/exchange/add_product/1_detail/product_textfield.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/product_textfield.dart';
 
 class AddProduct_detail extends StatefulWidget {
   AddProduct_detail({
@@ -92,6 +92,7 @@ class _AddProduct_detailState extends State<AddProduct_detail> {
     );
   }
 
+  //============================================================================================
   Widget _buildChoice({state, iconEZ}) {
     return ChoiceChip(
       label: Text(
