@@ -4,6 +4,7 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/ListProduct.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/add_product/add_product.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/edit_product/edit_product.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/exchange_more.dart';
 import 'package:recycle_plus/service/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,8 +23,6 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
   //firebase collection news
   final CollectionReference _collection =
       FirebaseFirestore.instance.collection('products');
-  final title = "ดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดดด";
-  final subtitle = "'สสสสสสสสสสสสสสสสสสสสสสสสสสสสสสสสสสส";
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +106,10 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
                                     Text("สินค้าล่าสุด",
                                         style: Roboto16_B_black),
                                     GestureDetector(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.pushNamed(context,
+                                            Admin_MoreProduct.routeName);
+                                      },
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -133,7 +135,8 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
                               //ได้ตัว Data มาละ ----------<<<
                               final String image = data.get("image");
                               final String title = data.get("name");
-                              final String description = data.get("description");
+                              final String description =
+                                  data.get("description");
                               final double token = data.get("token");
                               final int amount = data.get("amount");
 

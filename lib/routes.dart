@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/add_product/add_product.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/exchange_more.dart';
 import 'package:recycle_plus/screens/_Admin/member/member.dart';
 import 'package:recycle_plus/screens/_Admin/news/news.dart';
 import 'package:recycle_plus/screens/_Admin/news/news_add.dart';
@@ -42,5 +43,6 @@ final Map<String, WidgetBuilder> routes = {
   Admin_LogoSponsor.routeName:(context) => Admin_LogoSponsor(),
   Admin_TrashControl.routeName:(context) => Admin_TrashControl(),
   Admin_AddProduct.routeName:(context) => Admin_AddProduct(),
+  Admin_MoreProduct.routeName:(context) => Admin_MoreProduct(),
 
 };

@@ -32,7 +32,6 @@ class _AddProduct_detailState extends State<AddProduct_detail> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           //TODO 3. Head category
           Text("ประเภทสินค้า", style: Roboto14_B_black),
           const SizedBox(height: 5.0),
@@ -40,9 +39,9 @@ class _AddProduct_detailState extends State<AddProduct_detail> {
           //TODO 4. Choice category
           Row(
             children: [
-              _buildChoice(state: "Normal", iconEZ: Icons.circle),
-              const SizedBox(width: 10.0),
               _buildChoice(state: "Limited", iconEZ: Icons.star_rounded),
+              const SizedBox(width: 10.0),
+              _buildChoice(state: "Markable", iconEZ: Icons.recommend),
               const SizedBox(width: 10.0),
               _buildChoice(state: "NFT", iconEZ: Icons.panorama),
             ],

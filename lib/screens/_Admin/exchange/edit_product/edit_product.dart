@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/service/database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../../../components/font.dart';
@@ -26,19 +28,23 @@ class _Admin_editProductState extends State<Admin_editProduct> {
   //db = ติดต่อ firebase
   final _formKey = GlobalKey<FormState>();
   DatabaseEZ db = DatabaseEZ.instance;
+  bool? isloading = false;
 
   late TextEditingController TC_name;
   late TextEditingController TC_description;
   late TextEditingController TC_token;
   late TextEditingController TC_amount;
+  late TextEditingController TC_pickup;
+  late TextEditingController TC_delivery;
 
+  final CategoryList = ["Limited", "Markable", "NFT"];
   String? value_name;
   String? value_description;
   String? value_token;
   String? value_amount;
   String? value_category;
-  bool? value_pickup;
-  bool? value_delivery;
+  String? value_pickup;
+  String? value_delivery;
 
   //url รูปที่อัพโหลด
   File? value_image;
@@ -74,15 +80,16 @@ class _Admin_editProductState extends State<Admin_editProduct> {
   //TODO : เมื่อกด Switch
   onChangeStatus(bool newValue, String type) async {
     setState(() {
-      // if (type == "เข้ามารับเอง") {
-      //   pickupBool = newValue;
-      //   widget.pickup.text = "$newValue";
-      //   widget.delivery.text = "$deliveryBool";
-      // } else if (type == "รถขนส่ง") {
-      //   deliveryBool = newValue;
-      //   widget.delivery.text = "$newValue";
-      //   widget.pickup.text = "$pickupBool";
-      // }
+      if (type == "เข้ามารับเอง") {
+        value_pickup = "$newValue";
+        // widget.pickup.text = "$newValue";
+        // widget.delivery.text = "$deliveryBool";
+      } else if (type == "รถขนส่ง") {
+        value_delivery = "$newValue";
+        // value_delivery = newValue;
+        // widget.delivery.text = "$newValue";
+        // widget.pickup.text = "$pickupBool";
+      }
     });
   }
 
@@ -114,6 +121,14 @@ class _Admin_editProductState extends State<Admin_editProduct> {
         ? TextEditingController(text: "$amountFB") //ค่าเริ่มต้นตาม firebase
         : TextEditingController(text: value_amount); //ค่าที่กำลังป้อน
 
+    TC_pickup = (value_pickup == null)
+        ? TextEditingController(text: "$pickupFB") //ค่าเริ่มต้นตาม firebase
+        : TextEditingController(text: value_pickup); //ค่าที่กำลังป้อน
+
+    TC_delivery = (value_delivery == null)
+        ? TextEditingController(text: "$deliveryFB") //ค่าเริ่มต้นตาม firebase
+        : TextEditingController(text: value_delivery); //ค่าที่กำลังป้อน
+
     //=============================================================================================================
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -131,7 +146,38 @@ class _Admin_editProductState extends State<Admin_editProduct> {
                 color: Colors.white,
                 size: 33,
               ),
-              onPressed: () {},
+              onPressed: () async {
+                //TODO : Update Data
+                //เมื่อกรอกข้อมูลถูกต้อง
+                if (_formKey.currentState!.validate()) {
+                  //สั่งประมวลผลข้อมูลที่กรอก
+                  _formKey.currentState?.save();
+
+                  //ปรับค่าให้เป็นข้อมูลเดิม เนื่องจากไม่ได้ไปแก้ไขอะไร
+                  setState(() {
+                    (value_category == null)
+                        ? value_category = categoryFB
+                        : value_category;
+                    (value_pickup == null)
+                        ? value_pickup = "$pickupFB"
+                        : value_pickup;
+                    (value_delivery == null)
+                        ? value_delivery = "$deliveryFB"
+                        : value_delivery;
+                  });
+
+                  print("value_image = $value_image");
+                  print("value_name = $value_name");
+                  print("value_description = $value_description");
+                  print("value_category = $value_category");
+                  print("value_token = $value_token");
+                  print("value_amount = $value_amount");
+                  print("value_pickup = $value_pickup");
+                  print("value_delivery = $value_delivery");
+
+                  _showAlertDialogUpdate(context);
+                }
+              },
             ),
             IconButton(
               icon: const Icon(
@@ -139,7 +185,9 @@ class _Admin_editProductState extends State<Admin_editProduct> {
                 color: Colors.white,
                 size: 35,
               ),
-              onPressed: () {},
+              onPressed: () {
+                _showAlertDialogDelete(context);
+              },
             ),
           ],
         ),
@@ -160,25 +208,58 @@ class _Admin_editProductState extends State<Admin_editProduct> {
                         const SizedBox(height: 20.0),
                         //TODO 2: Image Uploade
                         _buildImage(imageFB),
-                        const SizedBox(height: 5.0),
+                        const SizedBox(height: 15.0),
 
                         //TODO 3: Category
-                        Center(child: _buildChoice(title: categoryFB),),
+                        Text("ประเภทสินค้า", style: Roboto14_B_black),
+                        const SizedBox(height: 5.0),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                          height: 45,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black, width: 1),
+                          ),
+                          child: //ลบเส้นออกใต้ออก
+                              DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                              //ทำให้แสดงข้อมูลที่ตั้งไว้
+                              hint: (categoryFB == null)
+                                  ? const Text("เลือกประเภทสินค้า")
+                                  : _buildListOption(categoryFB),
+                              style: Roboto14_black,
+                              value: value_category,
+                              isExpanded: true, //ทำให้กว้าง
+                              //รายการที่กดเลือกได้
+                              items: CategoryList.map(
+                                (value) => DropdownMenuItem(
+                                  value: value,
+                                  child: _buildListOption(value),
+                                ),
+                              ).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  value_category = value;
+                                });
+                                print("valueEZ = ${value_category}");
+                              },
+                            ),
+                          ),
+                        ),
                         const SizedBox(height: 15.0),
 
                         Text("การนำส่งสินค้า", style: Roboto14_B_black),
                         const SizedBox(height: 5.0),
-                        //TODO 8: CheckList
+
+                        //TODO 4: CheckList
                         _buildCheckList(
                           "เข้ามารับเอง",
-                          pickupFB,
+                          (TC_pickup.text == "true") ? true : false,
                           const FaIcon(FontAwesomeIcons.store),
                           onChangeStatus,
                         ),
-
                         _buildCheckList(
                           "รถขนส่ง",
-                          deliveryFB,
+                          (TC_delivery.text == "true") ? true : false,
                           const FaIcon(FontAwesomeIcons.truck),
                           onChangeStatus,
                         ),
@@ -187,7 +268,7 @@ class _Admin_editProductState extends State<Admin_editProduct> {
                         Text("รายละเอียดสินค้า", style: Roboto14_B_black),
                         const SizedBox(height: 20.0),
 
-                        //TODO 4: Name
+                        //TODO 5: Name
                         TextFormField(
                           controller: TC_name,
                           obscureText: false,
@@ -196,10 +277,13 @@ class _Admin_editProductState extends State<Admin_editProduct> {
                             'Product Name',
                             'ชื่อสินค้า',
                           ),
+                          validator: ValidatorEmpty,
+                          onChanged: (value) => value_name = value,
+                          onSaved: (value) => value_name = value,
                         ),
                         const SizedBox(height: 15.0),
 
-                        //TODO 5: Price
+                        //TODO 6: Price
                         TextFormField(
                           controller: TC_token,
                           keyboardType: TextInputType.number,
@@ -209,10 +293,13 @@ class _Admin_editProductState extends State<Admin_editProduct> {
                             'Price',
                             'กำหนดราคา เช่น 10.50',
                           ),
+                          validator: ValidatorEmpty,
+                          onChanged: (value) => value_token = value,
+                          onSaved: (value) => value_token = value,
                         ),
                         const SizedBox(height: 15.0),
 
-                        //TODO 6: Amount
+                        //TODO 7: Amount
                         TextFormField(
                           controller: TC_amount,
                           keyboardType: TextInputType.number,
@@ -225,10 +312,13 @@ class _Admin_editProductState extends State<Admin_editProduct> {
                             'Amount',
                             'จำนวนสินค้า เช่น 20',
                           ),
+                          validator: ValidatorEmpty,
+                          onChanged: (value) => value_amount = value,
+                          onSaved: (value) => value_amount = value,
                         ),
                         const SizedBox(height: 15.0),
 
-                        //TODO 7: Descirption
+                        //TODO 8: Descirption
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -250,6 +340,9 @@ class _Admin_editProductState extends State<Admin_editProduct> {
                                   'Description',
                                   'คำอธิบายของสินค้า',
                                 ),
+                                validator: ValidatorEmpty,
+                                onChanged: (value) => value_description = value,
+                                onSaved: (value) => value_description = value,
                               ),
                             ),
                           ],
@@ -273,7 +366,7 @@ class _Admin_editProductState extends State<Admin_editProduct> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        //TODO : Header Image
+        //Header Image
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -297,7 +390,7 @@ class _Admin_editProductState extends State<Admin_editProduct> {
         ),
         const SizedBox(height: 5.0),
 
-        //TODO : Upload Image
+        //Upload Image
         GestureDetector(
           onTap: () => pickImage(),
           child: Container(
@@ -376,6 +469,7 @@ class _Admin_editProductState extends State<Admin_editProduct> {
     );
   }
 
+  //TODO : CheckList
   Widget _buildCheckList(
       String title, bool status, FaIcon iconEZ, Function onChangeMethod) {
     return SwitchListTile(
@@ -393,9 +487,249 @@ class _Admin_editProductState extends State<Admin_editProduct> {
       activeColor: const Color(0xFF00883C),
       onChanged: (value) {
         onChangeMethod(value, title);
-        // print("picker = ${pickupBool}");
-        // print("delivery = ${deliveryBool}");
+        print("value = ${value}");
+        print("picker = ${value_pickup}");
+        print("delivery = ${value_delivery}");
       },
     );
+  }
+
+  //TODO : ทำให้ List Option แสดง Icon ได้
+  _buildListOption(option) {
+    return Row(
+      children: [
+        (option == "Limited")
+            ? Row(
+                children: [
+                  const Icon(Icons.star_rounded),
+                  const SizedBox(width: 7.0),
+                  Text(option, style: Roboto14_black),
+                ],
+              )
+            : (option == "Markable")
+                ? Row(
+                    children: [
+                      const Icon(Icons.recommend),
+                      const SizedBox(width: 7.0),
+                      Text(option, style: Roboto14_black),
+                    ],
+                  )
+                : Row(
+                    children: [
+                      const Icon(Icons.panorama),
+                      const SizedBox(width: 7.0),
+                      Text(option, style: Roboto14_black),
+                    ],
+                  ),
+      ],
+    );
+  }
+
+  //TODO : อัพโหลด ภาพลงใน Storage ใน firebase
+  uploadImage({gallery, image, img_name, uid}) async {
+    // กำหนด _storage ให้เก็บ FirebaseStorage (สโตเลท)
+    final _storage = FirebaseStorage.instance;
+    // เอา path ที่เราเลือกจากเครื่องมาเเปลงเป็น File เพื่อเอาไปอัพโหลดลงใน Storage ใน Firebase
+    var file = File(gallery);
+    // เช็คว่ามีภาพที่เลือกไหม
+    if (image != null) {
+      //Upload to Firebase
+      var snapshot = await _storage
+          .ref()
+          .child("images/products/$uid") //แหล่งเก็บภาพนี้
+          .putFile(file);
+      //เอาลิ้ง url จากภาพที่เราได้อัปโหลดไป เอาออกมากเก็บไว้ใน downloadUrl
+      var downloadURL = await snapshot.ref.getDownloadURL();
+      //ส่ง URL ของรูปภาพที่อัพโหลดขึ้น stroge แล้วไปใช้ต่อ
+      // print("downloadURL = ${downloadURL}");
+      return downloadURL;
+    } else {
+      return Text("ไม่พบรูปภาพ");
+    }
+  }
+
+  //TODO : Alert Dialog Update
+  _showAlertDialogUpdate(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel", style: Roboto16_B_gray),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget continueButton = FlatButton(
+      //TODO : UploadData to firebase--------------------------------------------------------------------------<<
+      child: Text("Continue", style: Roboto16_B_green),
+      onPressed: () async {
+        Navigator.of(context).pop();
+        _fetchData(context);
+
+        if (value_image != null) {
+          //TODO : uplode image at firestroge
+          var image_url = await uploadImage(
+            gallery: image_path,
+            image: image_file,
+            uid: widget.data!.get('id'),
+          );
+
+          //TODO : uploade data to firebase
+          await db
+              .updateProduct(
+            Id_product: widget.data!.get("id"),
+            imageURL: image_url,
+            name: value_name,
+            description: value_description,
+            category: value_category,
+            token: double.parse(value_token!),
+            amount: int.parse(value_amount!),
+            pickup: (value_pickup == "true") ? true : false,
+            delivery: (value_delivery == "true") ? true : false,
+          )
+              .then((value) {
+            setState(() {
+              //ไปหน้าของรางวัล
+              isloading = true;
+            });
+          }).catchError((err) => print("Update Faild"));
+        } else {
+          //TODO : uploade data to firebase
+          await db
+              .updateProduct(
+            Id_product: widget.data!.get("id"),
+            imageURL: widget.data!.get("image"),
+            name: value_name,
+            description: value_description,
+            category: value_category,
+            token: double.parse(value_token!),
+            amount: int.parse(value_amount!),
+            pickup: (value_pickup == "true") ? true : false,
+            delivery: (value_delivery == "true") ? true : false,
+          )
+              .then((value) {
+            setState(() {
+              //ไปหน้าของรางวัล
+              isloading = true;
+            });
+          }).catchError((err) => print("Update Faild"));
+        }
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("ยืนการแก้ไขข้อมูล"),
+      content: const Text("คุณต้องการแก้ไขข้อมูลนี้หรือไม่?"),
+      actions: [
+        continueButton,
+        cancelButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  //TODO : Loading Alert
+  void _fetchData(BuildContext context) async {
+    // show the loading dialog
+    showDialog(
+        // The user CANNOT close this dialog  by pressing outsite it
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return Dialog(
+            // The background color
+            backgroundColor: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  // The loading indicator
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  // Some text
+                  Text('Loading...')
+                ],
+              ),
+            ),
+          );
+        });
+    await Future.delayed(const Duration(seconds: 4));
+    //หากเพิ่มข้อมูลเสร็จแล้ว
+    (isloading == true)
+        ? Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Admin_TabbarHome(2), //หน้า Exchange
+            ),
+          )
+        : Navigator.of(context).pop();
+  }
+
+  //TODO : Alert Dialog Delete
+  _showAlertDialogDelete(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel", style: Roboto16_B_gray),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget deleteButton = FlatButton(
+      child: Text("Delete", style: Roboto16_B_red),
+      onPressed: () async {
+        await DeleteProduct(
+          imgURL: widget.data!.get('image'),
+          uid: widget.data!.get("id"),
+        );
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("ยืนการลบข้อมูล"),
+      content: const Text("คุณต้องการลบข้อมูลนี้หรือไม่?"),
+      actions: [
+        deleteButton,
+        cancelButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  //TODO : Delete Storage and Firebase
+  DeleteProduct({uid, imgURL}) async {
+    //1.Delete image in Storage
+    Reference photoRef = await FirebaseStorage.instance.refFromURL(imgURL);
+    await photoRef.delete().then((value) {
+      print("delete storage success");
+    }).catchError((error) => print("delete storage faild: $error"));
+
+    //2.Delete data in firebase
+    await db.deleteProduct(uid: uid).then((value) {
+      print("delete firebase success");
+      Navigator.of(context).pop();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Admin_TabbarHome(2), //หน้า Exchange
+        ),
+      );
+    }).catchError((error) => print("delete firebase faild: $error"));
   }
 }

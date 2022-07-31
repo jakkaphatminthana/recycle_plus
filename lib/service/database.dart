@@ -121,7 +121,7 @@ class DatabaseEZ {
         .catchError((error) => print("Failed to update news: $error"));
   }
 
-  //TODO : Update News
+  //TODO : Update Logo Sponsor
   Future<void> updateLogoSponsor({
     String? LogoID,
     String? imageURL,
@@ -164,6 +164,41 @@ class DatabaseEZ {
         );
       }).catchError((error) => print("Failed to update exp: $error"));
     }
+  }
+
+  //TODO : Update Logo Sponsor
+  Future<void> updateProduct({
+    String? Id_product,
+    String? imageURL,
+    String? name,
+    String? description,
+    String? category,
+    double? token,
+    int? amount,
+    bool? pickup,
+    bool? delivery,
+
+  }) {
+    final reference = FirebaseFirestore.instance.collection('products');
+
+    // print("ID = $Id_product");
+    // print("name = $name");
+
+    return reference
+        .doc(Id_product)
+        .update({
+          'image': imageURL,
+          'name': name,
+          'description': description,
+          'category': category,
+          'token': token,
+          'amount': amount,
+          'pickup': pickup,
+          'delivery': delivery,
+          'timeUpdate': DateTime.now(),
+        })
+        .then((value) => print("update product success"))
+        .catchError((error) => print("Failed to update product: $error"));
   }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -251,6 +286,7 @@ class DatabaseEZ {
 //-------------------------------------------------------------------------------------------------------------------
 //TODO : DELETE
 
+  //TODO : DELETE Logo
   Future deleteLogoSponsor({String? uid, BuildContext? context}) async {
     final reference = FirebaseFirestore.instance.collection('sponsor').doc();
 
@@ -259,6 +295,18 @@ class DatabaseEZ {
         .doc(uid)
         .delete()
         .then((value) => print("Delete Logo success"))
+        .catchError((error) => print("Delete Faild: $error"));
+  }
+
+  //TODO : DELETE Product
+  Future deleteProduct({String? uid}) async {
+    final reference = FirebaseFirestore.instance.collection('products').doc();
+
+    await FirebaseFirestore.instance
+        .collection('products')
+        .doc(uid)
+        .delete()
+        .then((value) => print("Delete success"))
         .catchError((error) => print("Delete Faild: $error"));
   }
 }
