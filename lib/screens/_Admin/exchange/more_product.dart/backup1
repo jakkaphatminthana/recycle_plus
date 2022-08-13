@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+import 'package:recycle_plus/components/font.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/more_product.dart/product_search.dart';
+import 'package:recycle_plus/service/database.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
+class Admin_MoreProduct extends StatefulWidget {
+  const Admin_MoreProduct({Key? key}) : super(key: key);
+  //Location page
+  static String routeName = "/Admin_ExchangeMoreProduct";
+
+  @override
+  State<Admin_MoreProduct> createState() => _Admin_MoreProductState();
+}
+
+class _Admin_MoreProductState extends State<Admin_MoreProduct> {
+  //เรียก firebase database
+  DatabaseEZ db = DatabaseEZ.instance;
+
+  @override
+  Widget build(BuildContext context) {
+    Icon customIcon1 = const Icon(Icons.search);
+    Icon customIcon2 = const Icon(Icons.filter_list_outlined);
+    bool backIcon = true;
+    //======================================================================================
+    return Scaffold(
+      //TODO 1. Appbar Headder
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF00883C),
+        automaticallyImplyLeading: backIcon,
+        centerTitle: true,
+        title: Text("รายการสินค้า", style: Roboto16_B_white),
+        //Icon Menu ทางขวาสุด
+        actions: [
+          IconButton(
+            icon: customIcon1,
+            //กดปุ่มค้นหาแล้วทำอะไรต่อ....
+            onPressed: () {
+              //Navigator.pushNamed(context, Admin_MemberSearch.routeName);
+              //showSearch(context: context, delegate: Member_Search());
+              showSearch(context: context, delegate: Admin_ProductSearch());
+            },
+          ),
+          IconButton(
+            icon: customIcon2,
+            onPressed: () {},
+          ),
+        ],
+      ),
+      //---------------------------------------------------------------------------
+      body: Column(
+        children: [],
+      ),
+    );
+  }
+}
+

@@ -4,7 +4,8 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/ListProduct.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/add_product/add_product.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/edit_product/edit_product.dart';
-import 'package:recycle_plus/screens/_Admin/exchange/exchange_more.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/more_product.dart/exchange_more.dart';
+import 'package:recycle_plus/screens/test/test_showdata.dart';
 import 'package:recycle_plus/service/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,9 +21,11 @@ class Admin_Exchange extends StatefulWidget {
 class _Admin_ExchangeState extends State<Admin_Exchange> {
   //เรียก firebase database
   DatabaseEZ db = DatabaseEZ.instance;
-  //firebase collection news
+  //firebase collection products
   final CollectionReference _collection =
       FirebaseFirestore.instance.collection('products');
+  //จำนวนของ product ที่แสดง
+  var limitLoad = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +35,13 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
+            //TODO : Stream Database Snapshot { liimt: 10 item, sortby: date }
             child: StreamBuilder<QuerySnapshot>(
-              stream: _collection.snapshots().asBroadcastStream(),
+              stream: _collection
+                  .limit(limitLoad)
+                  .orderBy('timeUpdate', descending: true)
+                  .snapshots()
+                  .asBroadcastStream(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
@@ -135,6 +143,7 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
                               //ได้ตัว Data มาละ ----------<<<
                               final String image = data.get("image");
                               final String title = data.get("name");
+                              final String category = data.get("category");
                               final String description =
                                   data.get("description");
                               final double token = data.get("token");
@@ -148,6 +157,7 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
                                 subtitle: description,
                                 token: "$token",
                                 amount: "$amount",
+                                category: category,
                                 press: () {
                                   //ไปหน้าแก้ไขโดยที่ ส่งค่าข้อมูลไปด้วย
                                   Navigator.push(

@@ -311,3 +311,9 @@ final Roboto12_black = GoogleFonts.getFont(
   fontSize: 12,
   color: Colors.black,
 );
+
+final Roboto12_red = GoogleFonts.getFont(
+  'Roboto',
+  fontSize: 12,
+  color: Colors.redAccent,
+);

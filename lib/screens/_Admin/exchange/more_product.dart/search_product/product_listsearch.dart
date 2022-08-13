@@ -3,24 +3,20 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:intl/intl.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ListProduct extends StatelessWidget {
-  const ListProduct({
+class ListProductSearch extends StatelessWidget {
+  const ListProductSearch({
     Key? key,
     required this.imageURL,
     required this.title,
-    required this.subtitle,
     required this.token,
     required this.amount,
     required this.press,
-    required this.category,
   }) : super(key: key);
 
   final String imageURL;
   final String title;
-  final String subtitle;
   final String token;
   final String amount;
-  final String category;
   final GestureTapCallback press;
 
   @override
@@ -98,12 +94,6 @@ class ListProduct extends StatelessWidget {
                                     : title,
                                 style: Roboto16_B_greenB,
                               ),
-                              Text(
-                                (subtitle.length > 30)
-                                    ? subtitle.substring(0, 30) + "..."
-                                    : subtitle,
-                                style: Roboto14_black,
-                              ),
                               const SizedBox(height: 7.0),
 
                               //TODO 2.4 Amout and Price
@@ -155,17 +145,11 @@ class ListProduct extends StatelessWidget {
                   Container(
                     width: MediaQuery.of(context).size.width * 0.08,
                     height: MediaQuery.of(context).size.height * 1,
-                    child: (category == "Limited")
-                        ? const Icon(
-                            Icons.star_rounded,
-                            size: 30,
-                            color: Colors.black,
-                          )
-                        : const Icon(
-                            Icons.panorama,
-                            size: 25,
-                            color: Colors.black,
-                          ),
+                    child: const Icon(
+                      Icons.arrow_forward,
+                      color: Colors.black,
+                      size: 26,
+                    ),
                   ),
                 ],
               ),

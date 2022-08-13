@@ -41,8 +41,8 @@ class _AddProduct_detailState extends State<AddProduct_detail> {
             children: [
               _buildChoice(state: "Limited", iconEZ: Icons.star_rounded),
               const SizedBox(width: 10.0),
-              _buildChoice(state: "Markable", iconEZ: Icons.recommend),
-              const SizedBox(width: 10.0),
+              // _buildChoice(state: "Markable", iconEZ: Icons.recommend),
+              // const SizedBox(width: 10.0),
               _buildChoice(state: "NFT", iconEZ: Icons.panorama),
             ],
           ),
