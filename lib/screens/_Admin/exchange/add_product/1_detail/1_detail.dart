@@ -10,11 +10,13 @@ class AddProduct_detail extends StatefulWidget {
     required this.categoryEZ,
     required this.name,
     required this.description,
+    required this.recommend,
   }) : super(key: key);
 
   TextEditingController categoryEZ = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController description = TextEditingController();
+  TextEditingController recommend = TextEditingController();
 
   @override
   State<AddProduct_detail> createState() => _AddProduct_detailState();
@@ -23,6 +25,7 @@ class AddProduct_detail extends StatefulWidget {
 class _AddProduct_detailState extends State<AddProduct_detail> {
   //formkey = ตัวแสดงตัวแบบยูนืคของฟอร์มนี้
   final formKey = GlobalKey<ScaffoldState>();
+  var check_recom = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +35,39 @@ class _AddProduct_detailState extends State<AddProduct_detail> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //TODO 3. Head category
+          //TODO 1. Head recommend
+          Text("จัดเรียงสินค้า", style: Roboto14_B_black),
+          const SizedBox(height: 5.0),
+
+          //TODO 2. Checkbox recommend
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Transform.scale(
+                scale: 1.3,
+                child: Checkbox(
+                  value: check_recom,
+                  activeColor: const Color(0xFF00883C),
+                  onChanged: (checked) {
+                    setState(() {
+                      check_recom = checked!;
+                      widget.recommend.text = "$checked";
+                    });
+                  },
+                ),
+              ),
+              const Icon(Icons.favorite),
+              const SizedBox(width: 5.0),
+              Text("สินค้าแนะนำ", style: Roboto14_B_blackw500),
+            ],
+          ),
+          const SizedBox(height: 5.0),
+
+          //TODO 1. Head category
           Text("ประเภทสินค้า", style: Roboto14_B_black),
           const SizedBox(height: 5.0),
 
-          //TODO 4. Choice category
+          //TODO 2. Choice category
           Row(
             children: [
               _buildChoice(state: "Limited", iconEZ: Icons.star_rounded),
@@ -48,7 +79,7 @@ class _AddProduct_detailState extends State<AddProduct_detail> {
           ),
           const SizedBox(height: 25.0),
 
-          //TODO 5. Input Name Product
+          //TODO 3. Input Name Product
           TextFormField(
             controller: widget.name,
             obscureText: false,
@@ -60,7 +91,7 @@ class _AddProduct_detailState extends State<AddProduct_detail> {
           ),
           const SizedBox(height: 20.0),
 
-          //TODO 5. Input Name Product
+          //TODO 4. Input Name Product
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

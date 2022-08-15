@@ -36,8 +36,9 @@ class _Admin_editProductState extends State<Admin_editProduct> {
   late TextEditingController TC_amount;
   late TextEditingController TC_pickup;
   late TextEditingController TC_delivery;
+  late TextEditingController TC_recommend;
 
-  final CategoryList = ["Limited", "Markable", "NFT"];
+  final CategoryList = ["Limited", "NFT"];
   String? value_name;
   String? value_description;
   String? value_token;
@@ -45,6 +46,7 @@ class _Admin_editProductState extends State<Admin_editProduct> {
   String? value_category;
   String? value_pickup;
   String? value_delivery;
+  String? value_recommend;
 
   //url รูปที่อัพโหลด
   File? value_image;
@@ -103,6 +105,7 @@ class _Admin_editProductState extends State<Admin_editProduct> {
     var amountFB = widget.data!.get("amount");
     var pickupFB = widget.data!.get("pickup");
     var deliveryFB = widget.data!.get("delivery");
+    var recommendFB = widget.data!.get("recommend");
 
     //กำหนดค่าเริ่มต้นของ textfield ให้แสดงเป็นไปตามข้อมูล firebase
     TC_name = (value_name == null)
@@ -128,6 +131,10 @@ class _Admin_editProductState extends State<Admin_editProduct> {
     TC_delivery = (value_delivery == null)
         ? TextEditingController(text: "$deliveryFB") //ค่าเริ่มต้นตาม firebase
         : TextEditingController(text: value_delivery); //ค่าที่กำลังป้อน
+
+    TC_recommend = (value_recommend == null)
+        ? TextEditingController(text: "$recommendFB") //ค่าเริ่มต้นตาม firebase
+        : TextEditingController(text: value_recommend); //ค่าที่กำลังป้อน
 
     //=============================================================================================================
     return GestureDetector(
@@ -164,6 +171,9 @@ class _Admin_editProductState extends State<Admin_editProduct> {
                     (value_delivery == null)
                         ? value_delivery = "$deliveryFB"
                         : value_delivery;
+                    (value_recommend == null)
+                        ? value_recommend = "$recommendFB"
+                        : value_recommend;
                   });
 
                   print("value_image = $value_image");
@@ -174,6 +184,7 @@ class _Admin_editProductState extends State<Admin_editProduct> {
                   print("value_amount = $value_amount");
                   print("value_pickup = $value_pickup");
                   print("value_delivery = $value_delivery");
+                  print("value_recommend = $value_recommend");
 
                   _showAlertDialogUpdate(context);
                 }
@@ -247,10 +258,38 @@ class _Admin_editProductState extends State<Admin_editProduct> {
                         ),
                         const SizedBox(height: 15.0),
 
-                        Text("การนำส่งสินค้า", style: Roboto14_B_black),
+                        //TODO 3: Recommend
+                        Text("จัดเรียงสินค้า", style: Roboto14_B_black),
+                        const SizedBox(height: 5.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Transform.scale(
+                              scale: 1.3,
+                              child: Checkbox(
+                                value: (value_recommend == null)
+                                    ? recommendFB
+                                    : (value_recommend == "true")
+                                        ? true
+                                        : false,
+                                activeColor: const Color(0xFF00883C),
+                                onChanged: (checked) {
+                                  setState(() {
+                                    value_recommend = "$checked";
+                                  });
+                                },
+                              ),
+                            ),
+                            const Icon(Icons.favorite),
+                            const SizedBox(width: 5.0),
+                            Text("สินค้าแนะนำ", style: Roboto14_B_blackw500),
+                          ],
+                        ),
                         const SizedBox(height: 5.0),
 
                         //TODO 4: CheckList
+                        Text("การนำส่งสินค้า", style: Roboto14_B_black),
+                        const SizedBox(height: 5.0),
                         _buildCheckList(
                           "เข้ามารับเอง",
                           (TC_pickup.text == "true") ? true : false,
@@ -451,24 +490,6 @@ class _Admin_editProductState extends State<Admin_editProduct> {
     );
   }
 
-  //TODO : Choice Category
-  Widget _buildChoice({title}) {
-    return ChoiceChip(
-      label: Text(title, style: Roboto14_B_white),
-      avatar: Icon(
-        (title == "Limited") ? Icons.star_rounded : Icons.panorama,
-        color: Colors.white,
-      ),
-      backgroundColor: Colors.white,
-      disabledColor: Colors.white,
-      selectedColor: const Color(0xFF00883C),
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-      elevation: 2,
-      selected: true,
-      onSelected: (value) {},
-    );
-  }
-
   //TODO : CheckList
   Widget _buildCheckList(
       String title, bool status, FaIcon iconEZ, Function onChangeMethod) {
@@ -506,21 +527,13 @@ class _Admin_editProductState extends State<Admin_editProduct> {
                   Text(option, style: Roboto14_black),
                 ],
               )
-            : (option == "Markable")
-                ? Row(
-                    children: [
-                      const Icon(Icons.recommend),
-                      const SizedBox(width: 7.0),
-                      Text(option, style: Roboto14_black),
-                    ],
-                  )
-                : Row(
-                    children: [
-                      const Icon(Icons.panorama),
-                      const SizedBox(width: 7.0),
-                      Text(option, style: Roboto14_black),
-                    ],
-                  ),
+            : Row(
+                children: [
+                  const Icon(Icons.panorama),
+                  const SizedBox(width: 7.0),
+                  Text(option, style: Roboto14_black),
+                ],
+              ),
       ],
     );
   }
@@ -584,6 +597,7 @@ class _Admin_editProductState extends State<Admin_editProduct> {
             amount: int.parse(value_amount!),
             pickup: (value_pickup == "true") ? true : false,
             delivery: (value_delivery == "true") ? true : false,
+            recommend: (value_recommend == "true") ? true : false,
           )
               .then((value) {
             setState(() {
@@ -604,6 +618,7 @@ class _Admin_editProductState extends State<Admin_editProduct> {
             amount: int.parse(value_amount!),
             pickup: (value_pickup == "true") ? true : false,
             delivery: (value_delivery == "true") ? true : false,
+            recommend: (value_recommend == "true") ? true : false,
           )
               .then((value) {
             setState(() {

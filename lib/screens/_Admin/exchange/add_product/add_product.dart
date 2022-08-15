@@ -44,6 +44,7 @@ class _Admin_AddProductState extends State<Admin_AddProduct> {
   TextEditingController amount = TextEditingController();
   TextEditingController pickup = TextEditingController();
   TextEditingController delivery = TextEditingController();
+  TextEditingController recommend = TextEditingController();
 
 //------------------------------------------------------------------------------------------------------------------
   //TODO 1. Stepper
@@ -64,6 +65,7 @@ class _Admin_AddProductState extends State<Admin_AddProduct> {
                 name: name,
                 categoryEZ: category,
                 description: description,
+                recommend: recommend,
               ),
             ],
           ),
@@ -102,6 +104,7 @@ class _Admin_AddProductState extends State<Admin_AddProduct> {
                 amount: amount,
                 pickup: pickup,
                 delivery: delivery,
+                recommend: recommend,
               ),
             ],
           ),
@@ -411,6 +414,7 @@ class _Admin_AddProductState extends State<Admin_AddProduct> {
           var amountInt = int.parse(amount.text);
           var pickupBool = (pickup.text == "true") ? true : false;
           var deliveryBool = (delivery.text == "true") ? true : false;
+          var recommendBool = (recommend.text == "true") ? true : false;
 
           Navigator.of(context).pop();
           _fetchData(context);
@@ -435,6 +439,7 @@ class _Admin_AddProductState extends State<Admin_AddProduct> {
             amount: amountInt,
             pickup: pickupBool,
             delivery: deliveryBool,
+            recommend: recommendBool,
           )
               .then((value) {
             setState(() {

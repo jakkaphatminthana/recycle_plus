@@ -12,6 +12,7 @@ class AddProduct_Confrim extends StatefulWidget {
     required this.amount,
     required this.pickup,
     required this.delivery,
+    required this.recommend,
   }) : super(key: key);
 
   TextEditingController category = TextEditingController();
@@ -21,6 +22,7 @@ class AddProduct_Confrim extends StatefulWidget {
   TextEditingController amount = TextEditingController();
   TextEditingController pickup = TextEditingController();
   TextEditingController delivery = TextEditingController();
+  TextEditingController recommend = TextEditingController();
 
   @override
   State<AddProduct_Confrim> createState() => _AddProduct_ConfrimState();
@@ -65,23 +67,28 @@ class _AddProduct_ConfrimState extends State<AddProduct_Confrim> {
                   ),
                 ],
               ),
-
-              //TODO 3: Price
+              //TODO 3: Recommend
               Padding(
                 padding: const EdgeInsets.only(top: 30.0),
+                child: _buildValue(title: "สินค้าแนะนำ", value: widget.recommend.text),
+              ),
+
+              //TODO 4: Price
+              Padding(
+                padding: const EdgeInsets.only(top: 55.0),
                 child: _buildValue(title: "ราคา", value: widget.price.text),
               ),
 
-              //TODO 4: Amount
+              //TODO 5: Amount
               Padding(
-                padding: const EdgeInsets.only(top: 55.0),
+                padding: const EdgeInsets.only(top: 80.0),
                 child: _buildValue(title: "จำนวน", value: widget.amount.text),
               ),
             ],
           ),
           const SizedBox(height: 20.0),
 
-          //TODO 5: รายละเอียด
+          //TODO 6: รายละเอียด
           Text("รายละเอียดสินค้า", style: Roboto16_B_black),
           const SizedBox(height: 5.0),
           const Divider(
@@ -91,7 +98,7 @@ class _AddProduct_ConfrimState extends State<AddProduct_Confrim> {
           ),
           const SizedBox(height: 5.0),
 
-          //TODO 6: Name
+          //TODO 7: Name
           // _buildValue(title: "ชื่อสินค้า", value: widget.name.text),
           (widget.name.text.length <= 25)
               //1. ข้อมูลไม่ยาวเกินไป
@@ -116,7 +123,7 @@ class _AddProduct_ConfrimState extends State<AddProduct_Confrim> {
                   ],
                 ),
 
-          //TODO 7: Descirption
+          //TODO 8: Descirption
           (widget.description.text.length <= 25)
               //1. ข้อมูลไม่ยาวเกินไป
               ? _buildValue(title: "คำอธิบาย", value: widget.description.text)

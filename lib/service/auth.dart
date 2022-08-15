@@ -125,6 +125,10 @@ class AuthService {
         "role": "Member",
         "verify": false,
         "address": "",
+        "token": 0.0,
+        "exp": 1.0,
+        "level": 1,
+        "bonus": 1.0,
         "image":
             "https://firebasestorage.googleapis.com/v0/b/recycleplus-feecd.appspot.com/o/images%2Fuser.png?alt=media&token=70f2d6d9-e17a-40fa-b04f-71e7f6ab14f6",
       });
@@ -132,4 +136,19 @@ class AuthService {
       print("Error create profile faild : $e");
     }
   }
+
+  // //TODO 6.2 Add User to Achievement collection
+  // Future Add_UserToAchievement({String? id_user}) async {
+  //   await FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc(id_user)
+  //       .collection('/achievement')
+  //       .add(
+  //         {
+
+  //         },
+  //       )
+  //       .then((value) => print("create profile Achievement success"))
+  //       .catchError((e) => print("error profile Achievement faild"));
+  // }
 }

@@ -166,7 +166,7 @@ class DatabaseEZ {
     }
   }
 
-  //TODO : Update Logo Sponsor
+  //TODO : Update Product
   Future<void> updateProduct({
     String? Id_product,
     String? imageURL,
@@ -177,6 +177,7 @@ class DatabaseEZ {
     int? amount,
     bool? pickup,
     bool? delivery,
+    bool? recommend,
 
   }) {
     final reference = FirebaseFirestore.instance.collection('products');
@@ -195,6 +196,7 @@ class DatabaseEZ {
           'amount': amount,
           'pickup': pickup,
           'delivery': delivery,
+          'recommend': recommend,
           'timeUpdate': DateTime.now(),
         })
         .then((value) => print("update product success"))
@@ -258,7 +260,8 @@ class DatabaseEZ {
     double? token,
     int? amount,
     bool? pickup,
-    bool? delivery
+    bool? delivery,
+    bool? recommend,
     
   }) async {
     final reference = FirebaseFirestore.instance.collection('products').doc();
@@ -277,6 +280,7 @@ class DatabaseEZ {
           "amount" : amount,
           "pickup" : pickup,
           "delivery" : delivery,
+          "recommend" : recommend,
           "timeUpdate": DateTime.now(),
         })
         .then((value) => print("Add data success"))
