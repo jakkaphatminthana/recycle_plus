@@ -22,11 +22,13 @@ import 'package:recycle_plus/screens/success/welcome.dart';
 import 'package:recycle_plus/screens/success/success_register.dart';
 import 'package:recycle_plus/screens/success/verify_email.dart';
 import 'package:recycle_plus/screens/test/test_MutiAddData.dart';
+import 'package:recycle_plus/screens/test/test_blockchain.dart';
 import 'package:recycle_plus/screens/test/test_showdata.dart';
 
 final Map<String, WidgetBuilder> routes = {
   Test1_listData.routeName: (context) => Test1_listData(),
   Test_MutiData.routeName:(context) => Test_MutiData(),
+  Test_Blockchian.routeName:(context) => Test_Blockchian(),
   
   StartScreen.routeName: (context) => StartScreen(),
   LoginScreen.routeName: (context) => LoginScreen(),
