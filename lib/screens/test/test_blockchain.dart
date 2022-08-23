@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/blockchain/dialog_help.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:flutter_web3/flutter_web3.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
+import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
 
 class Test_Blockchian extends StatefulWidget {
-  const Test_Blockchian({Key? key}) : super(key: key);
+  Test_Blockchian({
+    Key? key,
+    required this.connector,
+    required this.session,
+  }) : super(key: key);
   //Location page
   static String routeName = "/TestBlockchain";
+
+  WalletConnect connector;
+  final session;
 
   @override
   State<Test_Blockchian> createState() => _Test_BlockchianState();
@@ -22,33 +30,44 @@ class _Test_BlockchianState extends State<Test_Blockchian> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Center(
-        child: Column(
-          children: [
-            const SizedBox(height: 20.0),
-            //TODO : Connect Wallet
-            Text("asdasdasdasd"),
-            TextButton(
-              child: Text("Connect Wallet", style: Roboto16_B_green),
-              onPressed: () async {
-                //มีตัว MetaMask อยู่ในเครื่องไหม
-                if (ethereum == null) {
-                  showDialogError(
-                      context: context, message: "You don't have MetaMask");
-                  return;
-                }
-                //account
-                final accounts = await ethereum!.requestAccount();
-                setState(() {
-                  _account = accounts[0];
-                });
-              },
-            ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20.0),
+          //TODO : Connect Wallet
+          Text("My Wallet", style: Roboto16_B_black),
+          const SizedBox(height: 30.0),
 
-            //TODO : Show Data
-            Text(_account, style: Roboto16_black),
-          ],
-        ),
+          Text('Sesstion', style: Roboto12_B_black),
+          Text('${widget.session}'),
+          const SizedBox(height: 20.0),
+
+          Text('Connector.connected', style: Roboto12_B_black),
+          Text('${widget.connector.connected}'),
+          const SizedBox(height: 10.0),
+
+          Text('Connector.address', style: Roboto12_B_black),
+          Text('${widget.connector.session.accounts[0]}'),
+          const SizedBox(height: 10.0),
+
+          Text('Connector.sessionStorage', style: Roboto12_B_black),
+          Text('${widget.connector.sessionStorage?.getSession()}'),
+          const SizedBox(height: 50.0),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                child: const Text("Kill Session"),
+                onPressed: () async {
+                  widget.connector.killSession();
+                  widget.connector.sessionStorage?.removeSession();
+                },
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

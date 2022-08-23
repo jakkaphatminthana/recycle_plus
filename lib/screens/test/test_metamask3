@@ -5,6 +5,9 @@ import 'package:web3dart/web3dart.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:algorand_dart/algorand_dart.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+//import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Test_MetaMask extends StatefulWidget {
   const Test_MetaMask({Key? key}) : super(key: key);
@@ -16,100 +19,107 @@ class Test_MetaMask extends StatefulWidget {
 }
 
 class _Test_MetaMaskState extends State<Test_MetaMask> {
-  User? user = FirebaseAuth.instance.currentUser;
-  WalletConnectSecureStorage sessionStorage = WalletConnectSecureStorage();
+  //Wallet Object
 
-  //TODO : เชื่อมต่อ wallet ผ่านตัว walletconnect.org
-  var connector = WalletConnect(
-      bridge: 'https://bridge.walletconnect.org',
-      clientMeta: const PeerMeta(
-          name: 'Recycle+',
-          description: 'Connect application for lightWallet',
-          url: 'https://walletconnect.org',
-          icons: [
-            'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
-          ]));
+  late WalletConnect connector;
+  String _account = '';
 
-  //ตัวแปรที่ใช้ตัวสอบการเชื่อมต่อ Wallet
-  var sessionStrorage;
-  var session;
+  //ตัวแปรที่ใช้เก็บเฉยๆ
   var _session;
   var _uri;
   var _signature;
-  
 
   //TODO : เชื่อมต่อ Wallet (Create new session)
-  loginUsingMetaMask(BuildContext context) async {
+  createSession(BuildContext context) async {
     //1. ได้เชื่อมต่อ wallet หรือยัง?
     if (!connector.connected) {
       try {
         //1.1 Create a new session
         //  * onDisplayUri = bridge: 'https://bridge.walletconnect.org'
         //  * bridge.walletconnect.org = ศูนย์กลางของ wallet มากมายที่สามารถเชื่อมต่อกับ bloackchain ได้
-        session = await connector.createSession(onDisplayUri: (uri) async {
-          _uri = uri;
-          // print("connector = $connector");
-          // print("connector.connected = ${connector.connected}");
-          // print("uri = $uri");
-
-          //1.2 เรียกเปิด app wallet ที่ต้องการใช้เชื่อม
-          await launchUrlString(uri, mode: LaunchMode.externalApplication);
-        });
-        setState(() {
-          _session = session;
-        });
+        final session = await connector.createSession(
+            chainId: 4,
+            onDisplayUri: (uri) async {
+              _uri = uri;
+              //1.2 เรียกเปิด app wallet ที่ต้องการใช้เชื่อม
+              await launchUrlString(uri, mode: LaunchMode.externalApplication);
+            });
+        print("Connect Session: $session");
       } catch (err) {
-        print("MetaMask Error: $err");
+        print("Connect Error: $err");
       }
     }
   }
 
-  @override
-  void initState() async {
-    super.initState();
-    //TODO : เช็คสถานะ Wallet
+  //TODO : User Wallet
+  Future initWalletConnect() async {
+    // Define a session storage
+    final sessionStorage = WalletConnectSecureStorage();
+    final session = await sessionStorage.getSession();
+
+    //เชื่อมต่อ wallet ผ่านตัว walletconnect.org
+    var connector = WalletConnect(
+      bridge: 'https://bridge.walletconnect.org',
+      session: session,
+      sessionStorage: sessionStorage,
+      clientMeta: const PeerMeta(
+          name: 'Recycle+',
+          description: 'Connect application for lightWallet',
+          url: 'https://walletconnect.org',
+          icons: [
+            'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
+          ]),
+    );
+    //set address 
+    setState(() {
+      _account = session?.accounts.first ?? '';
+    });
+
+    //show address เมื่อเชื่อมต่อเรียบร้อย
     connector.registerListeners(
       onConnect: (status) {
-        print("Status Wallet = $status");
-      },
-      onDisconnect: () {
-        print("Status Wallet = Disconnect");
+        setState(() {
+          _account = status.accounts[0];
+        });
       },
     );
+
+    print("_account = $_account");
+    print("session = $session");
+    print("sessionStorage = $sessionStorage");
+    print("connector.connected = ${connector.connected}");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initWalletConnect();
   }
 
   //-------------------------------------------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    //เชื่อมต่อ (event, callback)
-    connector.on(
-      'connect',
-      (session) => setState(() {
-        _session = _session;
-      }),
-    );
+    //TODO : Event Subscribe
 
-    //ปรับเปลี่ยน session (event, callback)
-    connector.on(
-      'session_update',
-      (payload) => setState(() {
-        _session = payload;
-        print("session.accounts[0] = ${session.accounts[0]}");
-        print("session.chainID = ${session.chainId}");
-      }),
-    );
-
-    //ตัดการเชื่อต่อ (event, callback)
-    connector.on(
-      'disconnect',
-      (payload) => setState(() {
-        _session = null;
-      }),
-    );
+    // //เชื่อมต่อ (event, callback)
+    // connector.on(
+    //   'connect',
+    //   (session) => print('event conecnt: $session'),
+    // );
+    // //ปรับเปลี่ยน session (event, callback)
+    // connector.on(
+    //   'session_update',
+    //   (payload) => print('event update: $payload'),
+    // );
+    // //ตัดการเชื่อต่อ (event, callback)
+    // connector.on(
+    //   'disconnect',
+    //   (payload) => print('event disconnect: $payload'),
+    // );
     //==============================================================================================================
     return Scaffold(
       //TODO 1: กรณียังไม่เชื่อมต่อ Wallet
-      body: (_session == null)
+      body: (_account == '')
           ? Stack(
               children: [
                 Container(
@@ -170,13 +180,8 @@ class _Test_MetaMaskState extends State<Test_MetaMask> {
                                 ElevatedButton(
                                   child: const Text('Create Wallet'),
                                   onPressed: () async {
-                                    await loginUsingMetaMask(context);
-                                    print(
-                                        "session.accounts[0] = ${session.accounts[0]}");
-                                    print(
-                                        "session.chainID = ${session.chainId}");
-                                    print("session = $session");
-                                    print("_session = $_session");
+                                    await createSession(context);
+                                    print("_account = $_account");
                                     print("_uri = $_uri");
                                     print("_signature = $_signature");
                                   },

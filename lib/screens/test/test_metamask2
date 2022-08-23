@@ -5,6 +5,7 @@ import 'package:web3dart/web3dart.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Test_MetaMask extends StatefulWidget {
   const Test_MetaMask({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class Test_MetaMask extends StatefulWidget {
 
 class _Test_MetaMaskState extends State<Test_MetaMask> {
   User? user = FirebaseAuth.instance.currentUser;
-  WalletConnectSecureStorage sessionStorage = WalletConnectSecureStorage();
+  final sessionStorage = WalletConnectSecureStorage();
 
   //TODO : เชื่อมต่อ wallet ผ่านตัว walletconnect.org
   var connector = WalletConnect(
@@ -31,12 +32,10 @@ class _Test_MetaMaskState extends State<Test_MetaMask> {
           ]));
 
   //ตัวแปรที่ใช้ตัวสอบการเชื่อมต่อ Wallet
-  var sessionStrorage;
   var session;
   var _session;
   var _uri;
   var _signature;
-  
 
   //TODO : เชื่อมต่อ Wallet (Create new session)
   loginUsingMetaMask(BuildContext context) async {
@@ -64,28 +63,16 @@ class _Test_MetaMaskState extends State<Test_MetaMask> {
     }
   }
 
-  @override
-  void initState() async {
-    super.initState();
-    //TODO : เช็คสถานะ Wallet
-    connector.registerListeners(
-      onConnect: (status) {
-        print("Status Wallet = $status");
-      },
-      onDisconnect: () {
-        print("Status Wallet = Disconnect");
-      },
-    );
-  }
-
   //-------------------------------------------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
+    //TODO : Event Subscribe
     //เชื่อมต่อ (event, callback)
     connector.on(
       'connect',
       (session) => setState(() {
         _session = _session;
+        print('event conecnt: $session');
       }),
     );
 
@@ -94,8 +81,7 @@ class _Test_MetaMaskState extends State<Test_MetaMask> {
       'session_update',
       (payload) => setState(() {
         _session = payload;
-        print("session.accounts[0] = ${session.accounts[0]}");
-        print("session.chainID = ${session.chainId}");
+        print('event update: $session');
       }),
     );
 
@@ -104,6 +90,7 @@ class _Test_MetaMaskState extends State<Test_MetaMask> {
       'disconnect',
       (payload) => setState(() {
         _session = null;
+        print('event disconnect: $session');
       }),
     );
     //==============================================================================================================
