@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/wallet_card.dart';
-import 'package:recycle_plus/screens/_NoLogin/profile/card_menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
+
+import 'card_menu.dart';
 
 class Member_ProfileScreen extends StatefulWidget {
   //Location Page

@@ -4,8 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:recycle_plus/models/user_model.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
-import 'package:recycle_plus/screens/_NoLogin/tabbar_control.dart';
 import 'package:recycle_plus/service/database.dart';
+
+import '../_User/tabbar_control.dart';
 
 class LoginSuccess extends StatefulWidget {
   //Location page

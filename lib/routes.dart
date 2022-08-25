@@ -8,10 +8,7 @@ import 'package:recycle_plus/screens/_Admin/setting/setting.dart';
 import 'package:recycle_plus/screens/_Admin/setting/sponsor%20logo/sponsor_logo.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
-import 'package:recycle_plus/screens/_NoLogin/exchange/exchange.dart';
-import 'package:recycle_plus/screens/_NoLogin/profile/profile.dart';
-import 'package:recycle_plus/screens/_NoLogin/tabbar_control.dart';
-import 'package:recycle_plus/screens/_NoLogin/trash/trash_reward.dart';
+import 'package:recycle_plus/screens/_User/exchange/exchange_more/product_recomend.dart';
 import 'package:recycle_plus/screens/forgotPass/forgotPass.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:recycle_plus/screens/login_no/login_no.dart';
@@ -25,6 +22,11 @@ import 'package:recycle_plus/screens/test/test_MutiAddData.dart';
 import 'package:recycle_plus/screens/test/test_blockchain.dart';
 import 'package:recycle_plus/screens/test/test_metamask.dart';
 import 'package:recycle_plus/screens/test/test_showdata.dart';
+
+import 'screens/_User/exchange/exchange.dart';
+import 'screens/_User/profile/profile.dart';
+import 'screens/_User/tabbar_control.dart';
+import 'screens/_User/trash/trash_reward.dart';
 
 final Map<String, WidgetBuilder> routes = {
   Test1_listData.routeName: (context) => Test1_listData(),
@@ -43,6 +45,8 @@ final Map<String, WidgetBuilder> routes = {
   Member_ProfileScreen.routeName: (context) => Member_ProfileScreen(),
   Member_TrashRate.routeName: (context) => Member_TrashRate(),
   Member_ExchangeScreen.routeName: (context) => Member_ExchangeScreen(),
+  Member_ProductRC_More.routeName:(context) => Member_ProductRC_More(),
+
   Admin_TabbarHome.routeName: (context) => Admin_TabbarHome(0),
   Admin_MemberScreen.routeName: (context) => Admin_MemberScreen(),
   Admin_NewsScreen.routeName: (context) => Admin_NewsScreen(),

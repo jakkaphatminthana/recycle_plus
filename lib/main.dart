@@ -6,8 +6,6 @@ import 'package:recycle_plus/screens/_Admin/setting/setting.dart';
 import 'package:recycle_plus/screens/_Admin/setting/sponsor%20logo/sponsor_logo.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
-import 'package:recycle_plus/screens/_NoLogin/profile/profile.dart';
-import 'package:recycle_plus/screens/_NoLogin/tabbar_control.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:recycle_plus/screens/start/start.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,7 +17,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:recycle_plus/screens/success/welcome.dart';
 
 import 'models/user_model.dart';
-import 'screens/_NoLogin/home/user_home.dart';
+import 'screens/_User/home/user_home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

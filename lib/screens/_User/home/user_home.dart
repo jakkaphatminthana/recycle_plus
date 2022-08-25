@@ -3,15 +3,16 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/components/wallet_card.dart';
 import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/sponsor_model.dart';
-import 'package:recycle_plus/screens/_NoLogin/home/news_widget.dart';
-import 'package:recycle_plus/screens/_NoLogin/news/news_detail.dart';
-import 'package:recycle_plus/screens/_NoLogin/trash/trash_reward.dart';
 import 'package:recycle_plus/screens/start/start.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:recycle_plus/service/database.dart';
+
+import '../news/news_detail.dart';
+import '../trash/trash_reward.dart';
+import 'news_widget.dart';
 
 //เรียก firebase database
 DatabaseEZ db = DatabaseEZ.instance;

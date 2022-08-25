@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/appbar/appbar_title.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:recycle_plus/screens/_NoLogin/tabbar_control.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/service/database.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+
+import '../tabbar_control.dart';
 
 class NewsDetailScreen extends StatefulWidget {
   //ก่อนจะเรียกหน้านี้จำเป็นต้องมี paramiter data

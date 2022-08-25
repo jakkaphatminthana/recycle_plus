@@ -5,12 +5,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/appbar/appbar_title.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/routes.dart';
-import 'package:recycle_plus/screens/_NoLogin/exchange/exchange.dart';
-import 'package:recycle_plus/screens/_NoLogin/home/user_home.dart';
-import 'package:recycle_plus/screens/_NoLogin/page2.dart';
-import 'package:recycle_plus/screens/_NoLogin/page4.dart';
-import 'package:recycle_plus/screens/_NoLogin/profile/profile.dart';
 import 'package:recycle_plus/screens/success/verify_email.dart';
+
+import 'exchange/exchange.dart';
+import 'home/user_home.dart';
+import 'page2.dart';
+import 'page4.dart';
+import 'profile/profile.dart';
 
 class Member_TabbarHome extends StatefulWidget {
   const Member_TabbarHome({Key? key}) : super(key: key);

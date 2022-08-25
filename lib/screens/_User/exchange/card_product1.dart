@@ -8,11 +8,13 @@ class CardProductHot extends StatelessWidget {
     required this.image,
     required this.token,
     required this.press,
+    required this.amount,
   }) : super(key: key);
 
   final String name;
   final String image;
   final String token;
+  final String amount;
   final GestureTapCallback press;
 
   //TODO : สินค้า 1 ชิ้น
@@ -29,7 +31,7 @@ class CardProductHot extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             border: Border.all(
-              color: const Color(0x1A000000),
+              color: const Color.fromARGB(64, 0, 0, 0),
               width: 1,
             ),
           ),
@@ -50,7 +52,7 @@ class CardProductHot extends StatelessWidget {
                         color: Colors.white,
                       ),
                       child: Image.network(
-                        'https://picsum.photos/seed/741/600',
+                        image,
                         width: 100,
                         height: 100,
                         fit: BoxFit.cover,
@@ -61,8 +63,10 @@ class CardProductHot extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(5, 5, 5, 0),
                       child: Text(
-                        'ขวดน้ำเก็บความเย็นได้ดีมากเลยละ...',
-                        style: Roboto14_black,
+                        (name.length > 30)
+                            ? name.substring(0, 30) + "..."
+                            : name,
+                        style: Roboto14_B_black,
                       ),
                     ),
                   ],
@@ -87,12 +91,12 @@ class CardProductHot extends StatelessWidget {
                         const SizedBox(width: 5.0),
 
                         //TODO 5. ราคาสินค้า
-                        Text("1000", style: Roboto15_B_green),
+                        Text(token, style: Roboto15_B_green),
                       ],
                     ),
 
                     //Amount ด้านซ้าย
-                    Text("100 ชิ้น", style: Roboto14_blue),
+                    Text("$amount ชิ้น", style: Roboto14_blue),
                   ],
                 ),
               ),
