@@ -178,7 +178,6 @@ class DatabaseEZ {
     bool? pickup,
     bool? delivery,
     bool? recommend,
-
   }) {
     final reference = FirebaseFirestore.instance.collection('products');
 
@@ -262,7 +261,6 @@ class DatabaseEZ {
     bool? pickup,
     bool? delivery,
     bool? recommend,
-    
   }) async {
     final reference = FirebaseFirestore.instance.collection('products').doc();
     //generate ID
@@ -272,20 +270,32 @@ class DatabaseEZ {
         .doc(uid)
         .set({
           "id": uid,
-          "image" : image,
-          "category" : category,
-          "name" : name,
-          "description" : description,
-          "token" : token,
-          "amount" : amount,
-          "pickup" : pickup,
-          "delivery" : delivery,
-          "recommend" : recommend,
+          "image": image,
+          "category": category,
+          "name": name,
+          "description": description,
+          "token": token,
+          "amount": amount,
+          "pickup": pickup,
+          "delivery": delivery,
+          "recommend": recommend,
           "timeUpdate": DateTime.now(),
         })
         .then((value) => print("Add data success"))
         .catchError((error) => print("Faild : $error"));
   }
+
+  //TODO : ADD Orders(Trading)
+  Future createOrder_trading({
+    String? ID_colt,
+    String? ID_user,
+    String? ID_product,
+    String? category,
+    String? address,
+    String? pickup,
+    int? amount,
+    double? price,
+  }) async {}
 
 //-------------------------------------------------------------------------------------------------------------------
 //TODO : DELETE

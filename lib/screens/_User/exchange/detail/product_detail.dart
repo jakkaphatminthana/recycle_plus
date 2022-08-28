@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/components/image_full.dart';
+import 'package:recycle_plus/screens/_User/exchange/detail/dialog_buy.dart';
+import 'package:recycle_plus/screens/_User/exchange/detail/product_detail2.dart';
+import 'package:recycle_plus/service/auth.dart';
 import 'package:recycle_plus/service/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Member_ProductDetail extends StatefulWidget {
   const Member_ProductDetail({Key? key, required this.data}) : super(key: key);
@@ -14,17 +20,24 @@ class Member_ProductDetail extends StatefulWidget {
 
 class _Member_ProductDetailState extends State<Member_ProductDetail> {
   //db = ติดต่อ firebase
+  //_auth = ติดต่อกับ auth
   DatabaseEZ db = DatabaseEZ.instance;
+  AuthService _auth = AuthService();
+  User? user = FirebaseAuth.instance.currentUser;
+
   int _counter = 1;
-  var _price_value;
+  var _price_value; //ราคาสินค้า
+  var _user_balance; //เงินในกระเป๋า
 
   //TODO : Counter Amount
   void _incrementCounter(token, token_change) {
     setState(() {
-      _counter++;
-      token_change = token * _counter;
-      _price_value = token_change;
-      print(token_change);
+      if (_counter <= (widget.data!.get('amount') - 1)) {
+        _counter++;
+        token_change = token * _counter;
+        _price_value = token_change;
+        print(token_change);
+      }
     });
   }
 
@@ -38,10 +51,24 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
     });
   }
 
+  //TODO : Get User
+  Future<void> getBalanceUser(id) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(id)
+        .snapshots()
+        .listen((event) {
+      setState(() {
+        _user_balance = event.get('token');
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _price_value = widget.data!.get('token');
+    getBalanceUser(user?.uid);
   }
 
   @override
@@ -54,11 +81,12 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
     final description = widget.data!.get('description');
     final pickup = widget.data!.get('pickup');
     final delivery = widget.data!.get('delivery');
+
     //================================================================================================================
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF00883C),
-        title: Text("รายละเอียดสินค้า", style: Roboto16_B_white),
+        title: Text("รายละเอียดของรางวัล", style: Roboto16_B_white),
         actions: [
           IconButton(
             icon: const Icon(
@@ -205,11 +233,13 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
                               _buildStatusIcon(
                                 StatusEZ: pickup,
                                 iconEZ: FontAwesomeIcons.store,
+                                title: "รับที่ร้าน",
                               ),
                               const SizedBox(width: 5.0),
                               _buildStatusIcon(
                                 StatusEZ: delivery,
                                 iconEZ: FontAwesomeIcons.truck,
+                                title: "ขนส่ง",
                               ),
                             ],
                           ),
@@ -254,8 +284,15 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
                       Text("แต้มของฉัน : ", style: Roboto16_B_black),
                       Padding(
                         padding: const EdgeInsets.only(top: 5.0),
-                        child: Text("1500", style: Roboto16_B_green),
-                      )
+                        child: (_user_balance != null)
+                            ? Text(
+                                "$_user_balance",
+                                style: (_user_balance < _price_value)
+                                    ? Roboto16_B_red
+                                    : Roboto16_B_green,
+                              )
+                            : Text("กำลังโหลด...", style: Roboto16_B_green),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 5.0),
@@ -266,13 +303,29 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
                     child: MaterialButton(
                       minWidth: MediaQuery.of(context).size.width,
                       height: 50.0,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Text('แลกของรางวัล', style: Roboto18_B_white),
-                      ),
+                      child: Text('ถัดไป', style: Roboto18_B_white),
                       color: Colors.green,
                       elevation: 2.0,
-                      onPressed: () {},
+                      disabledColor: Colors.grey,
+                      onPressed: (_user_balance < _price_value)
+                          ? null
+                          : () {
+                              // showAlertDialog_Buy(
+                              //   context: context,
+                              //   price: "$_price_value",
+                              // );
+                              //ไปหน้าแก้ไขโดยที่ ส่งค่าข้อมูลไปด้วย
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Member_ProductDetail2(
+                                    data: widget.data,
+                                    amounts: _counter,
+                                    total: _price_value,
+                                  ),
+                                ),
+                              );
+                            },
                     ),
                   ),
                 ],
@@ -330,16 +383,26 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
   }
 
   //TODO : Icon Status
-  Widget _buildStatusIcon({required bool StatusEZ, required IconData iconEZ}) {
-    return CircleAvatar(
-      backgroundColor:
-          (StatusEZ == true) ? const Color(0xFF00883C) : Colors.grey,
-      radius: 15,
-      child: FaIcon(
-        iconEZ,
-        size: 15,
-        color: (StatusEZ == true) ? Colors.white : Colors.black,
-      ),
+  Widget _buildStatusIcon({
+    required bool StatusEZ,
+    required IconData iconEZ,
+    required String title,
+  }) {
+    return Row(
+      children: [
+        CircleAvatar(
+          backgroundColor:
+              (StatusEZ == true) ? const Color(0xFF00883C) : Colors.grey,
+          radius: 14,
+          child: FaIcon(
+            iconEZ,
+            size: 14,
+            color: (StatusEZ == true) ? Colors.white : Colors.black,
+          ),
+        ),
+        const SizedBox(width: 5.0),
+        Text(title, style: Roboto12_black),
+      ],
     );
   }
 }
