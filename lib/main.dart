@@ -15,11 +15,13 @@ import 'package:recycle_plus/screens/success/success_login.dart';
 import 'package:recycle_plus/screens/success/verify_email.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:recycle_plus/screens/success/welcome.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'models/user_model.dart';
 import 'screens/_User/home/user_home.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     //WebSite Setting

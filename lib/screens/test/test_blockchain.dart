@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:recycle_plus/components/blockchain/dialog_help.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';

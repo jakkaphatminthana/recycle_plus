@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:recycle_plus/components/wallet_card.dart';
+import 'package:recycle_plus/components/wallet/wallet_card.dart';
 import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/sponsor_model.dart';
 import 'package:recycle_plus/screens/start/start.dart';
@@ -27,6 +27,8 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
   Stream<List<SponsorModel>> logo = db.getLogoSponsor();
   final CollectionReference _collectionNews =
       FirebaseFirestore.instance.collection('news');
+
+  bool load_connect = false;
 
   //==========================================================================================================
   @override
@@ -71,7 +73,9 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
                             child: Padding(
                               padding: const EdgeInsets.only(top: 140),
                               child: GestureDetector(
-                                child: const Wallet_card(colorEZ: Color(0xFFEEEEEE)),
+                                child: Wallet_card(
+                                  colorEZ: const Color(0xFFEEEEEE),
+                                ),
                                 onTap: () {},
                               ),
                             ),

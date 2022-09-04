@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:recycle_plus/components/wallet_card.dart';
+import 'package:recycle_plus/components/wallet/wallet_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_core/firebase_core.dart';
@@ -142,8 +142,8 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
                   const SizedBox(height: 20.0),
 
                   //TODO 6. Wallet Widget
-                  const Center(
-                    child: Wallet_card(colorEZ: Color(0xFFEEEEEE)),
+                  Center(
+                    child: Wallet_card(colorEZ: const Color(0xFFEEEEEE)),
                   ),
                   const SizedBox(height: 30.0),
 

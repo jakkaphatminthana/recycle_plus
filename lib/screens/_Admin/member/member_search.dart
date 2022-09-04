@@ -120,7 +120,7 @@ class Member_Search extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     return Center(
-      child: Text("ค้นหาข้อมูลผู้ใช้", style: Roboto18_black),
+      child: Text("ค้นหาข้อมูลผู้ใช้ ", style: Roboto18_black),
     );
   }
 }

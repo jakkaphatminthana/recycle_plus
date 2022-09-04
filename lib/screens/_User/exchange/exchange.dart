@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:recycle_plus/components/wallet_card.dart';
+import 'package:recycle_plus/components/wallet/wallet_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/product_detail.dart';
 import 'package:recycle_plus/service/database.dart';
@@ -65,10 +65,10 @@ class _Member_ExchangeScreenState extends State<Member_ExchangeScreen> {
                           ),
 
                           //TODO 2. Wallet
-                          const Align(
-                            alignment: AlignmentDirectional(0, 0),
+                          Align(
+                            alignment: const AlignmentDirectional(0, 0),
                             child: Padding(
-                              padding: EdgeInsets.only(top: 130.0),
+                              padding: const EdgeInsets.only(top: 130.0),
                               child: Wallet_card(colorEZ: Colors.white),
                             ),
                           ),
