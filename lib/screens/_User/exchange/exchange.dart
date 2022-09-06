@@ -32,11 +32,14 @@ class _Member_ExchangeScreenState extends State<Member_ExchangeScreen> {
     //TODO : get data Stream Snapshot
     final Stream<QuerySnapshot> _Stream_recommend = FirebaseFirestore.instance
         .collection('products')
-        .where("recommend", isEqualTo: true)
+        .where('recommend', isEqualTo: true)
         .limit(5)
         .snapshots();
-    final Stream<QuerySnapshot> _Stream_normal =
-        FirebaseFirestore.instance.collection('products').limit(6).snapshots();
+    final Stream<QuerySnapshot> _Stream_normal = FirebaseFirestore.instance
+        .collection('products')
+        .where('amount', isGreaterThanOrEqualTo: 1)
+        .limit(6)
+        .snapshots();
     //===========================================================================================================
     return Scaffold(
       backgroundColor: const Color(0xFFE9E9E9),

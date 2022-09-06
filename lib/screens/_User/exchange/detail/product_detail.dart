@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/components/image_full.dart';
@@ -9,6 +13,12 @@ import 'package:recycle_plus/service/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
+import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:web3dart/web3dart.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 
 class Member_ProductDetail extends StatefulWidget {
   const Member_ProductDetail({Key? key, required this.data}) : super(key: key);
@@ -26,8 +36,128 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
   User? user = FirebaseAuth.instance.currentUser;
 
   int _counter = 1;
-  var _price_value; //ราคาสินค้า
-  var _user_balance; //เงินในกระเป๋า
+  var _price_value = 0.0; //ราคาสินค้า
+  var _user_verify; //เงินในกระเป๋า
+
+  //TODO : Blockchain past
+  //START -------------------------------------------------------------------------------------------------------------------
+  //Contract nesecsarily
+  late Client httpClient;
+  late Web3Client ethClient;
+  bool dataConnent = false;
+  final infura = dotenv.env["INFURA_ROPSTEN_ADDRESS"];
+  final contractEZ = dotenv.env["CONTRACT_ADDRESS"];
+
+  //Wallet Object
+  late WalletConnect connector;
+  String _account = '';
+  String MyAddress = '';
+  bool? statusConnect;
+  var myBalance = 0.0;
+
+  //ตัวแปรที่ใช้เก็บเฉยๆ ไว้ส่งไปมา
+  var _session;
+  var _connector;
+  var _uri;
+  late Timer _timer;
+
+  //TODO 1: User Wallet
+  Future initWalletConnect() async {
+    // Define a session storage
+    final sessionStorage = WalletConnectSecureStorage();
+    final session = await sessionStorage.getSession();
+
+    //เชื่อมต่อ wallet ผ่านตัว walletconnect.org
+    var connector = WalletConnect(
+      bridge: 'https://bridge.walletconnect.org',
+      session: session,
+      sessionStorage: sessionStorage,
+      clientMeta: const PeerMeta(
+          name: 'TestMode',
+          description: 'Connect application for lightWallet',
+          url: 'https://walletconnect.org',
+          icons: [
+            'https://files.gitbook.com/v0/b/gitbook-legacy-files/o/spaces%2F-LJJeCjcLrr53DcT1Ml7%2Favatar.png?alt=media'
+          ]),
+    );
+    //set address
+    setState(() {
+      _account = session?.accounts.first ?? '';
+      if (_account == '') {
+        statusConnect = false;
+      } else {
+        _session = session;
+        _connector = connector;
+        statusConnect = true;
+      }
+    });
+
+    //show address เมื่อเชื่อมต่อเรียบร้อย
+    connector.registerListeners(
+      onConnect: (status) {
+        setState(() {
+          _account = status.accounts[0];
+        });
+      },
+    );
+
+    print("_account = $_account");
+    print("session = $session");
+    print("sessionStorage = $sessionStorage");
+    print("statuscheck = $statusConnect");
+  }
+
+  //TODO 2: Get Smartcontract from Remix <--------------------------------------
+  Future<DeployedContract> loadContract() async {
+    String abi = await rootBundle.loadString('assets/abi.json');
+    String contractAddress = "$contractEZ";
+
+    final contract = DeployedContract(
+      ContractAbi.fromJson(abi, "RecycleToken"), //abi file
+      EthereumAddress.fromHex(contractAddress), //contract address
+    );
+
+    return contract;
+  }
+
+  //TODO 3: น่าจะดึงสัญญามาเรียกใช้แบบ function <------------------------------------
+  Future<List<dynamic>> query(String functionName, List<dynamic> args) async {
+    //โหลดสัญญามา
+    final contract = await loadContract();
+    //function in remix(ชื่อของฟังก์ชัน)
+    final ethFunction = contract.function(functionName);
+    //call function ในสัญญามาใช้ (contract, funtion, paramiter)
+    final result = await ethClient.call(
+      contract: contract,
+      function: ethFunction,
+      params: args,
+    );
+
+    return result;
+  }
+
+  //TODO 5: Funtion GetBalance
+  Future<void> getBalance(String targetAddress) async {
+    EthereumAddress address = EthereumAddress.fromHex(targetAddress);
+    //ดึงตัว Function getBalance() ที่อยู่ใน Remix มาใช้
+    //ปล. [] คือค่าว่าง
+    List<dynamic> result = await query("balanceOf", [address]);
+
+    setState(() {
+      //setting decimal to int
+      //setting decimal to int
+      final numpow = BigInt.from(pow(10, 18));
+      final pro = (result[0] / numpow).toString();
+      final proDouble = double.parse(pro);
+      final setDecimal = proDouble.toStringAsExponential(5);
+      final valueDouble = double.parse(setDecimal);
+      myBalance = valueDouble;
+      dataConnent = true;
+      _timer.cancel();
+    });
+  }
+
+  //END -------------------------------------------------------------------------------------------------------------------
 
   //TODO : Counter Amount
   void _incrementCounter(token, token_change) {
@@ -52,14 +182,14 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
   }
 
   //TODO : Get User
-  Future<void> getBalanceUser(id) async {
+  Future<void> getUserVerify(id) async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(id)
         .snapshots()
         .listen((event) {
       setState(() {
-        _user_balance = event.get('token');
+        _user_verify = event.get('verify');
       });
     });
   }
@@ -68,7 +198,23 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
   void initState() {
     super.initState();
     _price_value = widget.data!.get('token');
-    getBalanceUser(user?.uid);
+    getUserVerify(user?.uid);
+
+    initWalletConnect();
+
+    httpClient = Client();
+    ethClient = Web3Client("$infura", httpClient);
+
+    //ป้องกัน error
+    _timer = Timer(const Duration(seconds: 2), () {
+      (_account != '') ? getBalance(_account) : null;
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -202,6 +348,7 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
                     ),
                   ),
                   const SizedBox(height: 20.0),
+
                   //TODO 4: Amout Product & Status
                   Container(
                     width: MediaQuery.of(context).size.width,
@@ -278,23 +425,38 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
                   const SizedBox(height: 20.0),
 
                   //TODO 7: Button Buy
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("แต้มของฉัน : ", style: Roboto16_B_black),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: (_user_balance != null)
-                            ? Text(
-                                "$_user_balance",
-                                style: (_user_balance < _price_value)
-                                    ? Roboto16_B_red
-                                    : Roboto16_B_green,
-                              )
-                            : Text("กำลังโหลด...", style: Roboto16_B_green),
-                      ),
-                    ],
-                  ),
+                  (_user_verify != true)
+                      //7.1 ทำการยืนตัวตนแล้ว
+                      ? Center(
+                          child: Text(
+                            "โปรดยืนยันตัวตนก่อน",
+                            style: Roboto16_B_red,
+                          ),
+                        )
+                      //7.2 ยังไม่ได้ยืนยันตัวตน
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("แต้มของฉัน : ", style: Roboto16_B_black),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              child: (_session != null)
+                                  ? (dataConnent)
+                                      ? Text(
+                                          "$myBalance",
+                                          style: (myBalance < _price_value)
+                                              ? Roboto16_B_red
+                                              : Roboto16_B_green,
+                                        )
+                                      : Text(
+                                          "กำลังโหลด...",
+                                          style: Roboto16_B_green,
+                                        )
+                                  : Text("No connected wallet",
+                                      style: Roboto16_B_red),
+                            ),
+                          ],
+                        ),
                   const SizedBox(height: 5.0),
 
                   //TODO 8: Button Buy
@@ -307,25 +469,13 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
                       color: Colors.green,
                       elevation: 2.0,
                       disabledColor: Colors.grey,
-                      onPressed: (_user_balance < _price_value)
-                          ? null
-                          : () {
-                              // showAlertDialog_Buy(
-                              //   context: context,
-                              //   price: "$_price_value",
-                              // );
-                              //ไปหน้าแก้ไขโดยที่ ส่งค่าข้อมูลไปด้วย
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Member_ProductDetail2(
-                                    data: widget.data,
-                                    amounts: _counter,
-                                    total: _price_value,
-                                  ),
-                                ),
-                              );
-                            },
+                      onPressed: (dataConnent != true || _user_verify != true)
+                          ? (_price_value > myBalance)
+                              ? null
+                              : build_buttonBuy()
+                          : (_price_value <= myBalance)
+                              ? build_buttonBuy()
+                              : null,
                     ),
                   ),
                 ],
@@ -404,5 +554,25 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
         Text(title, style: Roboto12_black),
       ],
     );
+  }
+
+  //TODO : Button Buy
+  GestureTapCallback build_buttonBuy() {
+    return () {
+      
+      //ไปหน้าโดยที่ ส่งค่าข้อมูลไปด้วย
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Member_ProductDetail2(
+            data: widget.data,
+            amounts: _counter,
+            total: _price_value,
+            seesion: _session,
+            ethClient: ethClient,
+          ),
+        ),
+      );
+    };
   }
 }

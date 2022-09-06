@@ -22,6 +22,7 @@ import 'package:recycle_plus/screens/test/test_MutiAddData.dart';
 import 'package:recycle_plus/screens/test/test_blockchain.dart';
 import 'package:recycle_plus/screens/test/test_metamask.dart';
 import 'package:recycle_plus/screens/test/test_showdata.dart';
+import 'package:recycle_plus/screens/wallet/wallet_connecting.dart';
 
 import 'screens/_User/exchange/exchange.dart';
 import 'screens/_User/profile/profile.dart';
@@ -30,9 +31,10 @@ import 'screens/_User/trash/trash_reward.dart';
 
 final Map<String, WidgetBuilder> routes = {
   Test1_listData.routeName: (context) => Test1_listData(),
-  Test_MutiData.routeName:(context) => Test_MutiData(),
-  Test_MetaMask.routeName:(context) => Test_MetaMask(),
-  
+  Test_MutiData.routeName: (context) => Test_MutiData(),
+  Test_MetaMask.routeName: (context) => Test_MetaMask(),
+
+  Wallet_Connecting.routeName: (context) => Wallet_Connecting(),
   StartScreen.routeName: (context) => StartScreen(),
   LoginScreen.routeName: (context) => LoginScreen(),
   RegisterScreen.routeName: (context) => RegisterScreen(),
@@ -45,8 +47,8 @@ final Map<String, WidgetBuilder> routes = {
   Member_ProfileScreen.routeName: (context) => Member_ProfileScreen(),
   Member_TrashRate.routeName: (context) => Member_TrashRate(),
   Member_ExchangeScreen.routeName: (context) => Member_ExchangeScreen(),
-  Member_ProductRC_More.routeName:(context) => Member_ProductRC_More(),
-
+  Member_ProductRC_More.routeName: (context) => Member_ProductRC_More(),
+  
   Admin_TabbarHome.routeName: (context) => Admin_TabbarHome(0),
   Admin_MemberScreen.routeName: (context) => Admin_MemberScreen(),
   Admin_NewsScreen.routeName: (context) => Admin_NewsScreen(),

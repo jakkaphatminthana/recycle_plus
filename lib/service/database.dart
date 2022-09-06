@@ -55,6 +55,8 @@ class DatabaseEZ {
     });
   }
 
+//TODO : UPDATE
+//------------------------------------------------------------------------------------------------------------------------
   //TODO : Update UserName
   Future<void> updateUserName({UserModel? userID, UserModel? username}) {
     final reference = FirebaseFirestore.instance.collection('users');
@@ -287,7 +289,6 @@ class DatabaseEZ {
 
   //TODO : ADD Orders(Trading)
   Future createOrder_trading({
-    String? ID_colt,
     String? ID_user,
     String? ID_product,
     String? category,
@@ -295,7 +296,21 @@ class DatabaseEZ {
     String? pickup,
     int? amount,
     double? price,
-  }) async {}
+    String? wallet,
+    String? txHash,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('orders');
+
+    await FirebaseFirestore.instance
+        .collection('orders')
+        .doc()
+        .collection('trading')
+        .add({
+      "ID_user": ID_user,
+      "ID_product": ID_product,
+      "timeStamp": DateTime.now(),
+    });
+  }
 
 //-------------------------------------------------------------------------------------------------------------------
 //TODO : DELETE

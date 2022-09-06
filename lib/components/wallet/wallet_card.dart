@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:recycle_plus/service/wallet_connect.dart';
+import 'package:recycle_plus/screens/wallet/wallet_connecting.dart';
+import 'package:recycle_plus/service/wallet_smartcontract.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:web3dart/web3dart.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Wallet_card extends StatefulWidget {
   Wallet_card({
@@ -31,6 +33,8 @@ class _Wallet_cardState extends State<Wallet_card> {
   late Client httpClient;
   late Web3Client ethClient;
   bool dataConnent = false;
+  final infura = dotenv.env["INFURA_ROPSTEN_ADDRESS"];
+  final contractEZ = dotenv.env["CONTRACT_ADDRESS"];
 
   //Wallet Object
   late WalletConnect connector;
@@ -94,7 +98,7 @@ class _Wallet_cardState extends State<Wallet_card> {
   //TODO 2: Get Smartcontract from Remix <--------------------------------------
   Future<DeployedContract> loadContract() async {
     String abi = await rootBundle.loadString('assets/abi.json');
-    String contractAddress = "0x7B439D82F076e88AbC196B8D7861296EE413C47E";
+    String contractAddress = "$contractEZ";
 
     final contract = DeployedContract(
       ContractAbi.fromJson(abi, "RecycleToken"), //abi file
@@ -137,6 +141,7 @@ class _Wallet_cardState extends State<Wallet_card> {
       final valueDouble = double.parse(setDecimal);
       myBalance = valueDouble;
       dataConnent = true;
+      _timer.cancel();
     });
   }
 
@@ -147,13 +152,11 @@ class _Wallet_cardState extends State<Wallet_card> {
     initWalletConnect();
 
     httpClient = Client();
-    ethClient = Web3Client(
-      "https://ropsten.infura.io/v3/83b4a7881ea84cdfbf19a9de732dc800",
-      httpClient,
-    );
+    ethClient = Web3Client("$infura", httpClient);
 
-    _timer = Timer(Duration(seconds: 2), () {
-      getBalance(_account);
+    //ป้องกัน error
+    _timer = Timer(const Duration(seconds: 2), () {
+      (_account != '') ? getBalance(_account) : null;
     });
   }
 
@@ -169,7 +172,9 @@ class _Wallet_cardState extends State<Wallet_card> {
     var B5address = (_account != '') ? _account.substring(36, 42) : '';
     //==============================================================================================================
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, Wallet_Connecting.routeName);
+      },
       child: Material(
         color: Colors.transparent,
         elevation: 2.0,
@@ -242,8 +247,8 @@ class _Wallet_cardState extends State<Wallet_card> {
                     alignment: const AlignmentDirectional(0.2, 0),
                     child: (_account == '')
                         ? Text(
-                            "??? RCT",
-                            style: Roboto16_B_greenB,
+                            "Not Connected",
+                            style: Roboto16_B_red,
                           )
                         : (dataConnent != true)
                             ? const CircularProgressIndicator(

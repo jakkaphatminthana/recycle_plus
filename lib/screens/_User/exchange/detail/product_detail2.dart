@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/models/varidator.dart';
+import 'package:recycle_plus/screens/_User/exchange/detail/dialog_buy.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/textfieldStyle.dart';
 import 'package:recycle_plus/service/auth.dart';
 import 'package:recycle_plus/service/database.dart';
@@ -7,6 +8,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
+import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:web3dart/web3dart.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 
 import '../../../../components/font.dart';
 
@@ -16,16 +24,25 @@ class Member_ProductDetail2 extends StatefulWidget {
     required this.data,
     required this.amounts,
     required this.total,
+    required this.seesion,
+    required this.ethClient,
   }) : super(key: key);
   final data;
   final amounts;
   final total;
+  final seesion;
+  final Web3Client ethClient;
 
   @override
   State<Member_ProductDetail2> createState() => _Member_ProductDetail2State();
 }
 
 class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
+//TODO : Blockchain past
+//START ------------------------------------------------------------------------------------------------------------------
+
+//END ------------------------------------------------------------------------------------------------------------------
+
   //formkey = ตัวแสดงตัวแบบยูนืคของฟอร์มนี้
   //db = ติดต่อ firebase
   //_auth = ติดต่อกับ auth
@@ -267,9 +284,29 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
                             if (selectMode == "รถขนส่ง") {
                               if (_formKey.currentState!.validate()) {
                                 print('input_address success');
-                              } else {
-                                print('address_store success');
+                                FocusManager.instance.primaryFocus?.unfocus();
+
+                                //TODO 4.1 Dialog confrim
+                                showAlertDialog_Buy(
+                                  context: context,
+                                  ethClient: widget.ethClient,
+                                  session: widget.seesion,
+                                  productData: widget.data,
+                                  price: widget.total,
+                                  amounts: widget.amounts,
+                                );
                               }
+                            } else {
+                              print('address_store success');
+                              //TODO 4.1 Dialog confrim
+                              showAlertDialog_Buy(
+                                context: context,
+                                ethClient: widget.ethClient,
+                                session: widget.seesion,
+                                productData: widget.data,
+                                price: widget.total,
+                                amounts: widget.amounts,
+                              );
                             }
                           },
                         ),
