@@ -14,7 +14,9 @@ import 'page4.dart';
 import 'profile/profile.dart';
 
 class Member_TabbarHome extends StatefulWidget {
-  const Member_TabbarHome({Key? key}) : super(key: key);
+  int selectPage;
+  Member_TabbarHome(this.selectPage, {Key? key}) : super(key: key);
+
   //Location Page
   static String routeName = "/home";
 
@@ -69,6 +71,7 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
         return false;
       },
       child: DefaultTabController(
+        initialIndex: widget.selectPage,
         length: 4,
         child: Scaffold(
           //TODO 2. Appbar Header

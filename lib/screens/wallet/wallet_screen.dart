@@ -4,14 +4,22 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/service/wallet_smartcontract.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:web3dart/web3dart.dart';
+import 'package:web3dart/contracts.dart';
+import 'package:web3dart/credentials.dart';
+import 'package:web3dart/web3dart.dart' as web3;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:recycle_plus/service/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class WalletScreen extends StatefulWidget {
   WalletScreen({
@@ -31,7 +39,7 @@ class WalletScreen extends StatefulWidget {
 class _WalletScreenState extends State<WalletScreen> {
   //Contract nesecsarily
   late Client httpClient;
-  late Web3Client ethClient;
+  late web3.Web3Client ethClient;
   bool dataConnent = false;
   var myBalance;
   String? txHash;
@@ -40,6 +48,8 @@ class _WalletScreenState extends State<WalletScreen> {
   bool isloading = false;
   final privateK = dotenv.env["METAMASK_PRIVATE_KEY"];
   final infura = dotenv.env["INFURA_ROPSTEN_ADDRESS"];
+  User? user = FirebaseAuth.instance.currentUser;
+  var data_length;
 
   //TODO 1: Always call first run
   @override
@@ -50,11 +60,14 @@ class _WalletScreenState extends State<WalletScreen> {
 
     //Rospten Infura
     httpClient = Client();
-    ethClient = Web3Client("$infura", httpClient);
+    ethClient = web3.Web3Client("$infura", httpClient);
 
     getBalance(MyAddress);
+    getLengthData(user?.uid);
   }
 
+  //TODO : Blockchain Past
+  //START ------------------------------------------------------------------------------------------------------------
   //TODO 2: Get Smartcontract from Remix <--------------------------------------
   Future<DeployedContract> loadContract() async {
     String abi = await rootBundle.loadString('assets/abi.json');
@@ -98,7 +111,7 @@ class _WalletScreenState extends State<WalletScreen> {
     //โดยจำเป็นต้องใช้ private key ด้วยในการทำธุรกรรมที่เป็นแบบ write
     final result = await ethClient.sendTransaction(
       credentials,
-      Transaction.callContract(
+      web3.Transaction.callContract(
         contract: contract,
         function: ethFunction,
         parameters: args,
@@ -131,8 +144,51 @@ class _WalletScreenState extends State<WalletScreen> {
     });
   }
 
+  //END ----------------------------------------------------------------------------------------------------------------
+
+  //TODO : กำหนด Loading more
+  var item_limit = 3;
+  Timer? _timer;
+
+  Future timeingLoad() async {
+    _timer = Timer(const Duration(milliseconds: 1500), () {
+      setState(() {
+        isloading = false;
+        item_limit += 3;
+      });
+    });
+  }
+
+  //TODO :
+  Future<void> getLengthData(user) async {
+    final _collection = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user)
+        .collection('wallet')
+        .doc(MyAddress)
+        .collection("transaction")
+        .get();
+    var result = await _collection.then((value) {
+      data_length = value.size;
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+    final _collection = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .collection('wallet')
+        .doc(MyAddress)
+        .collection("transaction");
+
+    final Stream<QuerySnapshot> _transaction = _collection
+        .limit(item_limit)
+        .orderBy('timestamp', descending: true)
+        .snapshots();
+
     //==============================================================================================================
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -156,7 +212,7 @@ class _WalletScreenState extends State<WalletScreen> {
               //   },
               //   color: Colors.redAccent,
               // ),
-              //TODO : Contaner Header
+              //TODO 2: Contaner Header
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 200,
@@ -166,7 +222,7 @@ class _WalletScreenState extends State<WalletScreen> {
                 ),
                 child: Column(
                   children: [
-                    //TODO : Balance
+                    //TODO 3: Balance
                     const SizedBox(height: 30.0),
                     Text("Balance", style: Roboto12_B_black),
                     const SizedBox(height: 5.0),
@@ -177,7 +233,7 @@ class _WalletScreenState extends State<WalletScreen> {
                           ),
                     const SizedBox(height: 15.0),
 
-                    //TODO : Address wallet
+                    //TODO 4: Address wallet
                     GestureDetector(
                       onTap: () {
                         Clipboard.setData(ClipboardData(text: MyAddress))
@@ -218,7 +274,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     ),
                     const SizedBox(height: 8.0),
 
-                    //TODO : Button
+                    //TODO 5: Button Refresh
                     ElevatedButton.icon(
                       label: Text("Refesh", style: Roboto14_B_white),
                       icon: const Icon(
@@ -240,26 +296,161 @@ class _WalletScreenState extends State<WalletScreen> {
               ),
               const SizedBox(height: 30.0),
 
-              //TODO : Transaction
+              //TODO 6: Transaction Head
               Text("Transaction", style: Roboto18_B_black),
               const Divider(
                 height: 10,
                 thickness: 1,
                 color: Colors.black,
               ),
-              const SizedBox(height: 15.0),
 
-              //TODO : List Transaction
-              Column(
+              //TODO 7: List Transaction
+              Expanded(
+                child: StreamBuilder(
+                  stream: _transaction.asBroadcastStream(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData) {
+                      return _build_Notfound();
+                    } else {
+                      return ListView(
+                        children: [
+                          //TODO : Fetch data here --------------------------
+                          ...snapshot.data!.docs
+                              .map((QueryDocumentSnapshot<Object?> data) {
+                            //ได้ตัว Data มาละ ----------<<<
+                            final String txHash = data.get("TxnHash");
+                            final token = data.get("amount");
+                            final time = data.get("timestamp");
+                            final String order = data.get("order");
+
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 5.0),
+                              child: _build_listTransaction(
+                                txHash: txHash,
+                                token: token,
+                                order: order,
+                                time: time,
+                              ),
+                            );
+                          }),
+                          // //TODO 8: Load More
+                          (isloading == true)
+                              ? const SpinKitWave(
+                                  color: Colors.black,
+                                  size: 30.0,
+                                )
+                                //กรณีที่ไม่เหลือให้ load more แล้วให้หยุด
+                              : (item_limit >= data_length)
+                                  ? Container()
+                                  : RaisedButton(
+                                      child: const Text("MORE"),
+                                      onPressed: () async {
+                                        print("len: $data_length");
+                                        setState(() {
+                                          isloading = true;
+                                          timeingLoad();
+                                        });
+                                      }),
+                        ],
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  //=================================================================================================================
+  //TODO : Not Found Transaction
+  _build_Notfound() {
+    return Column(
+      children: [
+        const SizedBox(height: 15.0),
+        const Icon(
+          Icons.insert_drive_file_outlined,
+          size: 80,
+          color: Colors.grey,
+        ),
+        const SizedBox(height: 5.0),
+        Text("Not found", style: Roboto20_grey),
+      ],
+    );
+  }
+
+  //TODO : Format Time
+  String formattedDate(timeStamp) {
+    var dateFromTimeStamp =
+        DateTime.fromMillisecondsSinceEpoch(timeStamp.seconds * 1000);
+    return DateFormat('dd/MM/yyyy | hh:mm a').format(dateFromTimeStamp);
+  }
+
+  //TODO 1: Transaction List
+  _build_listTransaction({
+    required txHash,
+    required token,
+    required order,
+    required time,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        Clipboard.setData(ClipboardData(text: txHash)).then((value) {
+          Fluttertoast.showToast(
+            msg: "Copy to clipboard",
+            gravity: ToastGravity.BOTTOM,
+          );
+        });
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 108.0,
+        decoration: BoxDecoration(
+          color: const Color(0xFFF1F4F8),
+          border: Border.all(
+            color: const Color(0xA43C3C3C),
+            width: 1,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //TODO 1.1: Order Type
+              Row(
                 children: [
-                  const Icon(
-                    Icons.insert_drive_file_outlined,
-                    size: 80,
-                    color: Colors.grey,
-                  ),
-                  const SizedBox(height: 5.0),
-                  Text("Not found", style: Roboto20_grey),
+                  Text("Timestamp: ", style: Roboto12_B_black),
+                  Text(formattedDate(time), style: Roboto12_black),
                 ],
+              ),
+              //TODO 1.2: Order Type
+              Row(
+                children: [
+                  Text("Order: ", style: Roboto12_B_black),
+                  Text(order, style: Roboto12_black),
+                ],
+              ),
+              //TODO 1.3: Amounts token
+              Row(
+                children: [
+                  Text("Amounts: ", style: Roboto12_B_black),
+                  Text("$token", style: Roboto12_black),
+                ],
+              ),
+
+              //TODO 1.4: TxnHash
+              Text("TxnHash: ", style: Roboto12_B_black),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: 100.0,
+                  maxWidth: MediaQuery.of(context).size.width * 0.85,
+                ),
+                child: Text(txHash, style: Roboto12_black),
               ),
             ],
           ),

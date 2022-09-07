@@ -95,6 +95,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   const SizedBox(height: 10.0),
 
                   //TODO 4. Firebase Check Role User -------------------------------
+
                   StreamBuilder(
                     stream: status,
                     builder: (context, snapshot) {

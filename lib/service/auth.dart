@@ -125,7 +125,6 @@ class AuthService {
         "role": "Member",
         "verify": false,
         "address": "",
-        "token": 0.0,
         "exp": 1.0,
         "level": 1,
         "bonus": 1.0,

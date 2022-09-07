@@ -204,6 +204,17 @@ class DatabaseEZ {
         .catchError((error) => print("Failed to update product: $error"));
   }
 
+  //TODO : UPDATE Product amounts
+  Future updateProduct_reduceAmount({
+    required String ID_product,
+    required int amount,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('products');
+    await reference
+        .doc(ID_product)
+        .update({"amount": FieldValue.increment(-amount)});
+  }
+
 //---------------------------------------------------------------------------------------------------------------------
 //TODO : ADD
 
@@ -289,26 +300,57 @@ class DatabaseEZ {
 
   //TODO : ADD Orders(Trading)
   Future createOrder_trading({
-    String? ID_user,
-    String? ID_product,
-    String? category,
-    String? address,
-    String? pickup,
-    int? amount,
-    double? price,
-    String? wallet,
-    String? txHash,
+    required String? ID_user,
+    required String? ID_product,
+    required String? category,
+    required String? address,
+    required String? pickup,
+    required int? amount,
+    required double? price,
+    required String? wallet,
+    required String? txHash,
   }) async {
     final reference = FirebaseFirestore.instance.collection('orders');
 
     await FirebaseFirestore.instance
         .collection('orders')
-        .doc()
-        .collection('trading')
+        .doc('trading')
+        .collection('order')
         .add({
+      "order": "trading",
       "ID_user": ID_user,
       "ID_product": ID_product,
-      "timeStamp": DateTime.now(),
+      "category": category,
+      "pickup": pickup,
+      "address": address,
+      "amount": amount,
+      "price": price,
+      "wallet": wallet,
+      "txHash": txHash,
+      "timestamp": DateTime.now(),
+    });
+  }
+
+  //TODO : ADD transaction
+  Future createTransaction({
+    required String? ID_user,
+    required String? wallet,
+    required String? txHash,
+    required double? token,
+    required String? order,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(ID_user)
+        .collection('wallet')
+        .doc(wallet)
+        .collection('transaction')
+        .doc(txHash)
+        .set({
+      "TxnHash": txHash,
+      "amount": token,
+      "order": order,
+      "timestamp": DateTime.now(),
     });
   }
 

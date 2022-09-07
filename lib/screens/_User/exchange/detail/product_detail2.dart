@@ -53,6 +53,7 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
 
   String? selectMode = "รถขนส่ง";
   var address_store = '';
+  var typePickup;
   //var input_address;
   TextEditingController input_address = TextEditingController();
 
@@ -285,6 +286,9 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
                               if (_formKey.currentState!.validate()) {
                                 print('input_address success');
                                 FocusManager.instance.primaryFocus?.unfocus();
+                                setState(() {
+                                  typePickup = "delivery";
+                                });
 
                                 //TODO 4.1 Dialog confrim
                                 showAlertDialog_Buy(
@@ -294,10 +298,17 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
                                   productData: widget.data,
                                   price: widget.total,
                                   amounts: widget.amounts,
+                                  type_pickup: typePickup,
+                                  address: (typePickup == "delivery")
+                                      ? input_address.text
+                                      : address_store,
                                 );
                               }
                             } else {
                               print('address_store success');
+                              setState(() {
+                                typePickup = "pickup";
+                              });
                               //TODO 4.1 Dialog confrim
                               showAlertDialog_Buy(
                                 context: context,
@@ -306,6 +317,10 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
                                 productData: widget.data,
                                 price: widget.total,
                                 amounts: widget.amounts,
+                                type_pickup: typePickup,
+                                address: (typePickup == "delivery")
+                                    ? input_address.text
+                                    : address_store,
                               );
                             }
                           },
