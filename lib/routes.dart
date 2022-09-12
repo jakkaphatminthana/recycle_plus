@@ -10,6 +10,7 @@ import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/dialog_success.dart';
 import 'package:recycle_plus/screens/_User/exchange/exchange_more/product_recomend.dart';
+import 'package:recycle_plus/screens/_User/profile/edit_profile/profile_edit.dart';
 import 'package:recycle_plus/screens/forgotPass/forgotPass.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:recycle_plus/screens/login_no/login_no.dart';

@@ -215,6 +215,32 @@ class DatabaseEZ {
         .update({"amount": FieldValue.increment(-amount)});
   }
 
+  //TODO : UPDATE Level
+  Future updateLevel({
+    required String ID_user,
+    required int newLevel,
+    required newExp,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('users');
+    await reference.doc(ID_user).update({
+      "level": newLevel,
+      "exp": newExp,
+      "bonus": 1 + (newLevel / 100),
+    });
+  }
+
+  //TODO : UPDATE Level
+  Future updateUserProfile({
+    required String ID_user,
+    required String image,
+    required String name,
+    required String phone,
+    required String gender,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('users');
+    await reference.doc(ID_user).update({});
+  }
+
 //---------------------------------------------------------------------------------------------------------------------
 //TODO : ADD
 
