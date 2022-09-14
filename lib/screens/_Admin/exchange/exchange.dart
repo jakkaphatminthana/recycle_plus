@@ -4,7 +4,9 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/ListProduct.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/add_product/add_product.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/edit_product/edit_product.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/history_product/product_history.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/more_product.dart/exchange_more.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/order_product/order_product.dart';
 import 'package:recycle_plus/screens/test/test_showdata.dart';
 import 'package:recycle_plus/service/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,7 +27,7 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
   final CollectionReference _collection =
       FirebaseFirestore.instance.collection('products');
   //จำนวนของ product ที่แสดง
-  var limitLoad = 10;
+  var limitLoad = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +71,12 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                     Navigator.pushNamed(
+                                      context,
+                                      Admin_ExchangeOrder.routeName,
+                                    );
+                                  },
                                 ),
 
                                 //TODO 2. Order Button
@@ -87,7 +94,12 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      Admin_exchange_History.routeName,
+                                    );
+                                  },
                                 ),
                               ],
                             ),
@@ -122,8 +134,10 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.center,
                                         children: [
-                                          Text("See more",
-                                              style: Roboto16_B_green),
+                                          Text(
+                                            "See more",
+                                            style: Roboto16_B_green,
+                                          ),
                                           const Icon(
                                             Icons.keyboard_arrow_right_rounded,
                                             color: Colors.green,
@@ -170,6 +184,7 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
                                 },
                               );
                             }),
+                            const SizedBox(height: 10.0),
                           ],
                         ),
                       ),

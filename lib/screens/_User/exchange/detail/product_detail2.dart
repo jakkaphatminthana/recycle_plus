@@ -53,9 +53,10 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
 
   String? selectMode = "รถขนส่ง";
   var address_store = '';
+  var user_address;
   var typePickup;
   //var input_address;
-  TextEditingController input_address = TextEditingController();
+  late TextEditingController input_address;
 
   //TODO : Get Address store
   Future<void> getAddressStore() async {
@@ -70,16 +71,35 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
     });
   }
 
+  Future<void> getUserDatabase(uid) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .snapshots()
+        .listen((event) {
+      setState(() {
+        user_address = event.get('address');
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getAddressStore();
+    getUserDatabase(user!.uid);
   }
 
   @override
   Widget build(BuildContext context) {
     final image = widget.data!.get('image');
     final name = widget.data!.get('name');
+    final product_amount = widget.data!.get('amount');
+
+    //กำหนดที่อยู่เริ่มต้น หากมีอยู่ใน Firebase
+    input_address = (user_address == null)
+        ? TextEditingController(text: '') //ค่าเริ่มต้นตาม firebase
+        : TextEditingController(text: user_address); //ค่าที่กำลังป้อน
 
     //==============================================================================================================
     return GestureDetector(
@@ -298,6 +318,7 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
                                   productData: widget.data,
                                   price: widget.total,
                                   amounts: widget.amounts,
+                                  product_amount: product_amount,
                                   type_pickup: typePickup,
                                   address: (typePickup == "delivery")
                                       ? input_address.text
@@ -317,6 +338,7 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
                                 productData: widget.data,
                                 price: widget.total,
                                 amounts: widget.amounts,
+                                product_amount: product_amount,
                                 type_pickup: typePickup,
                                 address: (typePickup == "delivery")
                                     ? input_address.text

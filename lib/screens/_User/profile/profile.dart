@@ -39,9 +39,14 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
   var value_exp_percent;
   Timer? _timer;
   bool isLoading = false;
+  bool openProfile = false;
+
+  var phone;
+  var gender;
+  var address;
 
   //TODO : Get Level & Exp
-  Future<void> getUserLevel(id) async {
+  Future<void> getUserDatabase(id) async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(id)
@@ -50,6 +55,9 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
       setState(() {
         value_level = event.get('level');
         value_exp = event.get('exp');
+        phone = event.get('phone');
+        gender = event.get('gender');
+        address = event.get('address');
       });
     });
   }
@@ -122,7 +130,7 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
   void initState() {
     super.initState();
 
-    getUserLevel(user?.uid);
+    getUserDatabase(user?.uid);
     _timer = Timer(const Duration(milliseconds: 250), () {
       levelCalculator(value_level, value_exp);
     });
@@ -416,13 +424,23 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Card_menuIcon(
-                                        icon: const FaIcon(
-                                          Icons.location_on,
-                                          color: Color(0xFF00883C),
+                                        icon: FaIcon(
+                                          (openProfile)
+                                              ? Icons.person_remove
+                                              : Icons.person,
+                                          color: const Color(0xFF00883C),
                                           size: 35,
                                         ),
-                                        title: "ที่อยู่จัดส่ง",
-                                        press: () {},
+                                        title: "รายละเอียด",
+                                        press: () {
+                                          setState(() {
+                                            if (openProfile == false) {
+                                              openProfile = true;
+                                            } else {
+                                              openProfile = false;
+                                            }
+                                          });
+                                        },
                                       ),
                                       Card_menuIcon(
                                         icon: const FaIcon(
@@ -457,8 +475,19 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 30.0),
 
+                          //TODO 12. Expened Profile
+                          (openProfile == true)
+                              ? _build_profileDetail(
+                                  phoneEZ: phone,
+                                  genderEZ: gender,
+                                  addressEZ: address,
+                                )
+                              : Container(),
+
+                          const SizedBox(height: 25.0),
+
+                          //TODO 13. SignOut Button
                           Center(
                             child: ElevatedButton(
                               child: Text(
@@ -499,6 +528,79 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  //================================================================================================================
+  //TODO : Widget Profile Detail
+  Widget _build_profileDetail(
+      {required phoneEZ, required genderEZ, required addressEZ}) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+      child: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //1. Header Detail Profile
+            Text(
+              "รายละเอียดของฉัน",
+              style: Roboto14_B_black,
+            ),
+            const SizedBox(height: 10.0),
+
+            //2. detail profile
+            listUserDetail(
+              const FaIcon(
+                FontAwesomeIcons.starOfLife,
+                color: Colors.black,
+                size: 13,
+              ),
+              "เพศ: ",
+              genderEZ,
+            ),
+            listUserDetail(
+              const FaIcon(
+                Icons.call,
+                color: Colors.black,
+                size: 15,
+              ),
+              "เบอร์โทร: ",
+              phoneEZ,
+            ),
+            listUserDetail(
+              const FaIcon(
+                Icons.location_on,
+                color: Colors.black,
+                size: 15,
+              ),
+              "ที่อยู่: ",
+              addressEZ,
+            ),
+            const SizedBox(height: 15.0),
+            const Divider(
+              height: 1.0,
+              thickness: 2.0,
+              color: Color(0xFFC3C3C3),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget listUserDetail(FaIcon iconEZ, String title, value) {
+    return Row(
+      children: [
+        iconEZ,
+        const SizedBox(width: 5.0),
+        Text(title, style: Roboto14_B_green),
+        const SizedBox(width: 5.0),
+        Text(
+          (value == null) ? "ไม่ได้ระบุ " : value,
+          style: Roboto14_black,
+        ),
+      ],
     );
   }
 }

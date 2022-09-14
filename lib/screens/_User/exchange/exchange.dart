@@ -35,6 +35,7 @@ class _Member_ExchangeScreenState extends State<Member_ExchangeScreen> {
         .where('recommend', isEqualTo: true)
         .limit(5)
         .snapshots();
+
     final Stream<QuerySnapshot> _Stream_normal = FirebaseFirestore.instance
         .collection('products')
         .where('amount', isGreaterThanOrEqualTo: 1)
@@ -114,24 +115,27 @@ class _Member_ExchangeScreenState extends State<Member_ExchangeScreen> {
                                             final int amount =
                                                 data.get("amount");
 
-                                            return CardProductHot(
-                                              name: name,
-                                              image: image,
-                                              token: "$token",
-                                              amount: "$amount",
-                                              press: () {
-                                                //ไปหน้ารายละเอียดโดยที่ ส่งค่าข้อมูลไปด้วย
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Member_ProductDetail(
-                                                      data: data,
+                                            if (amount >= 1) {
+                                              return CardProductHot(
+                                                name: name,
+                                                image: image,
+                                                token: "$token",
+                                                amount: "$amount",
+                                                press: () {
+                                                  //ไปหน้ารายละเอียดโดยที่ ส่งค่าข้อมูลไปด้วย
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Member_ProductDetail(
+                                                        data: data,
+                                                      ),
                                                     ),
-                                                  ),
-                                                );
-                                              },
-                                            );
+                                                  );
+                                                },
+                                              );
+                                            }
+                                            return Container();
                                           })
                                         ],
                                       );

@@ -208,11 +208,20 @@ class DatabaseEZ {
   Future updateProduct_reduceAmount({
     required String ID_product,
     required int amount,
+    required int product_amount,
   }) async {
     final reference = FirebaseFirestore.instance.collection('products');
-    await reference
-        .doc(ID_product)
-        .update({"amount": FieldValue.increment(-amount)});
+    //กรณีซื้อแล้วทำให้ของหมดคลัง
+    if (product_amount - amount == 0) {
+      await reference.doc(ID_product).update({
+        "amount": FieldValue.increment(-amount),
+        "status": false,
+      });
+    } else {
+      await reference
+          .doc(ID_product)
+          .update({"amount": FieldValue.increment(-amount)});
+    }
   }
 
   //TODO : UPDATE Level
@@ -229,16 +238,20 @@ class DatabaseEZ {
     });
   }
 
-  //TODO : UPDATE Level
-  Future updateUserProfile({
-    required String ID_user,
-    required String image,
-    required String name,
-    required String phone,
-    required String gender,
-  }) async {
+  //TODO : UPDATE Profile
+  Future updateUserProfile(
+      {required String ID_user,
+      required String name,
+      required String phone,
+      required String gender,
+      required String address}) async {
     final reference = FirebaseFirestore.instance.collection('users');
-    await reference.doc(ID_user).update({});
+    await reference.doc(ID_user).update({
+      "name": name,
+      "phone": phone,
+      "gender": gender,
+      "address": address,
+    });
   }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -319,6 +332,7 @@ class DatabaseEZ {
           "delivery": delivery,
           "recommend": recommend,
           "timeUpdate": DateTime.now(),
+          "status": true,
         })
         .then((value) => print("Add data success"))
         .catchError((error) => print("Faild : $error"));
@@ -354,6 +368,7 @@ class DatabaseEZ {
       "wallet": wallet,
       "txHash": txHash,
       "timestamp": DateTime.now(),
+      "status": "pending",
     });
   }
 

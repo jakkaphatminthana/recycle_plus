@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/add_product/add_product.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/history_product/product_history.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/more_product.dart/exchange_more.dart';
+import 'package:recycle_plus/screens/_Admin/exchange/order_product/order_product.dart';
 import 'package:recycle_plus/screens/_Admin/member/member.dart';
 import 'package:recycle_plus/screens/_Admin/news/news.dart';
 import 'package:recycle_plus/screens/_Admin/news/news_add.dart';
@@ -35,7 +37,7 @@ final Map<String, WidgetBuilder> routes = {
   Test1_listData.routeName: (context) => Test1_listData(),
   Test_MutiData.routeName: (context) => Test_MutiData(),
   Test_MetaMask.routeName: (context) => Test_MetaMask(),
-
+  
   Wallet_Connecting.routeName: (context) => Wallet_Connecting(),
   StartScreen.routeName: (context) => StartScreen(),
   LoginScreen.routeName: (context) => LoginScreen(),
@@ -45,13 +47,14 @@ final Map<String, WidgetBuilder> routes = {
   WelcomeScreen.routeName: (context) => WelcomeScreen(),
   LoginSuccess.routeName: (context) => LoginSuccess(),
   RegisterSuccess.routeName: (context) => RegisterSuccess(),
-  Dialog_SucessBuy.routeName:(context) => Dialog_SucessBuy(),
+  Dialog_SucessBuy.routeName: (context) => Dialog_SucessBuy(),
   Member_TabbarHome.routeName: (context) => Member_TabbarHome(0),
   Member_ProfileScreen.routeName: (context) => Member_ProfileScreen(),
   Member_TrashRate.routeName: (context) => Member_TrashRate(),
   Member_ExchangeScreen.routeName: (context) => Member_ExchangeScreen(),
   Member_ProductRC_More.routeName: (context) => Member_ProductRC_More(),
-  
+
+
   Admin_TabbarHome.routeName: (context) => Admin_TabbarHome(0),
   Admin_MemberScreen.routeName: (context) => Admin_MemberScreen(),
   Admin_NewsScreen.routeName: (context) => Admin_NewsScreen(),
@@ -61,4 +64,6 @@ final Map<String, WidgetBuilder> routes = {
   Admin_TrashControl.routeName: (context) => Admin_TrashControl(),
   Admin_AddProduct.routeName: (context) => Admin_AddProduct(),
   Admin_MoreProduct.routeName: (context) => Admin_MoreProduct(),
+  Admin_exchange_History.routeName: (context) => Admin_exchange_History(),
+  Admin_ExchangeOrder.routeName:(context) => Admin_ExchangeOrder(),
 };

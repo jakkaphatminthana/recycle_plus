@@ -41,7 +41,10 @@ class ListProduct extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: 95,
             decoration: BoxDecoration(
-              color: const Color(0xFFEEEEEE),
+              //กรณีสินค้าหมด
+              color: (amount == '0')
+                  ? const Color(0xFFB0B0B0)
+                  : const Color(0xFFEEEEEE),
               boxShadow: const [
                 BoxShadow(
                   //กำหนดเงา
@@ -96,7 +99,9 @@ class ListProduct extends StatelessWidget {
                                 (title.length > 25)
                                     ? title.substring(0, 25) + "..."
                                     : title,
-                                style: Roboto16_B_greenB,
+                                style: (amount == '0')
+                                    ? Roboto16_B_black
+                                    : Roboto16_B_greenB,
                               ),
                               Text(
                                 (subtitle.length > 30)
@@ -120,10 +125,7 @@ class ListProduct extends StatelessWidget {
                                         fit: BoxFit.cover,
                                       ),
                                       const SizedBox(width: 5.0),
-                                      Text(
-                                        token,
-                                        style: Roboto16_B_black,
-                                      ),
+                                      Text(token, style: Roboto16_B_black),
                                     ],
                                   ),
                                   const SizedBox(width: 10.0),
@@ -137,10 +139,15 @@ class ListProduct extends StatelessWidget {
                                         size: 20,
                                       ),
                                       const SizedBox(width: 5.0),
-                                      Text(
-                                        amount,
-                                        style: Roboto16_B_blue,
-                                      ),
+                                      (amount == '0')
+                                          ? Text(
+                                              "สินค้าหมด",
+                                              style: Roboto16_B_redM,
+                                            )
+                                          : Text(
+                                              amount,
+                                              style: Roboto16_B_blue,
+                                            ),
                                     ],
                                   ),
                                 ],

@@ -27,6 +27,8 @@ class _Admin_MoreProductState extends State<Admin_MoreProduct> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   bool isNFT = true;
   bool isLimited = true;
+  bool outOfStock = false;
+  var data_length;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,10 @@ class _Admin_MoreProductState extends State<Admin_MoreProduct> {
     final Stream<QuerySnapshot> _Stream_NFT = FirebaseFirestore.instance
         .collection('products')
         .where("category", isEqualTo: "NFT")
+        .snapshots();
+    final Stream<QuerySnapshot> _Stream_OutofStock = FirebaseFirestore.instance
+        .collection('products')
+        .where("amount", isEqualTo: 0)
         .snapshots();
     final Stream<QuerySnapshot> _Stream_All =
         FirebaseFirestore.instance.collection('products').snapshots();
@@ -77,11 +83,13 @@ class _Admin_MoreProductState extends State<Admin_MoreProduct> {
                   ? _Stream_Limited
                   : (isLimited == false && isNFT == true)
                       ? _Stream_NFT
-                      : _Stream_All,
+                      : (outOfStock == true)
+                          ? _Stream_OutofStock
+                          : _Stream_All,
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
-                  return Text("No data");
+                  return const Text("No data");
                 } else {
                   return ListView(
                     children: [
@@ -133,6 +141,7 @@ class _Admin_MoreProductState extends State<Admin_MoreProduct> {
   Future<void> showInformationDialog(BuildContext context) async {
     var check1 = isLimited;
     var check2 = isNFT;
+    var check3 = outOfStock;
     var checkError = 0;
 
     //1.Cancle buttons
@@ -142,6 +151,7 @@ class _Admin_MoreProductState extends State<Admin_MoreProduct> {
         setState(() {
           isLimited = true;
           isNFT = true;
+          outOfStock = false;
           checkError = 0;
         });
         Navigator.of(context).pop();
@@ -155,8 +165,8 @@ class _Admin_MoreProductState extends State<Admin_MoreProduct> {
         // print("isNFT = $isNFT");
         // print("checkError = $checkError");
 
-        //2.1 เมื่อมีการ false ทั้งสองตัวเลือก
-        if (check1 == false && check2 == false) {
+        //2.1 เมื่อมีการ false ทุกตัวเลือก
+        if (check1 == false && check2 == false && check3 == false) {
           setState(() {
             checkError = 1;
           });
@@ -171,6 +181,7 @@ class _Admin_MoreProductState extends State<Admin_MoreProduct> {
           setState(() {
             isLimited = check1;
             isNFT = check2;
+            outOfStock = check3;
             checkError = 0;
           });
           Navigator.of(context).pop();
@@ -215,6 +226,9 @@ class _Admin_MoreProductState extends State<Admin_MoreProduct> {
                             onChanged: (checked) {
                               setState(() {
                                 check1 = checked!;
+                                if (check3 == true) {
+                                  check3 = false;
+                                }
                               });
                             },
                           ),
@@ -238,6 +252,35 @@ class _Admin_MoreProductState extends State<Admin_MoreProduct> {
                             onChanged: (checked) {
                               setState(() {
                                 check2 = checked!;
+                                if (check3 == true) {
+                                  check3 = false;
+                                }
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    //3.3 Checkbox NFT
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _buildCheckBox(
+                          iconEZ: Icons.cancel_sharp,
+                          title: "สินค้าหมด",
+                        ),
+                        Transform.scale(
+                          scale: 1.1,
+                          child: Checkbox(
+                            value: check3,
+                            activeColor: Colors.redAccent,
+                            onChanged: (checked) {
+                              setState(() {
+                                check3 = checked!;
+                                if (checked == true) {
+                                  check1 = false;
+                                  check2 = false;
+                                }
                               });
                             },
                           ),

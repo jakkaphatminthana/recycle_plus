@@ -128,8 +128,10 @@ class AuthService {
         "exp": 1.0,
         "level": 1,
         "bonus": 1.0,
+        "phone": "",
+        "gender": "ไม่ระบุเพศ",
         "image":
-            "https://firebasestorage.googleapis.com/v0/b/recycleplus-feecd.appspot.com/o/images%2Fuser.png?alt=media&token=70f2d6d9-e17a-40fa-b04f-71e7f6ab14f6",
+            "https://firebasestorage.googleapis.com/v0/b/recycleplus-feecd.appspot.com/o/images%2Fuser_default.png?alt=media&token=5eb3431e-6485-4da5-9014-1ffee1134211",
       });
     } catch (e) {
       print("Error create profile faild : $e");

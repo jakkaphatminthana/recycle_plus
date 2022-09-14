@@ -124,6 +124,7 @@ showAlertDialog_Buy({
   required productData,
   required double price,
   required int amounts,
+  required int product_amount,
   required type_pickup,
   required address,
 }) {
@@ -150,6 +151,7 @@ showAlertDialog_Buy({
         productData,
         price,
         amounts,
+        product_amount,
         type_pickup,
         address,
       ),
@@ -196,6 +198,7 @@ GestureTapCallback ConfrimContinue(
   product,
   price,
   amount,
+  product_amount,
   typePickup,
   address,
 ) {
@@ -251,7 +254,11 @@ GestureTapCallback ConfrimContinue(
         print("order success");
         //TODO 4: Reduce Amount Product <---------------------------------------
         db
-            .updateProduct_reduceAmount(ID_product: id_product, amount: amount)
+            .updateProduct_reduceAmount(
+              ID_product: id_product,
+              amount: amount,
+              product_amount: product_amount,
+            )
             .then((value) => print("Reduce product success"))
             .catchError((err) => print("Error reduce product: $err"));
       }).catchError((err) => print("Error transaction: $err"));

@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/font.dart';
+import 'package:recycle_plus/screens/_Admin/member/member_edit/textfieldStyle.dart';
 import 'package:recycle_plus/screens/_User/profile/edit_profile/textfieldStyle.dart';
 import 'package:recycle_plus/screens/_User/profile/profile.dart';
 import 'package:recycle_plus/service/database.dart';
@@ -27,16 +30,19 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
   //db = ติดต่อ firebase
   final _formKey = GlobalKey<FormState>();
   DatabaseEZ db = DatabaseEZ.instance;
+  User? user = FirebaseAuth.instance.currentUser;
   bool? isloading = false;
 
   late TextEditingController TC_Name;
   late TextEditingController TC_Phone;
   late TextEditingController TC_Gender;
+  late TextEditingController TC_Address;
 
   final GenderType = ["ไม่ระบุเพศ", "Male", "Female", "LGBT+"];
   String? value_name;
   String? value_phone;
   String? value_gender;
+  String? value_address;
 
   //url รูปที่อัพโหลด
   File? value_image;
@@ -75,6 +81,7 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
     var nameFB = widget.data!.get('name');
     var phoneFB = widget.data!.get('phone');
     var genderFB = widget.data!.get('gender');
+    var addressFB = widget.data!.get('address');
 
     //กำหนดค่าเริ่มต้นของ textfield ให้แสดงเป็นไปตามข้อมูล firebase
     TC_Name = (value_name == null)
@@ -86,6 +93,10 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
     TC_Gender = (value_gender == null)
         ? TextEditingController(text: genderFB) //ค่าเริ่มต้นตาม firebase
         : TextEditingController(text: value_gender); //ค่าที่กำลังป้อน
+    TC_Address = (value_address == null)
+        ? TextEditingController(text: addressFB) //ค่าเริ่มต้นตาม firebase
+        : TextEditingController(text: value_address); //ค่าที่กำลังป้อน
+
     //==============================================================================================================
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -113,11 +124,15 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
                     (value_gender == null)
                         ? value_gender = genderFB
                         : value_gender;
+                    (value_address == null)
+                        ? value_address = addressFB
+                        : value_address;
                   });
                   print("value_image = $value_image");
                   print("value_name = $value_name");
                   print("value_phone = $value_phone");
                   print("value_gender = $value_gender");
+                  print("value_gender = $value_address");
                   _showAlertDialogUpdate(context);
                 }
               },
@@ -214,6 +229,31 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
                                     print("valueEZ = $value_gender");
                                   },
                                 ),
+                              ),
+                            ),
+                            const SizedBox(height: 15.0),
+
+                            //TODO 2.4 Form Address
+                            ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxHeight: 400,
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * 0.89,
+                              ),
+                              child: TextFormField(
+                                controller: TC_Address,
+                                //พิมพ์หลายบรรทัดได้
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                minLines: 1,
+                                style: Roboto14_black,
+                                decoration: styleTextEditProfile(
+                                  'Address',
+                                  'เพิ่มที่อยู่ในการจัดส่ง',
+                                ),
+                                validator: ValidatorEmpty,
+                                onChanged: (value) => value_address = value,
+                                onSaved: (value) => value_address = value,
                               ),
                             ),
                           ],
@@ -332,7 +372,7 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
     Widget continueButton(BuildContext context) {
       return FlatButton(
         child: Text("ยืนยัน", style: Roboto16_B_green),
-        onPressed: ConfrimContinue,
+        onPressed: ConfrimContinue(),
       );
     }
 
@@ -365,6 +405,7 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
     return () async {
       Navigator.of(context).pop();
 
+      //4.1 กรณีที่เปลี่ยนรูปด้วย
       if (value_image != null) {
         //TODO : uplode image at firestroge
         var image_url = await uploadImage(
@@ -373,9 +414,43 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
           userId: widget.data!.get('id'),
         );
 
-        //TODO : uploade data to firebase
-        
-      } else {}
+        // TODO : uploade data to firebase
+        await db
+            .updateUserProfile(
+          ID_user: user!.uid,
+          name: "$value_name",
+          phone: "$value_phone",
+          gender: "$value_gender",
+          address: "$value_address",
+        )
+            .then((value) async {
+          await Fluttertoast.showToast(
+            msg: "อัปเดตข้อมูลแล้ว",
+            gravity: ToastGravity.BOTTOM,
+          );
+          Navigator.pushReplacementNamed(
+              context, Member_ProfileScreen.routeName);
+        }).catchError((err) => print("Error update: $err"));
+        //4.2 กรณีที่เปลี่ยนแค่ข้อมูล
+      } else {
+        // TODO : uploade data to firebase
+        await db
+            .updateUserProfile(
+          ID_user: user!.uid,
+          name: "$value_name",
+          phone: "$value_phone",
+          gender: "$value_gender",
+          address: "$value_address",
+        )
+            .then((value) async {
+          await Fluttertoast.showToast(
+            msg: "อัปเดตข้อมูลแล้ว",
+            gravity: ToastGravity.BOTTOM,
+          );
+          Navigator.pushReplacementNamed(
+              context, Member_ProfileScreen.routeName);
+        }).catchError((err) => print("Error update: $err"));
+      }
     };
   }
 }
