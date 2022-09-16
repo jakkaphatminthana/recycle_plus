@@ -319,64 +319,67 @@ class _WalletScreenState extends State<WalletScreen> {
 
               //TODO 7: List Transaction
               Expanded(
-                child: StreamBuilder(
-                  stream: _transaction,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (!snapshot.hasData) {
-                      return _build_Notfound();
-                    } else if (snapshot.hasError) {
-                      return _build_Notfound();
-                    } else {
-                      return (daley == false)
-                          ? const SpinKitRing(
-                              color: Colors.green,
-                              size: 60.0,
-                            )
-                          : ListView(
-                              children: [
-                                //TODO : Fetch data here --------------------------
-                                ...snapshot.data!.docs
-                                    .map((QueryDocumentSnapshot<Object?> data) {
-                                  //ได้ตัว Data มาละ ----------<<<
-                                  final String txHash = data.get("TxnHash");
-                                  final token = data.get("amount");
-                                  final time = data.get("timestamp");
-                                  final String order = data.get("order");
+                child: (data_length == 0)
+                    ? _build_Notfound()
+                    : StreamBuilder(
+                        stream: _transaction,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (!snapshot.hasData) {
+                            return _build_Notfound();
+                          } else {
+                            return (daley == false)
+                                ? const SpinKitRing(
+                                    color: Colors.green,
+                                    size: 60.0,
+                                  )
+                                : ListView(
+                                    children: [
+                                      //TODO : Fetch data here --------------------------
+                                      ...snapshot.data!.docs.map(
+                                          (QueryDocumentSnapshot<Object?>
+                                              data) {
+                                        //ได้ตัว Data มาละ ----------<<<
+                                        final String txHash =
+                                            data.get("TxnHash");
+                                        final token = data.get("amount");
+                                        final time = data.get("timestamp");
+                                        final String order = data.get("order");
 
-                                  return Padding(
-                                    padding: const EdgeInsets.only(bottom: 5.0),
-                                    child: _build_listTransaction(
-                                      txHash: txHash,
-                                      token: token,
-                                      order: order,
-                                      time: time,
-                                    ),
+                                        return Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 5.0),
+                                          child: _build_listTransaction(
+                                            txHash: txHash,
+                                            token: token,
+                                            order: order,
+                                            time: time,
+                                          ),
+                                        );
+                                      }),
+                                      // //TODO 8: Load More
+                                      (isloading == true)
+                                          ? const SpinKitWave(
+                                              color: Colors.black,
+                                              size: 30.0,
+                                            )
+                                          //กรณีที่ไม่เหลือให้ load more แล้วให้หยุด
+                                          : (item_limit >= data_length)
+                                              ? Container()
+                                              : RaisedButton(
+                                                  child: const Text("MORE"),
+                                                  onPressed: () async {
+                                                    print("len: $data_length");
+                                                    setState(() {
+                                                      isloading = true;
+                                                      timeingLoad();
+                                                    });
+                                                  }),
+                                    ],
                                   );
-                                }),
-                                // //TODO 8: Load More
-                                (isloading == true)
-                                    ? const SpinKitWave(
-                                        color: Colors.black,
-                                        size: 30.0,
-                                      )
-                                    //กรณีที่ไม่เหลือให้ load more แล้วให้หยุด
-                                    : (item_limit >= data_length)
-                                        ? Container()
-                                        : RaisedButton(
-                                            child: const Text("MORE"),
-                                            onPressed: () async {
-                                              print("len: $data_length");
-                                              setState(() {
-                                                isloading = true;
-                                                timeingLoad();
-                                              });
-                                            }),
-                              ],
-                            );
-                    }
-                  },
-                ),
+                          }
+                        },
+                      ),
               ),
             ],
           ),

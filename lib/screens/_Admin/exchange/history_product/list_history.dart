@@ -43,7 +43,7 @@ class _List_historyState extends State<List_history> {
   var product_name;
   String? product_image;
 
-  //TODO : Get Level & Exp
+  //TODO : Get User Database
   Future<void> getUserDatabase(id) async {
     await FirebaseFirestore.instance
         .collection('users')
@@ -58,7 +58,7 @@ class _List_historyState extends State<List_history> {
     });
   }
 
-  //TODO : Get Level & Exp
+  //TODO : Get Product Database
   Future<void> getProductDatabase(id) async {
     await FirebaseFirestore.instance
         .collection('products')

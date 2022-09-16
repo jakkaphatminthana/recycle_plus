@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/appbar/appbar_title.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/routes.dart';
+import 'package:recycle_plus/screens/_User/mission/misson.dart';
 import 'package:recycle_plus/screens/success/verify_email.dart';
 
 import 'exchange/exchange.dart';
@@ -125,7 +126,7 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
             physics: const NeverScrollableScrollPhysics(), //ไม่ต้องเลื่อนได้,
             children: [
               User_HomeScreen(),
-              PageTest2(),
+              Member_MissionScreen(),
               Member_ExchangeScreen(),
               PageTest4(),
             ],

@@ -40,6 +40,7 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
   Timer? _timer;
   bool isLoading = false;
   bool openProfile = false;
+  int max_level = 100;
 
   var phone;
   var gender;
@@ -88,7 +89,7 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
       value_exp_remain = value_exp_next - value_exp;
 
       //กรณีที่มีค่า exp แบบที่สามารถ level up ได้หลายรอบ
-      while (value_exp >= value_exp_next) {
+      while (value_exp >= value_exp_next && (value_level + 1) <= 100) {
         value_level = value_level + 1;
         value_exp = value_exp - value_exp_next;
         value_exp_next = (baseXP * (pow(value_level + 2, exponent))).round();
@@ -365,6 +366,12 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
+                                        child: (value_level == max_level)
+                                            ? Center(
+                                                child: Text('Maximum',
+                                                    style: Roboto12_B_white),
+                                              )
+                                            : Container(),
                                       ),
                                     ],
                                   ),
@@ -389,13 +396,19 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
                                           ),
                                           const SizedBox(width: 5.0),
                                           Text(
-                                            "EXP: $expFB/$exp_next",
+                                            (value_level == max_level)
+                                                ? "EXP: $exp_next/$exp_next"
+                                                : "EXP: $expFB/$exp_next",
                                             style: Roboto14_black,
                                           ),
                                         ],
                                       ),
-                                      Text("$exp_remain XP. to level up",
-                                          style: Roboto14_black),
+                                      Text(
+                                        (value_level == max_level)
+                                            ? "you have $value_exp XP."
+                                            : "$exp_remain XP. to level up",
+                                        style: Roboto14_black,
+                                      ),
                                     ],
                                   ),
                                 ),

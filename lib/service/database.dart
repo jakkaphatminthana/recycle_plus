@@ -254,6 +254,24 @@ class DatabaseEZ {
     });
   }
 
+  Future updateOrderStatus(
+      {ID_order, Type_order, status, company, tracking}) async {
+    final reference = FirebaseFirestore.instance
+        .collection('orders')
+        .doc('trading')
+        .collection('order');
+
+    if (Type_order == 'pickup' || status == "sending") {
+      await reference.doc(ID_order).update({'status': 'success'});
+    } else {
+      await reference.doc(ID_order).update({
+        'status': 'sending',
+        'transport': company,
+        'tracking': tracking,
+      });
+    }
+  }
+
 //---------------------------------------------------------------------------------------------------------------------
 //TODO : ADD
 

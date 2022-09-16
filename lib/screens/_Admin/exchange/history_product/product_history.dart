@@ -48,6 +48,7 @@ class _Admin_exchange_HistoryState extends State<Admin_exchange_History> {
       .collection('orders')
       .doc('trading')
       .collection('order')
+      .where('status', isEqualTo: "success")
       .snapshots();
 
   @override
