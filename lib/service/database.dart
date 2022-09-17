@@ -254,6 +254,7 @@ class DatabaseEZ {
     });
   }
 
+  //TODO : UPDATE Order Trading
   Future updateOrderStatus(
       {ID_order, Type_order, status, company, tracking}) async {
     final reference = FirebaseFirestore.instance
@@ -270,6 +271,17 @@ class DatabaseEZ {
         'tracking': tracking,
       });
     }
+  }
+
+  //TODO : UPDATE exp
+  Future updateAddExp({
+    required String user_ID,
+    required exp,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('users');
+    await reference.doc(user_ID).update({
+      "exp": FieldValue.increment(exp),
+    });
   }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -356,6 +368,29 @@ class DatabaseEZ {
         .catchError((error) => print("Faild : $error"));
   }
 
+  //TODO : ADD transaction Blockchain
+  Future createTransaction({
+    required String? ID_user,
+    required String? wallet,
+    required String? txHash,
+    required double? token,
+    required String? order,
+  }) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(ID_user)
+        .collection('wallet')
+        .doc(wallet)
+        .collection('transaction')
+        .doc(txHash)
+        .set({
+      "TxnHash": txHash,
+      "amount": token,
+      "order": order,
+      "timestamp": DateTime.now(),
+    });
+  }
+
   //TODO : ADD Orders(Trading)
   Future createOrder_trading({
     required String? ID_user,
@@ -390,25 +425,31 @@ class DatabaseEZ {
     });
   }
 
-  //TODO : ADD transaction
-  Future createTransaction({
+  //TODO : ADD Orders(TrashReward)
+  Future createOrder_trashReward({
+    required String? uid,
     required String? ID_user,
+    required String? trash_type,
+    required String? imageURL,
+    required int? amount,
+    required double? token,
+    required double? exp,
     required String? wallet,
     required String? txHash,
-    required double? token,
-    required String? order,
   }) async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(ID_user)
-        .collection('wallet')
-        .doc(wallet)
-        .collection('transaction')
-        .doc(txHash)
-        .set({
-      "TxnHash": txHash,
-      "amount": token,
-      "order": order,
+    final reference = FirebaseFirestore.instance.collection('orders');
+
+    await reference.doc('trash').collection('order').doc(uid).set({
+      "order": "trash",
+      "id": uid,
+      "ID_user": ID_user,
+      "trash_type": trash_type,
+      "image": imageURL,
+      "amount": amount,
+      "token": token,
+      "exp": exp,
+      "wallet": wallet,
+      "txHash": txHash,
       "timestamp": DateTime.now(),
     });
   }

@@ -7,6 +7,8 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/routes.dart';
 import 'package:recycle_plus/screens/_User/achievement/achievement.dart';
 import 'package:recycle_plus/screens/_User/mission/misson.dart';
+import 'package:recycle_plus/screens/scanQR/before.dart';
+import 'package:recycle_plus/screens/scanQR/trash_reward.dart';
 import 'package:recycle_plus/screens/success/verify_email.dart';
 
 import 'exchange/exchange.dart';
@@ -94,7 +96,14 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
                   color: Colors.white,
                   size: 35,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TestSend(),
+                    ),
+                  );
+                },
               ),
               IconButton(
                 icon: const FaIcon(

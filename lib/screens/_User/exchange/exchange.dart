@@ -212,8 +212,12 @@ class _Member_ExchangeScreenState extends State<Member_ExchangeScreen> {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 40,
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 251, 241, 189),
+      decoration: BoxDecoration(
+        // color: Color.fromARGB(255, 251, 241, 189),
+        color: Colors.white,
+        border: Border.all(
+          width: 1,
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(10, 3, 10, 5),

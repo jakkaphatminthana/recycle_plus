@@ -85,19 +85,19 @@ Future<String> submit(
 //TODO 4: Function SendToken
 Future<String> SendToken(
     Web3Client ethClient, int amount, String from, String to) async {
-  var bigAmount = BigInt.from(amount);
   EthereumAddress address_from = EthereumAddress.fromHex(from);
   EthereumAddress address_to = EthereumAddress.fromHex(to);
 
-  //แปลงค่าให้มี 0 จำนวน 18 ตัว
-  final decimal = BigInt.from(pow(10, 18));
-  var value = bigAmount * decimal;
+  // //แปลงค่าให้มี 0 จำนวน 18 ตัว
+    final decimal = pow(10, 18);
+    var value = amount * decimal;
+    var bigAmount = BigInt.from(value);
 
   //sign transaction
   var response = await submit(
     ethClient,
     "sendToken",
-    [address_from, address_to, value],
+    [address_from, address_to, bigAmount],
   );
 
   print("from: $from");
