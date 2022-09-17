@@ -206,10 +206,10 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
 
 //TODO : Logo Sponsor Widget
 Widget buildLogoSponsor(SponsorModel sponsor) => Padding(
-      padding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
+      padding: const EdgeInsets.all(5.0),
       child: Image.network(
         sponsor.image,
-        width: 50,
+        width: 65,
         height: 50,
         fit: BoxFit.cover,
       ),
