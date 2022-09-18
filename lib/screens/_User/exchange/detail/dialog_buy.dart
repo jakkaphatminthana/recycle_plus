@@ -221,7 +221,7 @@ GestureTapCallback ConfrimContinue(
 
     //TODO 1: Send Transaction
     var txHash =
-        await SendToken(ethClient, 1, walletAddress, MainAddress).then((value) {
+        await SendToken(ethClient, price, walletAddress, MainAddress).then((value) {
       transactionEZ = "$value";
       print("Success TXH: $value");
     }).catchError((err) => print("Error smartcontract: $err"));
