@@ -32,6 +32,8 @@ class _Admin_MemberDetailState extends State<Admin_MemberDetail> {
     Stream<List<UserModel>> user_strem = db.getStateUser();
     String userRole = widget.data!.get('role');
 
+    bool user_verify = widget.data!.get('verify');
+//=====================================================================================================================
     return Scaffold(
       key: scaffoldKey,
       //TODO 1. Appbar Header
@@ -109,9 +111,9 @@ class _Admin_MemberDetailState extends State<Admin_MemberDetail> {
                         title: userRole,
                         status: true,
                       ),
-                      const CardMemberStatus(
+                      CardMemberStatus(
                         title: "ยืนยันตัวตน",
-                        status: false,
+                        status: (user_verify == true) ? true : false,
                       ),
                       const CardMemberStatus(
                         title: "Wallet Conent",

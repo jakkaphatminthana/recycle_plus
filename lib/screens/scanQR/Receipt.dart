@@ -789,7 +789,7 @@ class _ReceiptState extends State<Receipt> {
                                           .createTransaction(
                                         ID_user: user!.uid,
                                         wallet: _account,
-                                        txHash: txHash,
+                                        txHash: transactionEZ,
                                         token: reward_total_token,
                                         order: "trash",
                                       )
