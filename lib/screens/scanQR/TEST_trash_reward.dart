@@ -183,7 +183,6 @@ class _RewardWidgetState extends State<RewardWidget> {
   //(((((((((((((((((((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))))))))))))))))))))
   bool delay = false;
   Timer? _timer;
-  Timer? _timer2;
   var user_bonus;
   var user_exp;
   var trash_token;
@@ -254,7 +253,6 @@ class _RewardWidgetState extends State<RewardWidget> {
   void dispose() {
     super.dispose();
     _timer!.cancel();
-    _timer2!.cancel();
   }
 
   @override

@@ -1,20 +1,23 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/appbar/appbar_title.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/routes.dart';
 import 'package:recycle_plus/screens/_User/achievement/achievement.dart';
 import 'package:recycle_plus/screens/_User/mission/misson.dart';
-import 'package:recycle_plus/screens/scanQR/before.dart';
-import 'package:recycle_plus/screens/scanQR/trash_reward.dart';
+import 'package:recycle_plus/screens/scanQR/LDPE/LDPE_detail.dart';
+import 'package:recycle_plus/screens/scanQR/PETE/PETE_detail.dart';
+import 'package:recycle_plus/screens/scanQR/PP/PP_detail.dart';
+import 'package:recycle_plus/screens/scanQR/Qrscan.dart';
+import 'package:recycle_plus/screens/scanQR/TEST_before.dart';
+import 'package:recycle_plus/screens/scanQR/TEST_trash_reward.dart';
 import 'package:recycle_plus/screens/success/verify_email.dart';
 
 import 'exchange/exchange.dart';
 import 'home/user_home.dart';
-import 'page2.dart';
-import 'page4.dart';
 import 'profile/profile.dart';
 
 class Member_TabbarHome extends StatefulWidget {
@@ -62,6 +65,43 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
     );
   }
 
+  Future<void> scanQR() async {
+    try {
+      FlutterBarcodeScanner.scanBarcode('#2A99CF', 'Cancel', true, ScanMode.QR)
+          .then((value) {
+        setState(() {
+          qrString = value;
+        });
+        if (qrString == 'Recycle+_PETE') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => PETE_detailWidget()),
+            ),
+          );
+        } else if (qrString == 'Recycle+_LDPE') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => LDPE_detailWidget()),
+            ),
+          );
+        } else if (qrString == 'Recycle+_PP') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => PP_detailWidget()),
+            ),
+          );
+        }
+      });
+    } catch (e) {
+      setState(() {
+        qrString = 'unable to read the qr';
+      });
+    }
+  }
+
 //==================================================================================================================
   @override
   Widget build(BuildContext context) {
@@ -96,12 +136,11 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
                   color: Colors.white,
                   size: 35,
                 ),
-                onPressed: () {
+                onPressed: () async {
+                  // await scanQR();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => TestSend(),
-                    ),
+                    MaterialPageRoute(builder: (context) => QRscanWidget()),
                   );
                 },
               ),

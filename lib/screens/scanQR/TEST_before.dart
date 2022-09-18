@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:recycle_plus/screens/scanQR/trash_reward.dart';
+import 'package:recycle_plus/screens/scanQR/TEST_trash_reward.dart';
 import 'package:uuid/uuid.dart';
 
 class TestSend extends StatefulWidget {
