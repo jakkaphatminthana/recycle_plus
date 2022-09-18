@@ -1,21 +1,6 @@
-import 'dart:async';
-import 'dart:math';
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/screens/_User/tabbar_control.dart';
-import 'package:recycle_plus/service/database.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
-import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:web3dart/web3dart.dart' as web3;
 
 class RewardWidget extends StatefulWidget {
   const RewardWidget({

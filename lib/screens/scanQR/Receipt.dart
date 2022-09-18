@@ -752,15 +752,15 @@ class _ReceiptState extends State<Receipt> {
                                       // print('image path: ${widget.image_path}');
                                       // print('amount: ${widget.amount}');
 
-                                      print('user bonus: $user_bonus');
-                                      print('user bonus: $user_bonus');
-                                      print('trash token: $trash_token');
-                                      print('token bonus: $reward_bonus_token');
-                                      print('trash exp: $trash_exp');
+                                      // print('user bonus: $user_bonus');
+                                      // print('user bonus: $user_bonus');
+                                      // print('trash token: $trash_token');
+                                      // print('token bonus: $reward_bonus_token');
+                                      // print('trash exp: $trash_exp');
 
-                                      print(
-                                          'trash reward token: $reward_token');
-                                      print('trash reward exp: $reward_exp');
+                                      // print(
+                                      //     'trash reward token: $reward_token');
+                                      // print('trash reward exp: $reward_exp');
 
                                       //generate key id
                                       var uid = Uuid();
@@ -774,7 +774,7 @@ class _ReceiptState extends State<Receipt> {
                                       );
                                       //TODO : SendTransaction Blockchain ----------------------------<<<<<<<<
                                       var txHash = await TransferToken(
-                                              reward_token, _account)
+                                              reward_total_token, _account)
                                           .then((value) {
                                         print('transfer success');
                                         setState(() {
@@ -790,7 +790,7 @@ class _ReceiptState extends State<Receipt> {
                                         ID_user: user!.uid,
                                         wallet: _account,
                                         txHash: txHash,
-                                        token: reward_token,
+                                        token: reward_total_token,
                                         order: "trash",
                                       )
                                           .then(
