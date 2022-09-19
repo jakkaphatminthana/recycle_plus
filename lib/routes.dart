@@ -13,6 +13,7 @@ import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/dialog_success.dart';
 import 'package:recycle_plus/screens/_User/exchange/exchange_more/product_recomend.dart';
 import 'package:recycle_plus/screens/_User/profile/edit_profile/profile_edit.dart';
+import 'package:recycle_plus/screens/_User/profile/order/order.dart';
 import 'package:recycle_plus/screens/forgotPass/forgotPass.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:recycle_plus/screens/login_no/login_no.dart';
@@ -54,6 +55,7 @@ final Map<String, WidgetBuilder> routes = {
   Member_TrashRate.routeName: (context) => Member_TrashRate(),
   Member_ExchangeScreen.routeName: (context) => Member_ExchangeScreen(),
   Member_ProductRC_More.routeName: (context) => Member_ProductRC_More(),
+  Member_orderTrading.routeName:(context) => Member_orderTrading(),
 
 
   Admin_TabbarHome.routeName: (context) => Admin_TabbarHome(0),

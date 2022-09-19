@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:recycle_plus/screens/_User/profile/edit_profile/profile_edit.dart';
+import 'package:recycle_plus/screens/_User/profile/order/order.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:recycle_plus/service/database.dart';
 
@@ -461,8 +462,13 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
                                           color: Color(0xFF00883C),
                                           size: 35,
                                         ),
-                                        title: "ประวัติธุรกรรม",
-                                        press: () {},
+                                        title: "ออเดอร์ฉัน",
+                                        press: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            Member_orderTrading.routeName,
+                                          );
+                                        },
                                       ),
                                       Card_menuIcon(
                                         icon: const FaIcon(
