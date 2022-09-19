@@ -84,7 +84,7 @@ Future<String> submit(
 
 //TODO 4: Function SendToken
 Future<String> SendToken(
-    Web3Client ethClient, int amount, String from, String to) async {
+    Web3Client ethClient, double amount, String from, String to) async {
   EthereumAddress address_from = EthereumAddress.fromHex(from);
   EthereumAddress address_to = EthereumAddress.fromHex(to);
 
@@ -217,7 +217,7 @@ GestureTapCallback ConfrimContinue(
     // print("price: $price");
     // print("amount: $amount");
     // print("address: $address");
-    isLoading = true;
+    // isLoading = true;
 
     //TODO 1: Send Transaction
     var txHash =

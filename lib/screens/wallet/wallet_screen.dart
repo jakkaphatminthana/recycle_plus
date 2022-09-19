@@ -216,7 +216,7 @@ class _WalletScreenState extends State<WalletScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // //TODO 1: Kill Session
+              // // //TODO 1: Kill Session
               // MaterialButton(
               //   child: const Text("KillSession"),
               //   onPressed: () {

@@ -8,6 +8,7 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/routes.dart';
 import 'package:recycle_plus/screens/_User/achievement/achievement.dart';
 import 'package:recycle_plus/screens/_User/mission/misson.dart';
+import 'package:recycle_plus/screens/login_no/login_no.dart';
 import 'package:recycle_plus/screens/scanQR/LDPE/LDPE_detail.dart';
 import 'package:recycle_plus/screens/scanQR/PETE/PETE_detail.dart';
 import 'package:recycle_plus/screens/scanQR/PP/PP_detail.dart';
@@ -152,6 +153,8 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, Member_ProfileScreen.routeName);
+                  // Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => PleaseLogin()));
                 },
               ),
             ],

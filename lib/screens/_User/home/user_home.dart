@@ -3,6 +3,7 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/components/wallet/wallet_card.dart';
 import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/sponsor_model.dart';
+import 'package:recycle_plus/screens/login_no/login_no.dart';
 import 'package:recycle_plus/screens/start/start.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';

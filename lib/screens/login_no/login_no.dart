@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:recycle_plus/screens/login/body_login.dart';
 
 class PleaseLogin extends StatelessWidget {
   const PleaseLogin({Key? key}) : super(key: key);
@@ -91,7 +92,9 @@ class PleaseLogin extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20.0),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, LoginScreen.routeName);
+                      },
                     ),
                   ],
                 ),

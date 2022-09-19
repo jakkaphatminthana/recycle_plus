@@ -6,6 +6,7 @@ import 'package:recycle_plus/screens/_Admin/setting/setting.dart';
 import 'package:recycle_plus/screens/_Admin/setting/sponsor%20logo/sponsor_logo.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
+import 'package:recycle_plus/screens/_User/tabbar_control.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:recycle_plus/screens/start/start.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -55,10 +56,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      //initialRoute: LoginScreen.routeName,
+      // initialRoute: Member_TabbarHome.routeName,
       routes: routes,
 
-      //TODO : ใช้ดักทางสำหรับ user ไม่มีบัญชีและไม่ยืนยันบัญชี
+      // TODO : ใช้ดักทางสำหรับ user ไม่มีบัญชีและไม่ยืนยันบัญชี
       home: Scaffold(
         body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),

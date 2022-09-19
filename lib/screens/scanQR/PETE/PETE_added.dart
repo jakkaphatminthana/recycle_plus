@@ -226,7 +226,7 @@ class _PETE_addedWidgetState extends State<PETE_addedWidget> {
                                       children: [
                                         Container(
                                           child: Text(
-                                            "{$widget.amount}", //จำนวนขยะ
+                                            "${widget.amount}", //จำนวนขยะ
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: 16,
