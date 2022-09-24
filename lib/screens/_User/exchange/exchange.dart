@@ -33,12 +33,13 @@ class _Member_ExchangeScreenState extends State<Member_ExchangeScreen> {
     final Stream<QuerySnapshot> _Stream_recommend = FirebaseFirestore.instance
         .collection('products')
         .where('recommend', isEqualTo: true)
+        .where('status', isEqualTo: true)
         .limit(5)
         .snapshots();
 
     final Stream<QuerySnapshot> _Stream_normal = FirebaseFirestore.instance
         .collection('products')
-        .where('amount', isGreaterThanOrEqualTo: 1)
+        .where('status', isEqualTo: true)
         .limit(6)
         .snapshots();
     //===========================================================================================================
@@ -89,7 +90,7 @@ class _Member_ExchangeScreenState extends State<Member_ExchangeScreen> {
                         height: 210,
                         child: Row(
                           children: [
-                            //TODO 4. Firebase Product Recoment ----------------------------
+                            //TODO 4. Firebase Product Recomment ---------------------------
                             Expanded(
                               child: StreamBuilder<QuerySnapshot>(
                                   stream: _Stream_recommend,
@@ -174,23 +175,28 @@ class _Member_ExchangeScreenState extends State<Member_ExchangeScreen> {
                             final double token = data.get("token");
                             final int amount = data.get("amount");
 
-                            return CardProductBig(
-                              name: name,
-                              image: image,
-                              token: "$token",
-                              amount: "$amount",
-                              press: () {
-                                //ไปหน้ารายละเอียดโดยที่ ส่งค่าข้อมูลไปด้วย
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Member_ProductDetail(
-                                      data: data,
+                            if (amount >= 1) {
+                              return CardProductBig(
+                                name: name,
+                                image: image,
+                                token: "$token",
+                                amount: "$amount",
+                                press: () {
+                                  //ไปหน้ารายละเอียดโดยที่ ส่งค่าข้อมูลไปด้วย
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          Member_ProductDetail(
+                                        data: data,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                            );
+                                  );
+                                },
+                              );
+                            } else {
+                              return Container();
+                            }
                           }),
                         ],
                       ),

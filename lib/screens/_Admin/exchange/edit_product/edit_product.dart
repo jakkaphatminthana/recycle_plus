@@ -702,8 +702,7 @@ class _Admin_editProductState extends State<Admin_editProduct> {
       child: Text("Delete", style: Roboto16_B_red),
       onPressed: () async {
         await DeleteProduct(
-          imgURL: widget.data!.get('image'),
-          uid: widget.data!.get("id"),
+          product_ID: widget.data!.get("id"),
         );
       },
     );
@@ -727,17 +726,12 @@ class _Admin_editProductState extends State<Admin_editProduct> {
     );
   }
 
-  //TODO : Delete Storage and Firebase
-  DeleteProduct({uid, imgURL}) async {
-    //1.Delete image in Storage
-    Reference photoRef = await FirebaseStorage.instance.refFromURL(imgURL);
-    await photoRef.delete().then((value) {
-      print("delete storage success");
-    }).catchError((error) => print("delete storage faild: $error"));
-
-    //2.Delete data in firebase
-    await db.deleteProduct(uid: uid).then((value) {
-      print("delete firebase success");
+  //TODO : Delete Product(Hide)
+  DeleteProduct({product_ID}) async {
+    await db
+        .updateProductStatus(product_ID: product_ID, value: false)
+        .then((value) {
+      print('delete product');
       Navigator.of(context).pop();
       Navigator.pushReplacement(
         context,
@@ -745,6 +739,28 @@ class _Admin_editProductState extends State<Admin_editProduct> {
           builder: (context) => Admin_TabbarHome(2), //หน้า Exchange
         ),
       );
-    }).catchError((error) => print("delete firebase faild: $error"));
+    }).catchError((err) => print('delete fail: $err'));
   }
+
+  // //TODO : Delete Storage and Firebase
+  // DeleteProduct({uid, imgURL}) async {
+  //   //1.Delete image in Storage
+  //   Reference photoRef = await FirebaseStorage.instance.refFromURL(imgURL);
+  //   await photoRef.delete().then((value) {
+  //     print("delete storage success");
+  //   }).catchError((error) => print("delete storage faild: $error"));
+
+  //   //2.Delete data in firebase
+  //   await db.deleteProduct(uid: uid).then((value) {
+  //     print("delete firebase success");
+  //     Navigator.of(context).pop();
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => Admin_TabbarHome(2), //หน้า Exchange
+  //       ),
+  //     );
+  //   }).catchError((error) => print("delete firebase faild: $error"));
+  // }
+
 }

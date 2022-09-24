@@ -92,84 +92,25 @@ class _Admin_NewsEditState extends State<Admin_NewsEdit> {
           centerTitle: true,
           title: Text("แก้ไขข่าวสาร", style: Roboto16_B_white),
           actions: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 10.0),
-                child: ElevatedButton(
-                  child: Text("บันทึก", style: Roboto14_B_white),
-                  style: ElevatedButton.styleFrom(primary: Colors.amber),
-                  onPressed: () async {
-                    //เมื่อกรอกข้อมูลถูกต้อง
-                    if (_formKey.currentState!.validate()) {
-                      //สั่งประมวลผลข้อมูลที่กรอก
-                      _formKey.currentState?.save();
-                      // print("imageFB = $imageFB");
-                      // print("value_image = $value_image");
-
-                      // print("value_title = $value_title");
-                      // print("value_content = $value_content");
-
-                      //ถ้าเปลี่ยนรูป ก็ต้องอัพโหลดรูปใหม่อีก
-                      if (value_image != null) {
-                        print("start to upload");
-                        var image_url = await uploadImage(
-                          gallery: image_path,
-                          image: image_file,
-                          img_name: image_name,
-                          uid: widget.data!.get('id'),
-                        );
-
-                        //TODO : upload on firebase
-                        await db
-                            .updateNews(
-                              newsID: NewsModel(id: widget.data!.get("id")),
-                              titleEZ: NewsModel(title: value_title),
-                              contentEZ: NewsModel(content: value_content),
-                              imageEZ: NewsModel(image: image_url),
-                            )
-                            .then(
-                              (value) => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      Admin_TabbarHome(1), //หน้า News
-                                ),
-                              ),
-                            )
-                            .catchError(
-                              (error) => const Text(
-                                "Something is wrong please try again",
-                              ),
-                            );
-                        //ถ้าใช้รูปเดิม เปลี่ยนแค่เนื้อหา
-                      } else {
-                        //TODO : upload on firebase
-                        await db
-                            .updateNews(
-                              newsID: NewsModel(id: widget.data!.get("id")),
-                              titleEZ: NewsModel(title: value_title),
-                              contentEZ: NewsModel(content: value_content),
-                              imageEZ: NewsModel(image: imageFB),
-                            )
-                            .then(
-                              (value) => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      Admin_TabbarHome(1), //หน้า News
-                                ),
-                              ),
-                            )
-                            .catchError(
-                              (error) => const Text(
-                                "Something is wrong please try again",
-                              ),
-                            );
-                      }
-                    }
-                  },
-                ),
+            IconButton(
+              icon: const Icon(
+                Icons.save,
+                color: Colors.white,
+                size: 33,
               ),
+              onPressed: () async {
+                await UpdateNews(imageFB: imageFB);
+              },
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.delete_forever_rounded,
+                color: Colors.white,
+                size: 35,
+              ),
+              onPressed: () {
+                _showAlertDialogDelete(context);
+              },
             ),
           ],
         ),
@@ -366,6 +307,7 @@ class _Admin_NewsEditState extends State<Admin_NewsEdit> {
                             ),
                             validator: ValidatorEmpty,
                             onSaved: (value) => value_title = value,
+                            onChanged: (value) => value_title = value,
                           ),
                         ),
                         const SizedBox(height: 20.0),
@@ -396,6 +338,7 @@ class _Admin_NewsEditState extends State<Admin_NewsEdit> {
                                   ),
                                   validator: ValidatorEmpty,
                                   onSaved: (value) => value_content = value,
+                                  onChanged: (value) => value_content = value,
                                 ),
                               ),
                             ],
@@ -414,7 +357,7 @@ class _Admin_NewsEditState extends State<Admin_NewsEdit> {
   }
 
   //===================================================================================================
-//TODO : อัพโหลด ภาพลงใน Storage ใน firebase
+//TODO 1: อัพโหลด ภาพลงใน Storage ใน firebase
   uploadImage({gallery, image, img_name, uid}) async {
     // กำหนด _storage ให้เก็บ FirebaseStorage (สโตเลท)
     final _storage = FirebaseStorage.instance;
@@ -435,5 +378,124 @@ class _Admin_NewsEditState extends State<Admin_NewsEdit> {
     } else {
       return Text("ไม่พบรูปภาพ");
     }
+  }
+
+  //TODO 2: Update News
+  UpdateNews({imageFB}) async {
+    //เมื่อกรอกข้อมูลถูกต้อง
+    if (_formKey.currentState!.validate()) {
+      //สั่งประมวลผลข้อมูลที่กรอก
+      _formKey.currentState?.save();
+      // print("imageFB = $imageFB");
+      // print("value_image = $value_image");
+
+      // print("value_title = $value_title");
+      // print("value_content = $value_content");
+
+      //ถ้าเปลี่ยนรูป ก็ต้องอัพโหลดรูปใหม่อีก
+      if (value_image != null) {
+        print("start to upload");
+        var image_url = await uploadImage(
+          gallery: image_path,
+          image: image_file,
+          img_name: image_name,
+          uid: widget.data!.get('id'),
+        );
+
+        //TODO 2.1: upload on firebase
+        await db
+            .updateNews(
+              newsID: NewsModel(id: widget.data!.get("id")),
+              titleEZ: NewsModel(title: value_title),
+              contentEZ: NewsModel(content: value_content),
+              imageEZ: NewsModel(image: image_url),
+            )
+            .then(
+              (value) => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Admin_TabbarHome(1), //หน้า News
+                ),
+              ),
+            )
+            .catchError(
+              (error) => const Text(
+                "Something is wrong please try again",
+              ),
+            );
+        //ถ้าใช้รูปเดิม เปลี่ยนแค่เนื้อหา
+      } else {
+        //TODO 2.2: upload on firebase
+        await db
+            .updateNews(
+              newsID: NewsModel(id: widget.data!.get("id")),
+              titleEZ: NewsModel(title: value_title),
+              contentEZ: NewsModel(content: value_content),
+              imageEZ: NewsModel(image: imageFB),
+            )
+            .then(
+              (value) => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Admin_TabbarHome(1), //หน้า News
+                ),
+              ),
+            )
+            .catchError(
+              (error) => const Text(
+                "Something is wrong please try again",
+              ),
+            );
+      }
+    }
+  }
+
+  //TODO 3: Alert Dialog Delete
+  _showAlertDialogDelete(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel", style: Roboto16_B_gray),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+    Widget deleteButton = FlatButton(
+      child: Text("Delete", style: Roboto16_B_red),
+      onPressed: () async {
+        await DeleteNews(news_ID: widget.data!.get('id'));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text("ยืนการลบข้อมูล"),
+      content: const Text("คุณต้องการลบข้อมูลนี้หรือไม่?"),
+      actions: [
+        deleteButton,
+        cancelButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  //TODO : Delete Product(Hide)
+  DeleteNews({news_ID}) async {
+    await db.updateNewsStatus(news_ID: news_ID, value: false).then((value) {
+      print('delete news success');
+      Navigator.of(context).pop();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Admin_TabbarHome(1), //หน้า Exchange
+        ),
+      );
+    }).catchError((err) => print('delete fail: $err'));
   }
 }

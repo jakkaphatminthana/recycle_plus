@@ -36,7 +36,10 @@ class _Admin_NewsScreenState extends State<Admin_NewsScreen> {
             const SizedBox(height: 10.0),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: _collectionNews.snapshots().asBroadcastStream(),
+                stream: _collectionNews
+                    .where('status', isEqualTo: true)
+                    .snapshots()
+                    .asBroadcastStream(),
                 builder: (BuildContext context,
                     AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (!snapshot.hasData) {

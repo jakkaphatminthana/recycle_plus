@@ -42,7 +42,10 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
           //TODO : ดึงตัว firebase มาก่อนเพื่อให้อยู่ใน ListView เดียวกัน
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: _collectionNews.snapshots().asBroadcastStream(),
+              stream: _collectionNews
+                  .orderBy('timeUpdate', descending: true)
+                  .snapshots()
+                  .asBroadcastStream(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
@@ -162,23 +165,28 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
                           final String content = data.get("content");
                           final String image = data.get("image");
                           final datetime = data.get("timeUpdate");
+                          final bool status = data.get('status');
 
-                          //จะแสดงผลข้อมูลที่ได้ในรูปแบบไหน =---------------------------
-                          return ListNewsCard(
-                            imageURL: image,
-                            title: title,
-                            content: content,
-                            dateTimeEZ: datetime,
-                            press: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      NewsDetailScreen(data: data),
-                                ),
-                              );
-                            },
-                          );
+                          if (status == true) {
+                            //จะแสดงผลข้อมูลที่ได้ในรูปแบบไหน =---------------------------
+                            return ListNewsCard(
+                              imageURL: image,
+                              title: title,
+                              content: content,
+                              dateTimeEZ: datetime,
+                              press: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NewsDetailScreen(data: data),
+                                  ),
+                                );
+                              },
+                            );
+                          } else {
+                            return Container();
+                          }
                         },
                       ),
                     ],

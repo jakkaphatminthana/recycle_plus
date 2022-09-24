@@ -105,25 +105,30 @@ class _Admin_MoreProductState extends State<Admin_MoreProduct> {
                         final String description = data.get("description");
                         final double token = data.get("token");
                         final int amount = data.get("amount");
+                        final bool status = data.get('status');
 
-                        return ListProduct(
-                          imageURL: image,
-                          title: title,
-                          subtitle: description,
-                          token: "$token",
-                          amount: "$amount",
-                          category: category,
-                          press: () {
-                            //ไปหน้าแก้ไขโดยที่ ส่งค่าข้อมูลไปด้วย
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    Admin_editProduct(data: data),
-                              ),
-                            );
-                          },
-                        );
+                        if (status == true) {
+                          return ListProduct(
+                            imageURL: image,
+                            title: title,
+                            subtitle: description,
+                            token: "$token",
+                            amount: "$amount",
+                            category: category,
+                            press: () {
+                              //ไปหน้าแก้ไขโดยที่ ส่งค่าข้อมูลไปด้วย
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      Admin_editProduct(data: data),
+                                ),
+                              );
+                            },
+                          );
+                        } else {
+                          return Container();
+                        }
                       }),
                     ],
                   );

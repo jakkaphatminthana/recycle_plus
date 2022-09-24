@@ -284,6 +284,24 @@ class DatabaseEZ {
     });
   }
 
+  //TODO : UPDATE product status
+  Future updateProductStatus({
+    required String product_ID,
+    required bool value,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('products');
+    await reference.doc(product_ID).update({"status": value});
+  }
+
+  //TODO : UPDATE news status
+  Future updateNewsStatus({
+    required String news_ID,
+    required bool value,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('news');
+    await reference.doc(news_ID).update({"status": value});
+  }
+
 //---------------------------------------------------------------------------------------------------------------------
 //TODO : ADD
 
@@ -305,6 +323,7 @@ class DatabaseEZ {
           "title": titile,
           "content": content,
           "image": image,
+          "status" : true,
           "timeUpdate": DateTime.now(),
         })
         .then((value) => print("Add data success"))

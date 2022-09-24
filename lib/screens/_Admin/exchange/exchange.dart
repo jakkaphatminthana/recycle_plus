@@ -40,8 +40,8 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
             //TODO : Stream Database Snapshot { liimt: 10 item, sortby: date }
             child: StreamBuilder<QuerySnapshot>(
               stream: _collection
-                  .limit(limitLoad)
                   .orderBy('timeUpdate', descending: true)
+                  .limit(limitLoad)
                   .snapshots()
                   .asBroadcastStream(),
               builder: (BuildContext context,
@@ -72,7 +72,7 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
                                     ),
                                   ),
                                   onPressed: () {
-                                     Navigator.pushNamed(
+                                    Navigator.pushNamed(
                                       context,
                                       Admin_ExchangeOrder.routeName,
                                     );
@@ -162,27 +162,32 @@ class _Admin_ExchangeState extends State<Admin_Exchange> {
                                   data.get("description");
                               final double token = data.get("token");
                               final int amount = data.get("amount");
+                              final bool status = data.get('status');
 
                               //จะแสดงผลข้อมูลที่ได้ในรูปแบบไหน =---------------------------
                               //TODO 5. List Product
-                              return ListProduct(
-                                imageURL: image,
-                                title: title,
-                                subtitle: description,
-                                token: "$token",
-                                amount: "$amount",
-                                category: category,
-                                press: () {
-                                  //ไปหน้าแก้ไขโดยที่ ส่งค่าข้อมูลไปด้วย
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          Admin_editProduct(data: data),
-                                    ),
-                                  );
-                                },
-                              );
+                              if (status == true) {
+                                return ListProduct(
+                                  imageURL: image,
+                                  title: title,
+                                  subtitle: description,
+                                  token: "$token",
+                                  amount: "$amount",
+                                  category: category,
+                                  press: () {
+                                    //ไปหน้าแก้ไขโดยที่ ส่งค่าข้อมูลไปด้วย
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Admin_editProduct(data: data),
+                                      ),
+                                    );
+                                  },
+                                );
+                              } else {
+                                return Container();
+                              }
                             }),
                             const SizedBox(height: 10.0),
                           ],
