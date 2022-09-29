@@ -23,7 +23,7 @@ class _Member_orderTradingState extends State<Member_orderTrading> {
         .collection('orders')
         .doc('trading')
         .collection('order')
-        .where('ID_user', isEqualTo: user!.uid)
+        .orderBy('timestamp', descending: true)
         .snapshots();
     //=============================================================================================================
     return Scaffold(
@@ -65,16 +65,21 @@ class _Member_orderTradingState extends State<Member_orderTrading> {
                           final category = data.get('category');
                           final pickup = data.get('pickup');
 
-                          return ListOrderTrading(
-                            userID: userID,
-                            productID: productID,
-                            time: timestamp,
-                            total: total,
-                            status: status,
-                            amount: amount,
-                            category: category,
-                            pickup: pickup,
-                          );
+                          if (userID == user!.uid) {
+                            return ListOrderTrading(
+                              userID: userID,
+                              productID: productID,
+                              time: timestamp,
+                              total: total,
+                              status: status,
+                              amount: amount,
+                              category: category,
+                              pickup: pickup,
+                              order_data: data,
+                            );
+                          } else {
+                            return Container();
+                          }
                         }),
                       ],
                     ),

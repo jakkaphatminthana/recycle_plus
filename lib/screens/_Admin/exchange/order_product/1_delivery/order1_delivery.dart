@@ -9,14 +9,14 @@ import 'package:recycle_plus/service/database.dart';
 
 import '../listtile_order.dart';
 
-class Order1_productWait extends StatefulWidget {
-  const Order1_productWait({Key? key}) : super(key: key);
+class Order1_productDelivery extends StatefulWidget {
+  const Order1_productDelivery({Key? key}) : super(key: key);
 
   @override
-  State<Order1_productWait> createState() => _Order1_productWaitState();
+  State<Order1_productDelivery> createState() => _Order1_productDeliveryState();
 }
 
-class _Order1_productWaitState extends State<Order1_productWait> {
+class _Order1_productDeliveryState extends State<Order1_productDelivery> {
   //เรียก firebase database
   DatabaseEZ db = DatabaseEZ.instance;
   var data_length;
@@ -29,7 +29,7 @@ class _Order1_productWaitState extends State<Order1_productWait> {
         .collection('orders')
         .doc('trading')
         .collection('order')
-        .where('status', isEqualTo: 'pending')
+        .where('pickup', isEqualTo: 'delivery')
         .get();
     var result = await _collection.then((value) {
       data_length = value.size;
@@ -41,6 +41,7 @@ class _Order1_productWaitState extends State<Order1_productWait> {
       .collection('orders')
       .doc('trading')
       .collection('order')
+      .where('pickup', isEqualTo: 'delivery')
       .where('status', isEqualTo: 'pending')
       .snapshots();
 

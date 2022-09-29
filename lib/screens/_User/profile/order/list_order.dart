@@ -20,6 +20,7 @@ class ListOrderTrading extends StatefulWidget {
     required this.amount,
     required this.category,
     required this.pickup,
+    required this.order_data,
   }) : super(key: key);
 
   final userID;
@@ -30,6 +31,7 @@ class ListOrderTrading extends StatefulWidget {
   final amount;
   final category;
   final pickup;
+  final order_data;
 
   @override
   State<ListOrderTrading> createState() => _ListOrderTradingState();
@@ -95,6 +97,9 @@ class _ListOrderTradingState extends State<ListOrderTrading> {
 
   @override
   Widget build(BuildContext context) {
+    final tracking = widget.order_data!.get('tracking');
+    final transport = widget.order_data!.get('transport');
+    //==============================================================================================================
     return (delay == false)
         ? const SpinKitRing(
             color: Colors.green,
@@ -124,8 +129,12 @@ class _ListOrderTradingState extends State<ListOrderTrading> {
                 //TODO 2: Subtitle
                 subtitle: Column(
                   children: [
-                    TextRow('User: ', user_email),
                     TextRow('Date: ', formattedDate(widget.time)),
+                    (widget.status == "success")
+                        ? TextRow('Transport: ', transport)
+                        : (widget.pickup == "pickup")
+                            ? TextRow('Transport: ', 'รับสินค้าเอง')
+                            : TextRow('Transport: ', 'เตรียมการจัดส่ง..'),
                     const SizedBox(height: 10.0),
                   ],
                 ),
@@ -140,7 +149,9 @@ class _ListOrderTradingState extends State<ListOrderTrading> {
                   GestureDetector(
                     onTap: () {},
                     child: Container(
-                      height: 120,
+                      height: (widget.status == "success") //ขนาดของ explant
+                          ? 140
+                          : 120,
                       child: Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Column(
@@ -251,6 +262,15 @@ class _ListOrderTradingState extends State<ListOrderTrading> {
                                 ),
                               ],
                             ),
+                            (widget.status == "success")
+                                ? Padding(
+                                    padding: const EdgeInsets.only(top: 5.0),
+                                    child: TextRow(
+                                      "Tracking Number: ",
+                                      tracking,
+                                    ),
+                                  )
+                                : Container(),
                           ],
                         ),
                       ),

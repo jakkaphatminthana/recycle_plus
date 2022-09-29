@@ -4,7 +4,6 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/exchange.dart';
 import 'package:recycle_plus/screens/_Admin/home/admin_home.dart';
 import 'package:recycle_plus/screens/_Admin/news/news.dart';
-import 'package:recycle_plus/screens/_Admin/page3.dart';
 import 'package:recycle_plus/screens/_Admin/setting/setting.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

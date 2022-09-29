@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'card_product1.dart';
 import 'card_product2.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Member_ExchangeScreen extends StatefulWidget {
   const Member_ExchangeScreen({Key? key}) : super(key: key);
@@ -55,7 +56,10 @@ class _Member_ExchangeScreenState extends State<Member_ExchangeScreen> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
+                  return const SpinKitCircle(
+                    color: Colors.green,
+                    size: 50,
+                  );
                 } else {
                   return ListView(
                     children: [
@@ -97,7 +101,10 @@ class _Member_ExchangeScreenState extends State<Member_ExchangeScreen> {
                                   builder: (BuildContext context,
                                       AsyncSnapshot<QuerySnapshot> snapshot) {
                                     if (!snapshot.hasData) {
-                                      return const CircularProgressIndicator();
+                                      return const SpinKitCircle(
+                                        color: Colors.green,
+                                        size: 50,
+                                      );
                                     } else {
                                       return ListView(
                                         scrollDirection: Axis.horizontal,

@@ -9,6 +9,7 @@ import 'package:recycle_plus/components/wallet/wallet_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:recycle_plus/screens/_User/profile/address/profile_address.dart';
 import 'package:recycle_plus/screens/_User/profile/edit_profile/profile_edit.dart';
 import 'package:recycle_plus/screens/_User/profile/order/order.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
@@ -45,7 +46,8 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
 
   var phone;
   var gender;
-  var address;
+  var nameEZ;
+  var emailEZ;
 
   //TODO : Get Level & Exp
   Future<void> getUserDatabase(id) async {
@@ -59,7 +61,8 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
         value_exp = event.get('exp');
         phone = event.get('phone');
         gender = event.get('gender');
-        address = event.get('address');
+        nameEZ = event.get('name');
+        emailEZ = event.get('email');
       });
     });
   }
@@ -472,20 +475,25 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
                                       ),
                                       Card_menuIcon(
                                         icon: const FaIcon(
+                                          Icons.location_pin,
+                                          color: Color(0xFF00883C),
+                                          size: 35,
+                                        ),
+                                        title: "จัดการที่อยู่",
+                                        press: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            Member_ProfileAddress.routeName,
+                                          );
+                                        },
+                                      ),
+                                      Card_menuIcon(
+                                        icon: const FaIcon(
                                           Icons.report,
                                           color: Color(0xFF00883C),
                                           size: 35,
                                         ),
                                         title: "รายงาน",
-                                        press: () {},
-                                      ),
-                                      Card_menuIcon(
-                                        icon: const FaIcon(
-                                          FontAwesomeIcons.donate,
-                                          color: Color(0xFF00883C),
-                                          size: 35,
-                                        ),
-                                        title: "สนับสนุนเรา",
                                         press: () {},
                                       ),
                                     ],
@@ -498,9 +506,10 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
                           //TODO 12. Expened Profile
                           (openProfile == true)
                               ? _build_profileDetail(
+                                  nameEZ: nameEZ,
+                                  emailEZ: emailEZ,
                                   phoneEZ: phone,
                                   genderEZ: gender,
-                                  addressEZ: address,
                                 )
                               : Container(),
 
@@ -552,8 +561,12 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
 
   //================================================================================================================
   //TODO : Widget Profile Detail
-  Widget _build_profileDetail(
-      {required phoneEZ, required genderEZ, required addressEZ}) {
+  Widget _build_profileDetail({
+    required phoneEZ,
+    required genderEZ,
+    required nameEZ,
+    required emailEZ,
+  }) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
       child: Container(
@@ -570,31 +583,24 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
 
             //2. detail profile
             listUserDetail(
-              const FaIcon(
-                FontAwesomeIcons.starOfLife,
-                color: Colors.black,
-                size: 13,
-              ),
-              "เพศ: ",
-              genderEZ,
+              iconEZ: Icons.person,
+              title: "ชื่อผู้ใช้: ",
+              value: nameEZ,
             ),
             listUserDetail(
-              const FaIcon(
-                Icons.call,
-                color: Colors.black,
-                size: 15,
-              ),
-              "เบอร์โทร: ",
-              phoneEZ,
+              iconEZ: Icons.email_outlined,
+              title: "อีเมล: ",
+              value: emailEZ,
             ),
             listUserDetail(
-              const FaIcon(
-                Icons.location_on,
-                color: Colors.black,
-                size: 15,
-              ),
-              "ที่อยู่: ",
-              addressEZ,
+              iconEZ: FontAwesomeIcons.starOfLife,
+              title: "เพศ: ",
+              value: genderEZ,
+            ),
+            listUserDetail(
+              iconEZ: Icons.call,
+              title: "เบอร์โทร: ",
+              value: phoneEZ,
             ),
             const SizedBox(height: 15.0),
             const Divider(
@@ -608,10 +614,14 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
     );
   }
 
-  Widget listUserDetail(FaIcon iconEZ, String title, value) {
+  Widget listUserDetail({iconEZ, title, value}) {
     return Row(
       children: [
-        iconEZ,
+        FaIcon(
+          iconEZ,
+          color: Colors.black,
+          size: 15,
+        ),
         const SizedBox(width: 5.0),
         Text(title, style: Roboto14_B_green),
         const SizedBox(width: 5.0),

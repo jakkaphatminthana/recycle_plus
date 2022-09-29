@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recycle_plus/screens/_Admin/exchange/order_product/2_sending/order2_sending.dart';
-
 import '../../../../components/font.dart';
-import '1_waiting/order1_waiting.dart';
+import '1_delivery/order1_delivery.dart';
+import '2_pickup/order2_pickup.dart';
 
 class Admin_ExchangeOrder extends StatefulWidget {
   const Admin_ExchangeOrder({Key? key}) : super(key: key);
@@ -24,8 +23,8 @@ class _Admin_ExchangeOrderState extends State<Admin_ExchangeOrder> {
       indicatorColor: Colors.white,
       //labelPadding: EdgeInsets.only(top: 10.0),
       tabs: [
-        Tab(text: 'รอดำเนินการ'),
-        Tab(text: 'กำลังขนส่ง'),
+        Tab(text: 'รถขนส่ง'),
+        Tab(text: 'รับสินค้าเอง'),
       ],
     );
   }
@@ -53,11 +52,11 @@ class _Admin_ExchangeOrderState extends State<Admin_ExchangeOrder> {
             ),
           ),
         ),
-        body: TabBarView(
-          physics: const NeverScrollableScrollPhysics(), //ไม่ต้องเลื่อนได้,
+        body: const TabBarView(
+          physics: NeverScrollableScrollPhysics(), //ไม่ต้องเลื่อนได้,
           children: [
-            Order1_productWait(),
-            Order2_productSended(),
+            Order1_productDelivery(),
+            Order2_productPickup(),
           ],
         ),
       ),

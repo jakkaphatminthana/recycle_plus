@@ -255,20 +255,25 @@ class DatabaseEZ {
   }
 
   //TODO : UPDATE Order Trading
-  Future updateOrderStatus(
-      {ID_order, Type_order, status, company, tracking}) async {
+  Future updateOrderStatus({ID_order, Type_order, company, tracking}) async {
     final reference = FirebaseFirestore.instance
         .collection('orders')
         .doc('trading')
         .collection('order');
 
-    if (Type_order == 'pickup' || status == "sending") {
-      await reference.doc(ID_order).update({'status': 'success'});
+    if (Type_order == 'pickup') {
+      await reference.doc(ID_order).update({
+        'status': 'success',
+        'transport': '',
+        'tracking': '',
+        'timestamp' : DateTime.now(),
+      });
     } else {
       await reference.doc(ID_order).update({
-        'status': 'sending',
+        'status': 'success',
         'transport': company,
         'tracking': tracking,
+        'timestamp' : DateTime.now(),
       });
     }
   }
@@ -323,7 +328,7 @@ class DatabaseEZ {
           "title": titile,
           "content": content,
           "image": image,
-          "status" : true,
+          "status": true,
           "timeUpdate": DateTime.now(),
         })
         .then((value) => print("Add data success"))
@@ -441,6 +446,8 @@ class DatabaseEZ {
       "txHash": txHash,
       "timestamp": DateTime.now(),
       "status": "pending",
+      "tracking": "",
+      "transport": "",
     });
   }
 

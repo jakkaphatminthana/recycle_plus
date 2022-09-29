@@ -11,14 +11,14 @@ import 'package:recycle_plus/components/font.dart';
 import '../../../../../service/database.dart';
 import '../listtile_order.dart';
 
-class Order2_productSended extends StatefulWidget {
-  const Order2_productSended({Key? key}) : super(key: key);
+class Order2_productPickup extends StatefulWidget {
+  const Order2_productPickup({Key? key}) : super(key: key);
 
   @override
-  State<Order2_productSended> createState() => _Order2_productSendedState();
+  State<Order2_productPickup> createState() => _Order2_productPickupState();
 }
 
-class _Order2_productSendedState extends State<Order2_productSended> {
+class _Order2_productPickupState extends State<Order2_productPickup> {
   //เรียก firebase database
   DatabaseEZ db = DatabaseEZ.instance;
   var data_length;
@@ -31,7 +31,7 @@ class _Order2_productSendedState extends State<Order2_productSended> {
         .collection('orders')
         .doc('trading')
         .collection('order')
-        .where('status', isEqualTo: 'sending')
+        .where('pickup', isEqualTo: 'pickup')
         .get();
     var result = await _collection.then((value) {
       data_length = value.size;
@@ -43,7 +43,8 @@ class _Order2_productSendedState extends State<Order2_productSended> {
       .collection('orders')
       .doc('trading')
       .collection('order')
-      .where('status', isEqualTo: 'sending')
+      .where('pickup', isEqualTo: 'pickup')
+      .where('status', isEqualTo: 'pending')
       .snapshots();
 
   //TODO 1: Always call first run
