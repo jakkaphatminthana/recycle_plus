@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/models/varidator.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/dialog_buy.dart';
+import 'package:recycle_plus/screens/_User/exchange/detail/select_address/listtile_address.dart';
+import 'package:recycle_plus/screens/_User/exchange/detail/select_address/product_address.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/textfieldStyle.dart';
 import 'package:recycle_plus/service/auth.dart';
 import 'package:recycle_plus/service/database.dart';
@@ -24,14 +26,19 @@ class Member_ProductDetail2 extends StatefulWidget {
     required this.data,
     required this.amounts,
     required this.total,
-    required this.seesion,
+    required this.session,
     required this.ethClient,
+    this.address,
+    this.phone,
   }) : super(key: key);
   final data;
   final amounts;
   final total;
-  final seesion;
+  final session;
   final Web3Client ethClient;
+  //select address
+  final address;
+  final phone;
 
   @override
   State<Member_ProductDetail2> createState() => _Member_ProductDetail2State();
@@ -255,36 +262,41 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
                                 ),
                               ),
                             )
-                          //TODO 3.2: Input Address
-                          : Form(
-                              key: _formKey,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //พื้นที่ขยายได้
-                                  ConstrainedBox(
-                                    constraints: BoxConstraints(
-                                      maxHeight: 400,
-                                      maxWidth:
-                                          MediaQuery.of(context).size.width *
-                                              0.89,
-                                    ),
-                                    child: TextFormField(
-                                      //พิมพ์หลายบรรทัดได้
-                                      keyboardType: TextInputType.multiline,
-                                      maxLines: null,
-                                      minLines: 1,
-                                      style: Roboto14_black,
-                                      decoration: styleTextAddress(
-                                        'Address',
-                                        'เพิ่มที่อยู่ในการจัดส่ง',
-                                      ),
-                                      controller: input_address,
-                                      validator: ValidatorEmpty,
-                                    ),
+                          //TODO 3.2: Select MyAddress
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //3.2.1 Select Address
+                                TextButton(
+                                  child: Text(
+                                    'Select Address',
+                                    style: Roboto16_BU_greenB,
                                   ),
-                                ],
-                              ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Member_SelectAddress(
+                                          data: widget.data,
+                                          amounts: widget.amounts,
+                                          total: widget.total,
+                                          session: widget.session,
+                                          ethClient: widget.ethClient,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+
+                                //3.2.2 Show Address
+                                (widget.address == null)
+                                    ? Container()
+                                    : ListTile_ProductAddress(
+                                        address: widget.address,
+                                        phone: widget.phone,
+                                      ),
+                              ],
                             ),
                       const SizedBox(height: 50.0),
 
@@ -298,54 +310,58 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
                           color: Colors.green,
                           elevation: 2.0,
                           disabledColor: Colors.grey,
-                          onPressed: () {
-                            print('input_address = ${input_address.text}');
-                            print('address_store = $address_store');
+                          //ตรวจสอบดูว่าเลือกที่อยู่หรือยัง
+                          onPressed: (selectMode == "รถขนส่ง" &&
+                                  widget.address == null)
+                              ? null
+                              : () {
+                                  print('address_user = ${widget.address}');
+                                  print('address_store = $address_store');
 
-                            if (selectMode == "รถขนส่ง") {
-                              if (_formKey.currentState!.validate()) {
-                                print('input_address success');
-                                FocusManager.instance.primaryFocus?.unfocus();
-                                setState(() {
-                                  typePickup = "delivery";
-                                });
+                                  if (selectMode == "รถขนส่ง") {
+                                    print('input_address success');
+                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    setState(() {
+                                      typePickup = "delivery";
+                                    });
 
-                                //TODO 4.1 Dialog confrim
-                                showAlertDialog_Buy(
-                                  context: context,
-                                  ethClient: widget.ethClient,
-                                  session: widget.seesion,
-                                  productData: widget.data,
-                                  price: widget.total,
-                                  amounts: widget.amounts,
-                                  product_amount: product_amount,
-                                  type_pickup: typePickup,
-                                  address: (typePickup == "delivery")
-                                      ? input_address.text
-                                      : address_store,
-                                );
-                              }
-                            } else {
-                              print('address_store success');
-                              setState(() {
-                                typePickup = "pickup";
-                              });
-                              //TODO 4.1 Dialog confrim
-                              showAlertDialog_Buy(
-                                context: context,
-                                ethClient: widget.ethClient,
-                                session: widget.seesion,
-                                productData: widget.data,
-                                price: widget.total,
-                                amounts: widget.amounts,
-                                product_amount: product_amount,
-                                type_pickup: typePickup,
-                                address: (typePickup == "delivery")
-                                    ? input_address.text
-                                    : address_store,
-                              );
-                            }
-                          },
+                                    //TODO 4.1 Dialog confrim
+                                    showAlertDialog_Buy(
+                                      context: context,
+                                      ethClient: widget.ethClient,
+                                      session: widget.session,
+                                      productData: widget.data,
+                                      price: widget.total,
+                                      amounts: widget.amounts,
+                                      product_amount: product_amount,
+                                      type_pickup: typePickup,
+                                      phone: widget.phone,
+                                      address: (typePickup == "delivery")
+                                          ? widget.address
+                                          : address_store,
+                                    );
+                                  } else {
+                                    print('address_store success');
+                                    setState(() {
+                                      typePickup = "pickup";
+                                    });
+                                    //TODO 4.1 Dialog confrim
+                                    showAlertDialog_Buy(
+                                      context: context,
+                                      ethClient: widget.ethClient,
+                                      session: widget.session,
+                                      productData: widget.data,
+                                      price: widget.total,
+                                      amounts: widget.amounts,
+                                      product_amount: product_amount,
+                                      type_pickup: typePickup,
+                                      phone: widget.phone,
+                                      address: (typePickup == "delivery")
+                                          ? widget.address
+                                          : address_store,
+                                    );
+                                  }
+                                },
                         ),
                       ),
                     ],

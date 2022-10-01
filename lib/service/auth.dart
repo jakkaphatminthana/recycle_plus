@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:recycle_plus/screens/_User/exchange/detail/dialog_buy.dart';
 
 class AuthService {
   //TODO : Import Firebase Auth
@@ -124,7 +125,6 @@ class AuthService {
         "name": name,
         "role": "Member",
         "verify": false,
-        "address": "",
         "exp": 1.0,
         "level": 1,
         "bonus": 1.0,
@@ -136,6 +136,25 @@ class AuthService {
     } catch (e) {
       print("Error create profile faild : $e");
     }
+  }
+
+  //TODO 7: Create Address
+  Future createProfile_address({
+    required String address,
+    required String phone,
+  }) async {
+    User? userEZ = FirebaseAuth.instance.currentUser;
+
+    //สร้างข้อมูลของ profile Address
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userEZ!.uid)
+        .collection('address')
+        .add({
+      'address': address,
+      'phone': phone,
+      'timestamp': DateTime.now(),
+    });
   }
 
   // //TODO 6.2 Add User to Achievement collection

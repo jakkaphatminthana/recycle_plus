@@ -239,18 +239,17 @@ class DatabaseEZ {
   }
 
   //TODO : UPDATE Profile
-  Future updateUserProfile(
-      {required String ID_user,
-      required String name,
-      required String phone,
-      required String gender,
-      required String address}) async {
+  Future updateUserProfile({
+    required String ID_user,
+    required String name,
+    required String phone,
+    required String gender,
+  }) async {
     final reference = FirebaseFirestore.instance.collection('users');
     await reference.doc(ID_user).update({
       "name": name,
       "phone": phone,
       "gender": gender,
-      "address": address,
     });
   }
 
@@ -266,14 +265,14 @@ class DatabaseEZ {
         'status': 'success',
         'transport': '',
         'tracking': '',
-        'timestamp' : DateTime.now(),
+        'timestamp': DateTime.now(),
       });
     } else {
       await reference.doc(ID_order).update({
         'status': 'success',
         'transport': company,
         'tracking': tracking,
-        'timestamp' : DateTime.now(),
+        'timestamp': DateTime.now(),
       });
     }
   }
@@ -305,6 +304,20 @@ class DatabaseEZ {
   }) async {
     final reference = FirebaseFirestore.instance.collection('news');
     await reference.doc(news_ID).update({"status": value});
+  }
+
+  Future updateAddress({
+    required String user_ID,
+    required String address_ID,
+    required String New_address,
+    required String New_phone,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('users');
+    await reference.doc(user_ID).collection('address').doc(address_ID).update({
+      'address': New_address,
+      'phone': New_phone,
+      'timestamp': DateTime.now(),
+    });
   }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -421,6 +434,7 @@ class DatabaseEZ {
     required String? ID_product,
     required String? category,
     required String? address,
+    required String? phone,
     required String? pickup,
     required int? amount,
     required double? price,
@@ -440,6 +454,7 @@ class DatabaseEZ {
       "category": category,
       "pickup": pickup,
       "address": address,
+      "phone": phone,
       "amount": amount,
       "price": price,
       "wallet": wallet,
@@ -505,5 +520,17 @@ class DatabaseEZ {
         .delete()
         .then((value) => print("Delete success"))
         .catchError((error) => print("Delete Faild: $error"));
+  }
+
+  //TODO : DELETE Address
+  Future deleteAddress({String? address_ID, String? user_ID}) async {
+    final reference = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user_ID)
+        .collection('address')
+        .doc(address_ID)
+        .delete()
+        .then((value) => print('Delete address'))
+        .catchError((err) => print('Delete faild: $err'));
   }
 }

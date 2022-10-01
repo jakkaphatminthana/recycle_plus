@@ -568,7 +568,7 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
             data: widget.data,
             amounts: _counter,
             total: _price_value,
-            seesion: _session,
+            session: _session,
             ethClient: ethClient,
           ),
         ),

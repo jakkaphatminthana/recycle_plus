@@ -1,7 +1,9 @@
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:recycle_plus/models/user_model.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
@@ -18,31 +20,62 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  //key scaffold
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   //เชื่อมต่อ firebase datastore
   DatabaseEZ db = DatabaseEZ.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+  Timer? _timer;
+  var value_role;
+  String status_load = 'โปรดรอกำลังเปลี่ยนเส้นทาง...';
 
-  //ไปหน้าอื่นโดยที่ delay เวลาไว้
+  //TODO 1: ไปหน้าอื่นโดยที่ delay เวลาไว้
   void gotoNextPage(routeName) async {
     await Future.delayed(const Duration(seconds: 3));
     Navigator.pushReplacementNamed(context, routeName);
   }
 
+  //TODO 2: Get User Database
+  Future<void> getUserDatabase(id) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(id)
+        .snapshots()
+        .listen((event) {
+      setState(() {
+        value_role = event.get('role');
+      });
+    });
+  }
+
+  //TODO : First call whenever run
+  @override
+  void initState() {
+    super.initState();
+    getUserDatabase(user?.uid);
+    _timer = Timer(const Duration(milliseconds: 2000), () {
+      print('user role: ${value_role}');
+      print('user id: ${user!.uid}');
+
+      if (value_role == "Member") {
+        gotoNextPage(Member_TabbarHome.routeName);
+      } else if (value_role == "Admin") {
+        gotoNextPage(Admin_TabbarHome.routeName);
+      } else if (value_role == "Sponsor") {
+        gotoNextPage(Member_TabbarHome.routeName);
+      } else {
+        setState(() {
+          status_load = 'เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง';
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    //ดึงเอกสาร id ของ user ทั้งหมด
-    Stream<List<UserModel>> status = db.getStateUser();
-    //อ้างอิง collection ของ user
-    CollectionReference col_users =
-        FirebaseFirestore.instance.collection("users");
-
-    //เรียกใช้ Firebase Authentication
-    final _auth = firebase_auth.FirebaseAuth.instance;
-    //กำหนดตัวแปรที่บอกว่า ตอนนี้ใครกำลังเข้าใช้งานอยู่
-    firebase_auth.User? _user;
-    _user = _auth.currentUser;
-
 //==============================================================================================================
     //TODO : ทำให้ไม่สามารถกด back page ได้
     return WillPopScope(
@@ -94,95 +127,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                   const SizedBox(height: 10.0),
 
-                  //TODO 4. Firebase Check Role User -------------------------------
-
-                  StreamBuilder(
-                    stream: status,
-                    builder: (context, snapshot) {
-                      return FutureBuilder<DocumentSnapshot>(
-                        future: col_users.doc("${_user?.uid}").get(),
-                        builder: (context, snapshotEZ) {
-                          if (snapshot.hasError) {
-                            return const Text("Something is wrong!");
-                          }
-                          if (snapshotEZ.hasError) {
-                            return const Text("Something is wrong!");
-                          }
-                          if (snapshotEZ.hasData) {
-                            //ลอง print ดูสถานะข้อมูลเฉยๆ
-                            print("snapshotEZ.hasData = ${snapshotEZ.hasData}");
-                            print("snapshotEZ.connectionState == Connect.done");
-
-                            if (snapshotEZ.connectionState ==
-                                ConnectionState.done) {
-                              try {
-                                //TODO : data = เอกสารข้อมูลจาก state, col_users
-                                Map<String, dynamic> data = snapshotEZ.data!
-                                    .data() as Map<String, dynamic>;
-
-                                //TODO : กระทำกับฐานข้อมูลตรงนี้เด้อ
-                                if (data['role'] != null) {
-                                  //TODO 5. Button Check role
-                                  if (data['role'] == "Member" ||
-                                      data['role'] == "Sponsor") {
-                                    gotoNextPage(Member_TabbarHome.routeName);
-                                  } else if (data['role'] == "Admin") {
-                                    gotoNextPage(Admin_TabbarHome.routeName);
-                                  } else {
-                                    //ERROR ถ้าเกิดไม่มีข้อมูล role
-                                    return Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          "Something is worng, Please try again.",
-                                          style: Roboto14_B_black,
-                                        ),
-                                        const SizedBox(height: 30.0),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.pushNamed(
-                                                context, LoginScreen.routeName);
-                                          },
-                                          child: Text(
-                                            "ลองใหม่อีกครั้ง",
-                                            style: Roboto14_B_yellow,
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                }
-                                //ERROR ถ้าเกิดไม่มีข้อมูล role
-                              } catch (e) {
-                                return Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Something is worng, Please try again.",
-                                      style: Roboto14_B_black,
-                                    ),
-                                    const SizedBox(height: 30.0),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                            context, LoginScreen.routeName);
-                                      },
-                                      child: Text(
-                                        "ลองใหม่อีกครั้ง",
-                                        style: Roboto16_B_yellow,
-                                      ),
-                                    ),
-                                  ],
-                                );
-                              }
-                            }
-                          }
-                          return const Text('โปรดรอกำลังเปลี่ยนเส้นทาง...');
-                        },
-                      );
-                    },
-                  ),
+                  //TODO 4. Status Loadding
+                  (value_role == null)
+                      ? const Text('Something is worng')
+                      : Text(status_load),
                 ],
               ),
             ),

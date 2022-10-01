@@ -127,6 +127,7 @@ showAlertDialog_Buy({
   required int product_amount,
   required type_pickup,
   required address,
+  required phone,
 }) {
   //TODO 1: Cancle Button
   Widget cancelButton(BuildContext context) {
@@ -154,6 +155,7 @@ showAlertDialog_Buy({
         product_amount,
         type_pickup,
         address,
+        phone,
       ),
     );
   }
@@ -201,6 +203,7 @@ GestureTapCallback ConfrimContinue(
   product_amount,
   typePickup,
   address,
+  phone,
 ) {
   return () async {
     String type = "trading";
@@ -245,6 +248,7 @@ GestureTapCallback ConfrimContinue(
         category: category,
         pickup: typePickup,
         address: address,
+        phone: phone,
         amount: amount,
         price: price,
         wallet: walletAddress,

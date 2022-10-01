@@ -36,13 +36,11 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
   late TextEditingController TC_Name;
   late TextEditingController TC_Phone;
   late TextEditingController TC_Gender;
-  late TextEditingController TC_Address;
 
   final GenderType = ["ไม่ระบุเพศ", "Male", "Female", "LGBT+"];
   String? value_name;
   String? value_phone;
   String? value_gender;
-  String? value_address;
 
   //url รูปที่อัพโหลด
   File? value_image;
@@ -81,7 +79,6 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
     var nameFB = widget.data!.get('name');
     var phoneFB = widget.data!.get('phone');
     var genderFB = widget.data!.get('gender');
-    var addressFB = widget.data!.get('address');
 
     //กำหนดค่าเริ่มต้นของ textfield ให้แสดงเป็นไปตามข้อมูล firebase
     TC_Name = (value_name == null)
@@ -93,9 +90,6 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
     TC_Gender = (value_gender == null)
         ? TextEditingController(text: genderFB) //ค่าเริ่มต้นตาม firebase
         : TextEditingController(text: value_gender); //ค่าที่กำลังป้อน
-    TC_Address = (value_address == null)
-        ? TextEditingController(text: addressFB) //ค่าเริ่มต้นตาม firebase
-        : TextEditingController(text: value_address); //ค่าที่กำลังป้อน
 
     //==============================================================================================================
     return GestureDetector(
@@ -124,15 +118,11 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
                     (value_gender == null)
                         ? value_gender = genderFB
                         : value_gender;
-                    (value_address == null)
-                        ? value_address = addressFB
-                        : value_address;
                   });
                   print("value_image = $value_image");
                   print("value_name = $value_name");
                   print("value_phone = $value_phone");
                   print("value_gender = $value_gender");
-                  print("value_gender = $value_address");
                   _showAlertDialogUpdate(context);
                 }
               },
@@ -233,29 +223,7 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
                             ),
                             const SizedBox(height: 15.0),
 
-                            //TODO 2.4 Form Address
-                            ConstrainedBox(
-                              constraints: BoxConstraints(
-                                maxHeight: 400,
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.89,
-                              ),
-                              child: TextFormField(
-                                controller: TC_Address,
-                                //พิมพ์หลายบรรทัดได้
-                                keyboardType: TextInputType.multiline,
-                                maxLines: null,
-                                minLines: 1,
-                                style: Roboto14_black,
-                                decoration: styleTextEditProfile(
-                                  'Address',
-                                  'เพิ่มที่อยู่ในการจัดส่ง',
-                                ),
-                                validator: ValidatorEmpty,
-                                onChanged: (value) => value_address = value,
-                                onSaved: (value) => value_address = value,
-                              ),
-                            ),
+                            
                           ],
                         ),
                       ),
@@ -421,7 +389,6 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
           name: "$value_name",
           phone: "$value_phone",
           gender: "$value_gender",
-          address: "$value_address",
         )
             .then((value) async {
           await Fluttertoast.showToast(
@@ -440,7 +407,6 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
           name: "$value_name",
           phone: "$value_phone",
           gender: "$value_gender",
-          address: "$value_address",
         )
             .then((value) async {
           await Fluttertoast.showToast(
