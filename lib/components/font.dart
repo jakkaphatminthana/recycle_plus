@@ -65,6 +65,13 @@ final Roboto20_B_gray = GoogleFonts.getFont(
   fontWeight: FontWeight.bold,
 );
 
+final Roboto20_B_gray2 = GoogleFonts.getFont(
+  'Roboto',
+  fontSize: 20,
+  color: const Color(0xFFCCCCCC),
+  fontWeight: FontWeight.bold,
+);
+
 final Roboto20_black = GoogleFonts.getFont(
   'Roboto',
   fontSize: 20,
@@ -175,6 +182,13 @@ final Roboto16_B_gray = GoogleFonts.getFont(
   fontSize: 16,
   fontWeight: FontWeight.bold,
   color: Colors.grey,
+);
+
+final Roboto16_B_gray2 = GoogleFonts.getFont(
+  'Roboto',
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
+  color: const Color(0xFFCCCCCC),
 );
 
 final Roboto16_B_red = GoogleFonts.getFont(

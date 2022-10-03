@@ -9,7 +9,15 @@ import 'package:recycle_plus/service/auth.dart';
 
 final AuthService _auth = AuthService();
 
-showDialogAddAddress_exchange({required BuildContext context, required String user_ID}) {
+showDialogAddAddress_exchange({
+  required BuildContext context,
+  required String user_ID,
+  required data_pro,
+  required amounts,
+  required total,
+  required session,
+  required ethClient,
+}) {
   final _formKey = GlobalKey<FormState>();
   TextEditingController TC_phone = TextEditingController();
   TextEditingController TC_address = TextEditingController();
@@ -34,6 +42,11 @@ showDialogAddAddress_exchange({required BuildContext context, required String us
         formKey: _formKey,
         TC_address: TC_address,
         TC_phone: TC_phone,
+        data_pro: data_pro,
+        amounts: amounts,
+        total: total,
+        session: session,
+        ethClient: ethClient,
       ),
     );
   }
@@ -110,6 +123,11 @@ GestureTapCallback ConfrimAddress({
   required formKey,
   required TC_address,
   required TC_phone,
+  required data_pro,
+  required amounts,
+  required total,
+  required session,
+  required ethClient,
 }) {
   return () async {
     if (formKey.currentState!.validate()) {
@@ -126,7 +144,17 @@ GestureTapCallback ConfrimAddress({
         //เมื่อเพิ่มที่อยู่สำเร็จแล้ว
         print('address success');
         Navigator.pop(context);
-        // Navigator.pushReplacementNamed(context, routeNameTO);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+              builder: (context) => Member_SelectAddress(
+                    data: data_pro,
+                    amounts: amounts,
+                    total: total,
+                    session: session,
+                    ethClient: ethClient,
+                  )),
+        );
       }).catchError(
         //เมื่อเพิ่มที่อยู่แล้วไม่ผ่าน
         (err) => print('error address: $err'),

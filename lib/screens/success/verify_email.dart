@@ -185,6 +185,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         GestureDetector(
                           child: Text("ยกเลิก", style: Roboto18_B_green),
                           onTap: () async {
+                            stopTimerCooldown();
                             await FirebaseAuth.instance.signOut();
                             await Navigator.pushReplacementNamed(
                                 context, LoginScreen.routeName);

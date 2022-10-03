@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
+import 'package:recycle_plus/screens/_User/tabbar_control.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:recycle_plus/service/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -82,7 +83,7 @@ class StartScreen extends StatelessWidget {
                     ),
                     onPressed: () {
                       print("Start user = $user");
-                      Navigator.pushNamed(context, LoginScreen.routeName);
+                      Navigator.pushNamed(context, Member_TabbarHome.routeName);
                     },
                   ),
                 ],

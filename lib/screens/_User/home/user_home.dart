@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/components/wallet/wallet_card.dart';
+import 'package:recycle_plus/components/wallet/wallet_guset.dart';
 import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/sponsor_model.dart';
 import 'package:recycle_plus/screens/login_no/login_no.dart';
@@ -24,6 +25,7 @@ class User_HomeScreen extends StatefulWidget {
 }
 
 class _User_HomeScreenState extends State<User_HomeScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
   //Model data ไว้ดึงฐานข้อมูล
   Stream<List<SponsorModel>> logo = db.getLogoSponsor();
   final CollectionReference _collectionNews =
@@ -77,9 +79,13 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
                             child: Padding(
                               padding: const EdgeInsets.only(top: 140),
                               child: GestureDetector(
-                                child: Wallet_card(
-                                  colorEZ: const Color(0xFFEEEEEE),
-                                ),
+                                child: (user != null)
+                                    ? Wallet_card(
+                                        colorEZ: const Color(0xFFEEEEEE),
+                                      )
+                                    : Wallet_cardGuset(
+                                        colorEZ: const Color(0xFFEEEEEE),
+                                      ),
                                 onTap: () {},
                               ),
                             ),

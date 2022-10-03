@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/components/wallet/wallet_card.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:recycle_plus/components/wallet/wallet_guset.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/product_detail.dart';
 import 'package:recycle_plus/service/database.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,6 +28,7 @@ class _Member_ExchangeScreenState extends State<Member_ExchangeScreen> {
   //_formKey = Key สำหรับการ form
   DatabaseEZ db = DatabaseEZ.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  User? user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +80,9 @@ class _Member_ExchangeScreenState extends State<Member_ExchangeScreen> {
                             alignment: const AlignmentDirectional(0, 0),
                             child: Padding(
                               padding: const EdgeInsets.only(top: 130.0),
-                              child: Wallet_card(colorEZ: Colors.white),
+                              child: (user != null)
+                                  ? Wallet_card(colorEZ: Colors.white)
+                                  : Wallet_cardGuset(colorEZ: Colors.white),
                             ),
                           ),
                         ],

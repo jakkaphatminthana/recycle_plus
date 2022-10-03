@@ -59,6 +59,12 @@ class _Order1_productDeliveryState extends State<Order1_productDelivery> {
   }
 
   @override
+  void dispose() {
+    _timer_daley?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     //==================================================================================================================
     return Scaffold(

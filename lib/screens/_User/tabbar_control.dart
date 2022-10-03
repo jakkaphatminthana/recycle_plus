@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,6 +9,7 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/routes.dart';
 import 'package:recycle_plus/screens/_User/achievement/achievement.dart';
 import 'package:recycle_plus/screens/_User/mission/misson.dart';
+import 'package:recycle_plus/screens/_User/test.dart';
 import 'package:recycle_plus/screens/login_no/login_no.dart';
 import 'package:recycle_plus/screens/scanQR/LDPE/LDPE_detail.dart';
 import 'package:recycle_plus/screens/scanQR/PETE/PETE_detail.dart';
@@ -33,6 +35,8 @@ class Member_TabbarHome extends StatefulWidget {
 }
 
 class _Member_TabbarHomeState extends State<Member_TabbarHome> {
+  User? user = FirebaseAuth.instance.currentUser;
+
   //TODO 1. Set Tabbar list here
   TabBar get _tabbar {
     return const TabBar(
@@ -138,11 +142,16 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
                   size: 35,
                 ),
                 onPressed: () async {
-                  // await scanQR();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => QRscanWidget()),
-                  );
+                  if (user != null) {
+                    await scanQR();
+                  } else {
+                    Navigator.pushNamed(context, PleaseLogin.routeName);
+                  }
+
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => QRscanWidget()),
+                  // );
                 },
               ),
               IconButton(
@@ -152,7 +161,15 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
                   size: 30,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, Member_ProfileScreen.routeName);
+                  if (user != null) {
+                    Navigator.pushNamed(
+                      context,
+                      Member_ProfileScreen.routeName,
+                    );
+                  } else {
+                    Navigator.pushNamed(context, PleaseLogin.routeName);
+                  }
+
                   // Navigator.push(context,
                   //     MaterialPageRoute(builder: (context) => PleaseLogin()));
                 },

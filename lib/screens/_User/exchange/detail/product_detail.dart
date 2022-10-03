@@ -198,17 +198,19 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
   void initState() {
     super.initState();
     _price_value = widget.data!.get('token');
-    getUserVerify(user?.uid);
+    if (user != null) {
+      getUserVerify(user?.uid);
 
-    initWalletConnect();
+      initWalletConnect();
 
-    httpClient = Client();
-    ethClient = Web3Client("$infura", httpClient);
+      httpClient = Client();
+      ethClient = Web3Client("$infura", httpClient);
 
-    //ป้องกัน error
-    _timer = Timer(const Duration(seconds: 2), () {
-      (_account != '') ? getBalance(_account) : null;
-    });
+      //ป้องกัน error
+      _timer = Timer(const Duration(seconds: 2), () {
+        (_account != '') ? getBalance(_account) : null;
+      });
+    }
   }
 
   @override
@@ -425,7 +427,7 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
                   const SizedBox(height: 20.0),
 
                   //TODO 7: Button Buy
-                  (_user_verify != true)
+                  (_user_verify != true || user == null)
                       //7.1 ทำการยืนตัวตนแล้ว
                       ? Center(
                           child: Text(
@@ -559,7 +561,6 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
   //TODO : Button Buy
   GestureTapCallback build_buttonBuy() {
     return () {
-      
       //ไปหน้าโดยที่ ส่งค่าข้อมูลไปด้วย
       Navigator.push(
         context,
