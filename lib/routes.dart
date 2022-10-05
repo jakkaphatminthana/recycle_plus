@@ -4,6 +4,8 @@ import 'package:recycle_plus/screens/_Admin/exchange/history_product/product_his
 import 'package:recycle_plus/screens/_Admin/exchange/more_product.dart/exchange_more.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/order_product/order_product.dart';
 import 'package:recycle_plus/screens/_Admin/member/member.dart';
+import 'package:recycle_plus/screens/_Admin/mission/mission.dart';
+import 'package:recycle_plus/screens/_Admin/mission/add/mission_add.dart';
 import 'package:recycle_plus/screens/_Admin/news/news.dart';
 import 'package:recycle_plus/screens/_Admin/news/news_add.dart';
 import 'package:recycle_plus/screens/_Admin/setting/setting.dart';
@@ -72,4 +74,6 @@ final Map<String, WidgetBuilder> routes = {
   Admin_MoreProduct.routeName: (context) => Admin_MoreProduct(),
   Admin_exchange_History.routeName: (context) => Admin_exchange_History(),
   Admin_ExchangeOrder.routeName:(context) => Admin_ExchangeOrder(),
+  Admin_MissionScreen.routeName:(context) => Admin_MissionScreen(),
+  Admin_AddMission.routeName:(context) => Admin_AddMission(),
 };

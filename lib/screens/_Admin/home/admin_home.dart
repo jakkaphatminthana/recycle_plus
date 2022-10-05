@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recycle_plus/screens/_Admin/home/list_menu.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/screens/_Admin/member/member.dart';
+import 'package:recycle_plus/screens/_Admin/mission/mission.dart';
 import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
 import 'package:recycle_plus/screens/test/test_MutiAddData.dart';
 import 'package:recycle_plus/screens/test/test_blockchain.dart';
@@ -46,7 +47,9 @@ class _Admin_HomeScreenState extends State<Admin_HomeScreen> {
               subtitle: "รายการภารกิจ",
               iconEZ: const FaIcon(FontAwesomeIcons.compass, size: 32),
               colorEZ: const Color(0xFF9EE971),
-              press: () {},
+              press: () {
+                Navigator.pushNamed(context, Admin_MissionScreen.routeName);
+              },
             ),
             const SizedBox(height: 10.0),
             ListMenu(

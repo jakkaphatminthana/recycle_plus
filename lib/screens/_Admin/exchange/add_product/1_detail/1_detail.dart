@@ -91,7 +91,7 @@ class _AddProduct_detailState extends State<AddProduct_detail> {
           ),
           const SizedBox(height: 20.0),
 
-          //TODO 4. Input Name Product
+          //TODO 4. Input Description Product
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

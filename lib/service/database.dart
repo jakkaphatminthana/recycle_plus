@@ -495,6 +495,32 @@ class DatabaseEZ {
     });
   }
 
+  //TODO : ADD Mission
+  Future createMission({
+    required String? typeMission,
+    required String? category,
+    required String? title,
+    required int? num_finish,
+    required String? reward,
+    required double? num_reward,
+    required String? trash,
+  }) async {
+    final reference = FirebaseFirestore.instance
+        .collection((typeMission == "Daily") ? 'mission_day' : 'mission_week');
+
+    await reference.add({
+      'title': title,
+      'category': category,
+      'num_finish': num_finish,
+      'reward': reward,
+      'num_reward': num_reward,
+      'trash': trash,
+    });
+  }
+
+  //TODO : ADD Claim Mission
+  
+
 //-------------------------------------------------------------------------------------------------------------------
 //TODO : DELETE
 
