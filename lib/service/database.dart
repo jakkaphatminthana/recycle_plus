@@ -306,6 +306,7 @@ class DatabaseEZ {
     await reference.doc(news_ID).update({"status": value});
   }
 
+  //TODO : UPDATE address
   Future updateAddress({
     required String user_ID,
     required String address_ID,
@@ -317,6 +318,30 @@ class DatabaseEZ {
       'address': New_address,
       'phone': New_phone,
       'timestamp': DateTime.now(),
+    });
+  }
+
+  //TODO : UPDATE Mission
+  Future updateMission({
+    required String mission_ID,
+    required String missionType,
+    required String category,
+    required String title,
+    required int num_finish,
+    required String reward,
+    required double num_reward,
+    required String trash,
+  }) async {
+    final reference = FirebaseFirestore.instance
+        .collection((missionType == 'day') ? 'mission_day' : 'mission_week');
+
+    await reference.doc(mission_ID).update({
+      'category': category,
+      'title': title,
+      'num_finish': num_finish,
+      'reward': reward,
+      'num_reward': num_reward,
+      'trash': (category == "Trash") ? trash : '',
     });
   }
 
@@ -509,17 +534,18 @@ class DatabaseEZ {
         .collection((typeMission == "Daily") ? 'mission_day' : 'mission_week');
 
     await reference.add({
+      'mission': (typeMission == "Daily") ? 'day' : 'week',
       'title': title,
       'category': category,
       'num_finish': num_finish,
       'reward': reward,
       'num_reward': num_reward,
       'trash': trash,
+      'timestamp': DateTime.now(),
     });
   }
 
   //TODO : ADD Claim Mission
-  
 
 //-------------------------------------------------------------------------------------------------------------------
 //TODO : DELETE
@@ -558,5 +584,13 @@ class DatabaseEZ {
         .delete()
         .then((value) => print('Delete address'))
         .catchError((err) => print('Delete faild: $err'));
+  }
+
+  //TODO : DELETE Mission
+  Future deleteMission({String? mission_ID, String? mission_Type}) async {
+    final reference = FirebaseFirestore.instance
+        .collection((mission_Type == "day") ? 'mission_day' : 'mission_week');
+
+    await reference.doc(mission_ID).delete();
   }
 }

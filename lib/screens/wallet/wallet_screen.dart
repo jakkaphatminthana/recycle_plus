@@ -47,7 +47,11 @@ class _WalletScreenState extends State<WalletScreen> {
   var MyAddress = '';
   bool isloading = false;
   final privateK = dotenv.env["METAMASK_PRIVATE_KEY"];
-  final infura = dotenv.env["INFURA_ROPSTEN_ADDRESS"];
+  final infura = dotenv.env["INFURA_ADDRESS"];
+  final contractEZ = dotenv.env["CONTRACT_ADDRESS"];
+  final chainID = dotenv.env["CHAIN_ID"];
+  int? chainID_int;
+
   User? user = FirebaseAuth.instance.currentUser;
   var data_length;
 
@@ -61,13 +65,14 @@ class _WalletScreenState extends State<WalletScreen> {
     MyAddress = widget.connector.session.accounts[0];
     print("MyAddress: $MyAddress");
 
-    //Rospten Infura
+    //Infura Node
     httpClient = Client();
     ethClient = web3.Web3Client("$infura", httpClient);
+    chainID_int = int.parse('$chainID');
 
     getBalance(MyAddress);
     getLengthData(user?.uid);
-    _timer_daley = Timer(const Duration(milliseconds: 500), () {
+    _timer_daley = Timer(const Duration(milliseconds: 1000), () {
       daley = true;
     });
   }
@@ -84,7 +89,7 @@ class _WalletScreenState extends State<WalletScreen> {
   //TODO 2: Get Smartcontract from Remix <--------------------------------------
   Future<DeployedContract> loadContract() async {
     String abi = await rootBundle.loadString('assets/abi.json');
-    String contractAddress = "0x7B439D82F076e88AbC196B8D7861296EE413C47E";
+    String contractAddress = "$contractEZ";
 
     final contract = DeployedContract(
       ContractAbi.fromJson(abi, "RecycleToken"), //abi file
@@ -132,7 +137,7 @@ class _WalletScreenState extends State<WalletScreen> {
       ),
       //this contract for only chainID 3 เท่านั้น
       fetchChainIdFromNetworkId: false,
-      chainId: 3,
+      chainId: chainID_int,
     );
     return result;
   }
@@ -182,8 +187,10 @@ class _WalletScreenState extends State<WalletScreen> {
         .collection("transaction")
         .get();
     var result = await _collection.then((value) {
-      data_length = value.size;
-      setState(() {});
+      print('len = ${value.size}');
+      setState(() {
+        data_length = value.size;
+      });
     });
   }
 
@@ -327,6 +334,13 @@ class _WalletScreenState extends State<WalletScreen> {
                             AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (!snapshot.hasData) {
                             return _build_Notfound();
+                          } else if (snapshot.hasError) {
+                            return Column(
+                              children: [
+                                _build_Notfound(),
+                                const Text('Something is wrong'),
+                              ],
+                            );
                           } else {
                             return (daley == false)
                                 ? const SpinKitRing(

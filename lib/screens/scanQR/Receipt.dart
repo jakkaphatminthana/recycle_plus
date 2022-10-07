@@ -52,9 +52,11 @@ class _ReceiptState extends State<Receipt> {
   late Client httpClient;
   late web3.Web3Client ethClient;
   bool dataConnent = false;
-  final infura = dotenv.env["INFURA_ROPSTEN_ADDRESS"];
+  final infura = dotenv.env["INFURA_ADDRESS"];
   final privateK = dotenv.env["METAMASK_PRIVATE_KEY"];
   final contractEZ = dotenv.env["CONTRACT_ADDRESS"];
+  final chainID = dotenv.env["CHAIN_ID"];
+  int? chainID_int;
 
   //Wallet Object
   late WalletConnect connector;
@@ -161,9 +163,9 @@ class _ReceiptState extends State<Receipt> {
         parameters: args,
         maxGas: 200000,
       ),
-      //this contract for only chainID 3 เท่านั้น
+      //this contract for only chainID  นี้เท่านั้น
       fetchChainIdFromNetworkId: false,
-      chainId: 3,
+      chainId: chainID_int,
     );
     return result;
   }
@@ -259,6 +261,8 @@ class _ReceiptState extends State<Receipt> {
         initWalletConnect();
         httpClient = Client();
         ethClient = web3.Web3Client("$infura", httpClient);
+        chainID_int = int.parse('$chainID');
+        print('chain ID: $chainID_int');
       });
     });
   }

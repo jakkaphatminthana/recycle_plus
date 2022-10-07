@@ -19,10 +19,12 @@ import 'package:http/http.dart';
 
 //TODO : Blockchain past
 //START ------------------------------------------------------------------------------------------------------------------
-final infura = dotenv.env["INFURA_ROPSTEN_ADDRESS"];
+final infura = dotenv.env["INFURA_ADDRESS"];
 final privateK = dotenv.env["METAMASK_PRIVATE_KEY"];
 final contractEZ = dotenv.env["CONTRACT_ADDRESS"];
 final CenterWallet = dotenv.env["METAMASK_WALLET_ADDRESS"];
+final chainID = dotenv.env["CHAIN_ID"];
+int? chainID_int = 5;
 
 //TODO 1: Get Smartcontract from Remix <----------------------------------------
 Future<DeployedContract> loadContract() async {
@@ -77,7 +79,7 @@ Future<String> submit(
     ),
     //this contract for only chainID 3 เท่านั้น
     fetchChainIdFromNetworkId: false,
-    chainId: 3,
+    chainId: chainID_int,
   );
   return result;
 }

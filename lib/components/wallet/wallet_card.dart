@@ -33,7 +33,7 @@ class _Wallet_cardState extends State<Wallet_card> {
   late Client httpClient;
   late Web3Client ethClient;
   bool dataConnent = false;
-  final infura = dotenv.env["INFURA_ROPSTEN_ADDRESS"];
+  final infura = dotenv.env["INFURA_ADDRESS"];
   final contractEZ = dotenv.env["CONTRACT_ADDRESS"];
 
   //Wallet Object

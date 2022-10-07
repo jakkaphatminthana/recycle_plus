@@ -45,8 +45,10 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
   late Client httpClient;
   late Web3Client ethClient;
   bool dataConnent = false;
-  final infura = dotenv.env["INFURA_ROPSTEN_ADDRESS"];
+  final infura = dotenv.env["INFURA_ADDRESS"];
   final contractEZ = dotenv.env["CONTRACT_ADDRESS"];
+  final chainID = dotenv.env["CHAIN_ID"];
+  int? chainID_int;
 
   //Wallet Object
   late WalletConnect connector;
@@ -205,6 +207,7 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
 
       httpClient = Client();
       ethClient = Web3Client("$infura", httpClient);
+      chainID_int = int.parse('$chainID');
 
       //ป้องกัน error
       _timer = Timer(const Duration(seconds: 2), () {
