@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:recycle_plus/screens/_User/profile/address/profile_address.dart';
 import 'package:recycle_plus/screens/_User/profile/edit_profile/profile_edit.dart';
+import 'package:recycle_plus/screens/_User/profile/kyc/kyc.dart';
 import 'package:recycle_plus/screens/_User/profile/order/order.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:recycle_plus/service/database.dart';
@@ -232,7 +233,12 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                               if (verify == false) {
+                                Navigator.pushNamed(
+                                    context, KYCscreen.routeName);
+                               }
+                              },
                             ),
                           ),
                           const SizedBox(height: 15.0),

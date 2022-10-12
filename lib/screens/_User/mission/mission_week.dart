@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,6 +17,8 @@ class Member_MissionWeek extends StatefulWidget {
 class _Member_MissionWeekState extends State<Member_MissionWeek> {
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+
     //About Date and time
     DateTime now = DateTime.now();
     int nowOfWeek = now.weekday;
@@ -94,39 +97,47 @@ class _Member_MissionWeekState extends State<Member_MissionWeek> {
                             ),
 
                             //TODO 2.2: Mission List
-                            Align(
-                              alignment: const AlignmentDirectional(0, 0),
-                              child: Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  //TODO : Firebase get <<------------------------------
-                                  child: ListView(
-                                    children: [
-                                      //TODO : Fetch data here
-                                    ...snapshot.data!.docs.map(
-                                        (QueryDocumentSnapshot<Object?> data) {
-                                      //ได้ตัว Data มาละ ----------<<<
-                                      final mission_type = data.get('mission');
-                                      final category = data.get('category');
-                                      final title = data.get("title");
-                                      final num_finish = data.get('num_finish');
-                                      final reward = data.get('reward');
-                                      final num_reward = data.get('num_reward');
-                                      final trash = data.get('trash');
+                            (user != null)
+                                ? Align(
+                                    alignment: const AlignmentDirectional(0, 0),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(20.0),
+                                      //TODO : Firebase get <<------------------------------
+                                      child: ListView(
+                                        children: [
+                                          //TODO : Fetch data here
+                                          ...snapshot.data!.docs.map(
+                                              (QueryDocumentSnapshot<Object?>
+                                                  data) {
+                                            //ได้ตัว Data มาละ ----------<<<
+                                            final mission_type =
+                                                data.get('mission');
+                                            final category =
+                                                data.get('category');
+                                            final title = data.get("title");
+                                            final num_finish =
+                                                data.get('num_finish');
+                                            final reward = data.get('reward');
+                                            final num_reward =
+                                                data.get('num_reward');
+                                            final trash = data.get('trash');
 
-                                      return listTile_Mission(
-                                        mission_ID: data.id,
-                                        mission_type: mission_type,
-                                        category: category,
-                                        title: title,
-                                        num_finish: num_finish,
-                                        reward_type: reward,
-                                        reward_num: num_reward,
-                                        trash: trash,
-                                      );
-                                        }),
-                                    ],
-                                  )),
-                            )
+                                            return listTile_Mission(
+                                              mission_ID: data.id,
+                                              mission_type: mission_type,
+                                              category: category,
+                                              title: title,
+                                              num_finish: num_finish,
+                                              reward_type: reward,
+                                              reward_num: num_reward,
+                                              trash: trash,
+                                            );
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                : NoLogin(),
                           ],
                         ),
                       ),
@@ -148,6 +159,29 @@ class _Member_MissionWeekState extends State<Member_MissionWeek> {
               }),
         ),
       ],
+    );
+  }
+
+  //=================================================================================================================
+  Widget NoLogin() {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.error,
+            color: Colors.black,
+            size: 90,
+          ),
+          Text('Only Member', style: Roboto20_B_black),
+          const SizedBox(height: 5.0),
+          Text(
+            'โปรดเข้าสู่ระบบเพื่อเปิดใช้งานฟังก์ชันนี้',
+            style: Roboto16_black,
+          ),
+        ],
+      ),
     );
   }
 }

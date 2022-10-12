@@ -60,6 +60,7 @@ dependencies:
   web3dart: ^2.3.5
   http: ^0.13.5
   flutter_dotenv: ^5.0.2
+  webview_flutter: ^3.0.4
 
 
   # The following adds the Cupertino Icons font to your application.

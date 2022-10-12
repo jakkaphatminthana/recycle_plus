@@ -53,6 +53,7 @@ class _listTile_MissionState extends State<listTile_Mission> {
   String TimeScale =
       "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1)))},${DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday)))}";
 
+  int? num_login;
   bool mission_claim = false;
   bool mission_status = false;
   int? miss_loginDay = 1;
@@ -140,6 +141,19 @@ class _listTile_MissionState extends State<listTile_Mission> {
     });
   }
 
+  //TODO 4: Get login day
+  Future<void> getNumOfLogin(user_ID) async {
+    final _col_login = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user_ID)
+        .snapshots()
+        .listen((event) {
+      setState(() {
+        num_login = event.get('login');
+      });
+    });
+  }
+
   //TODO 0: First call whenever run
   @override
   void initState() {
@@ -147,9 +161,11 @@ class _listTile_MissionState extends State<listTile_Mission> {
     getMissionClaim(widget.mission_type, widget.mission_ID, user!.uid, dateNow);
     getNumofOrderRecycle(user!.uid, widget.mission_type);
     getNumofOrderTrash(widget.trash, sumtotal);
+    getNumOfLogin(user!.uid);
 
     //1.Delay loading
     _timer = Timer(const Duration(milliseconds: 1000), () {
+      print("LOGIN = $num_login");
       setState(() {
         delay = true;
         //2.Mission ที่กำลังทำอยู่
@@ -235,6 +251,7 @@ class _listTile_MissionState extends State<listTile_Mission> {
 
                       return Container();
                     }),
+
                     Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
                       //TODO 1: Contaner
@@ -380,6 +397,7 @@ class _listTile_MissionState extends State<listTile_Mission> {
                                         user_ID: user!.uid,
                                         mission_ID: widget.mission_ID,
                                         mission_type: widget.mission_type,
+                                        user_loginDaily: num_login,
                                       );
                                     }
                                   }

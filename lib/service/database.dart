@@ -354,10 +354,26 @@ class DatabaseEZ {
   //TODO : UPDATE login day
   Future updateLoginUser({
     required String user_ID,
+    required int CurLogin,
   }) async {
     final reference = FirebaseFirestore.instance.collection('users');
+
+    //1.Login รายสัปดาห์
+    //หากจำนวนวัน login > weekday แปลว่าเราอยู่สัปดาห์ใหม่แล้ว
+    //login = 6, weekday = 2
+    if (CurLogin > DateTime.now().weekday) {
+      await reference.doc(user_ID).update({
+        "login": 1,
+      });
+    } else {
+      await reference.doc(user_ID).update({
+        "login": FieldValue.increment(1),
+      });
+    }
+
+    //2.Login สะสม
     await reference.doc(user_ID).update({
-      "login": FieldValue.increment(1),
+      "login_stack": FieldValue.increment(1),
     });
   }
 

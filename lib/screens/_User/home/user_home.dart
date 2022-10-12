@@ -4,6 +4,7 @@ import 'package:recycle_plus/components/wallet/wallet_card.dart';
 import 'package:recycle_plus/components/wallet/wallet_guset.dart';
 import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/sponsor_model.dart';
+import 'package:recycle_plus/screens/_User/home/googleform.dart';
 import 'package:recycle_plus/screens/login_no/login_no.dart';
 import 'package:recycle_plus/screens/start/start.dart';
 
@@ -104,51 +105,57 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
                       const SizedBox(height: 5.0),
 
                       //TODO 4. OURSPONSOR show
-                      Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFEEEEEE),
-                          border: Border.all(
-                            color: Colors.black,
-                            width: 1,
+                      GestureDetector(
+                        onDoubleTap: () {
+                          Navigator.pushNamed(context, Googleform.routeName);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFEEEEEE),
+                            border: Border.all(
+                              color: Colors.black,
+                              width: 1,
+                            ),
                           ),
-                        ),
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Center(
-                                  child: StreamBuilder<List<SponsorModel>>(
-                                    stream: logo,
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasError) {
-                                        return Text(
-                                            "something is wrong! ${snapshot.error}");
-                                      } else if (snapshot.hasData) {
-                                        final sponsor = snapshot.data!;
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Center(
+                                    child: StreamBuilder<List<SponsorModel>>(
+                                      stream: logo,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasError) {
+                                          return Text(
+                                              "something is wrong! ${snapshot.error}");
+                                        } else if (snapshot.hasData) {
+                                          final sponsor = snapshot.data!;
 
-                                        //TODO : Show data Sponsor Logo แบบทั้งหมด
-                                        return ListView(
-                                          scrollDirection:
-                                              Axis.horizontal, //แนวนอน
-                                          shrinkWrap: true, //ทำให้ center ติด
-                                          children: sponsor
-                                              .map(buildLogoSponsor)
-                                              .toList(),
-                                        );
-                                      } else {
-                                        return const Center(
-                                            child: CircularProgressIndicator());
-                                      }
-                                    },
+                                          //TODO : Show data Sponsor Logo แบบทั้งหมด
+                                          return ListView(
+                                            scrollDirection:
+                                                Axis.horizontal, //แนวนอน
+                                            shrinkWrap: true, //ทำให้ center ติด
+                                            children: sponsor
+                                                .map(buildLogoSponsor)
+                                                .toList(),
+                                          );
+                                        } else {
+                                          return const Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        }
+                                      },
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),

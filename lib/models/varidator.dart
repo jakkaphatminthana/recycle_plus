@@ -18,7 +18,16 @@ MultiValidator ValidatorPassword = MultiValidator(
   ],
 );
 
-MultiValidator ValidatorPhone = MultiValidator([
-  RequiredValidator(errorText: "กรุณาป้อนข้อมูลด้วย"),
-  MinLengthValidator(10, errorText: "หมายเลขโทรศัพท์ต้องมี 10 ตัว")
-],);
+MultiValidator ValidatorPhone = MultiValidator(
+  [
+    RequiredValidator(errorText: "กรุณาป้อนข้อมูลด้วย"),
+    MinLengthValidator(10, errorText: "หมายเลขโทรศัพท์ต้องมี 10 ตัว")
+  ],
+);
+
+MultiValidator ValidatorKYC = MultiValidator(
+  [
+    RequiredValidator(errorText: "กรุณากรอกเลขบัตรประชาชน"),
+    MinLengthValidator(13, errorText: "กรุณากรอกเลขบัตรประชาชน 13 หลัก")
+  ],
+);

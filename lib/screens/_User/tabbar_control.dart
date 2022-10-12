@@ -62,7 +62,7 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
           iconMargin: EdgeInsets.only(top: 10.0),
         ),
         Tab(
-          text: 'ท้าท้าย',
+          text: 'ควาสำเร็จ',
           icon: FaIcon(FontAwesomeIcons.trophy, size: 30),
           iconMargin: EdgeInsets.only(top: 10.0),
         ),

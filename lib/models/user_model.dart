@@ -4,6 +4,12 @@ class EmailModel {
   late String name;
 }
 
+class SponserEmailModel {
+  late String email;
+  late String password;
+  late String otp;
+}
+
 class UserModel {
   String? id;
   String? email;

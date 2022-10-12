@@ -132,6 +132,8 @@ class AuthService {
         "gender": "ไม่ระบุเพศ",
         "image":
             "https://firebasestorage.googleapis.com/v0/b/recycleplus-feecd.appspot.com/o/images%2Fuser_default.png?alt=media&token=5eb3431e-6485-4da5-9014-1ffee1134211",
+        "login": 0,
+        "login_stack": 0,
       });
     } catch (e) {
       print("Error create profile faild : $e");

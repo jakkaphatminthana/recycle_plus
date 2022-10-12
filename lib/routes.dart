@@ -15,8 +15,10 @@ import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/dialog_success.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/select_address/product_address.dart';
 import 'package:recycle_plus/screens/_User/exchange/exchange_more/product_recomend.dart';
+import 'package:recycle_plus/screens/_User/home/googleform.dart';
 import 'package:recycle_plus/screens/_User/profile/address/profile_address.dart';
 import 'package:recycle_plus/screens/_User/profile/edit_profile/profile_edit.dart';
+import 'package:recycle_plus/screens/_User/profile/kyc/kyc.dart';
 import 'package:recycle_plus/screens/_User/profile/order/order.dart';
 import 'package:recycle_plus/screens/forgotPass/forgotPass.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
@@ -43,8 +45,9 @@ final Map<String, WidgetBuilder> routes = {
   Test1_listData.routeName: (context) => Test1_listData(),
   Test_MutiData.routeName: (context) => Test_MutiData(),
   Test_MetaMask.routeName: (context) => Test_MetaMask(),
-  
   Wallet_Connecting.routeName: (context) => Wallet_Connecting(),
+
+  
   StartScreen.routeName: (context) => StartScreen(),
   LoginScreen.routeName: (context) => LoginScreen(),
   RegisterScreen.routeName: (context) => RegisterScreen(),
@@ -59,8 +62,10 @@ final Map<String, WidgetBuilder> routes = {
   Member_TrashRate.routeName: (context) => Member_TrashRate(),
   Member_ExchangeScreen.routeName: (context) => Member_ExchangeScreen(),
   Member_ProductRC_More.routeName: (context) => Member_ProductRC_More(),
-  Member_orderTrading.routeName:(context) => Member_orderTrading(),
-  Member_ProfileAddress.routeName:(context) => Member_ProfileAddress(),
+  Member_orderTrading.routeName: (context) => Member_orderTrading(),
+  Member_ProfileAddress.routeName: (context) => Member_ProfileAddress(),
+  KYCscreen.routeName: (context) => KYCscreen(),
+  Googleform.routeName: (context) => Googleform(),
 
 
   Admin_TabbarHome.routeName: (context) => Admin_TabbarHome(0),
@@ -73,7 +78,7 @@ final Map<String, WidgetBuilder> routes = {
   Admin_AddProduct.routeName: (context) => Admin_AddProduct(),
   Admin_MoreProduct.routeName: (context) => Admin_MoreProduct(),
   Admin_exchange_History.routeName: (context) => Admin_exchange_History(),
-  Admin_ExchangeOrder.routeName:(context) => Admin_ExchangeOrder(),
-  Admin_MissionScreen.routeName:(context) => Admin_MissionScreen(),
-  Admin_AddMission.routeName:(context) => Admin_AddMission(),
+  Admin_ExchangeOrder.routeName: (context) => Admin_ExchangeOrder(),
+  Admin_MissionScreen.routeName: (context) => Admin_MissionScreen(),
+  Admin_AddMission.routeName: (context) => Admin_AddMission(),
 };
