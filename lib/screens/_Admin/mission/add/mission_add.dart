@@ -249,6 +249,7 @@ class _Admin_AddMissionState extends State<Admin_AddMission> {
     )
         .then((value) {
       print('add mission');
+      Navigator.pop(context);
       Navigator.pushReplacementNamed(context, Admin_MissionScreen.routeName);
     }).catchError((err) => print('faild mission: $err'));
   }

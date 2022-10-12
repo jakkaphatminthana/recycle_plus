@@ -4,9 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:recycle_plus/models/news_model.dart';
 import 'package:recycle_plus/models/sponsor_model.dart';
 import 'package:recycle_plus/models/user_model.dart';
+import 'package:recycle_plus/screens/_User/exchange/detail/dialog_buy.dart';
 import 'package:uuid/uuid.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -15,6 +17,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 class DatabaseEZ {
   static DatabaseEZ instance = DatabaseEZ._();
   DatabaseEZ._();
+
+  String dateNow = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  String weekNow =
+      "${DateFormat('yyyy-MM-dd').format(DateTime.now().subtract(Duration(days: DateTime.now().weekday - 1)))},${DateFormat('yyyy-MM-dd').format(DateTime.now().add(Duration(days: DateTime.daysPerWeek - DateTime.now().weekday)))}";
 
   //TODO 1. GET News Database
   Stream<List<NewsModel>> getDataNews() => FirebaseFirestore.instance
@@ -345,6 +351,16 @@ class DatabaseEZ {
     });
   }
 
+  //TODO : UPDATE login day
+  Future updateLoginUser({
+    required String user_ID,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('users');
+    await reference.doc(user_ID).update({
+      "login": FieldValue.increment(1),
+    });
+  }
+
 //---------------------------------------------------------------------------------------------------------------------
 //TODO : ADD
 
@@ -517,6 +533,8 @@ class DatabaseEZ {
       "wallet": wallet,
       "txHash": txHash,
       "timestamp": DateTime.now(),
+      "timeDate": dateNow,
+      "timeWeek": weekNow,
     });
   }
 
@@ -546,6 +564,27 @@ class DatabaseEZ {
   }
 
   //TODO : ADD Claim Mission
+  Future createMissionOrder({
+    required typeMission,
+    required mission_ID,
+    required user_ID,
+    required timescale,
+  }) async {
+    final reference = FirebaseFirestore.instance
+        .collection((typeMission == "day") ? 'mission_day' : 'mission_week');
+
+    await reference
+        .doc(mission_ID)
+        .collection('list-date')
+        .doc(timescale)
+        .collection('complete')
+        .doc(user_ID)
+        .set({
+      'status': true,
+      'email': user!.email,
+      'timestamp': DateTime.now(),
+    });
+  }
 
 //-------------------------------------------------------------------------------------------------------------------
 //TODO : DELETE
