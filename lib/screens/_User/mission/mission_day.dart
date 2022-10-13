@@ -7,9 +7,17 @@ import 'package:intl/intl.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/dialog_buy.dart';
 import 'package:recycle_plus/screens/_User/mission/list_mission.dart';
+import 'package:web3dart/web3dart.dart';
 
 class Member_MissionDay extends StatefulWidget {
-  const Member_MissionDay({Key? key}) : super(key: key);
+  Member_MissionDay({
+    Key? key,
+    required this.session,
+    required this.ethClient,
+  }) : super(key: key);
+
+  final session;
+  final Web3Client ethClient;
 
   @override
   State<Member_MissionDay> createState() => _Member_MissionDayState();
@@ -126,6 +134,8 @@ class _Member_MissionDayState extends State<Member_MissionDay> {
                                               reward_type: reward,
                                               reward_num: num_reward,
                                               trash: trash,
+                                              session: widget.session,
+                                              ethClient: widget.ethClient,
                                             );
                                           }),
                                         ],

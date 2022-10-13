@@ -6,9 +6,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_User/mission/list_mission.dart';
+import 'package:web3dart/web3dart.dart';
 
 class Member_MissionWeek extends StatefulWidget {
-  const Member_MissionWeek({Key? key}) : super(key: key);
+  Member_MissionWeek({
+    Key? key,
+    required this.session,
+    required this.ethClient,
+  }) : super(key: key);
+  final session;
+  final Web3Client ethClient;
 
   @override
   State<Member_MissionWeek> createState() => _Member_MissionWeekState();
@@ -131,6 +138,8 @@ class _Member_MissionWeekState extends State<Member_MissionWeek> {
                                               reward_type: reward,
                                               reward_num: num_reward,
                                               trash: trash,
+                                              session: widget.session,
+                                              ethClient: widget.ethClient,
                                             );
                                           }),
                                         ],

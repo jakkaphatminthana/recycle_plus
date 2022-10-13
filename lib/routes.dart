@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recycle_plus/screens/_Admin/achievement/admin_achievement.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/add_product/add_product.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/history_product/product_history.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/more_product.dart/exchange_more.dart';
@@ -46,6 +47,8 @@ final Map<String, WidgetBuilder> routes = {
   Test_MutiData.routeName: (context) => Test_MutiData(),
   Test_MetaMask.routeName: (context) => Test_MetaMask(),
   Wallet_Connecting.routeName: (context) => Wallet_Connecting(),
+  KYCscreen.routeName: (context) => KYCscreen(),
+  Googleform.routeName: (context) => Googleform(),
 
   
   StartScreen.routeName: (context) => StartScreen(),
@@ -64,8 +67,7 @@ final Map<String, WidgetBuilder> routes = {
   Member_ProductRC_More.routeName: (context) => Member_ProductRC_More(),
   Member_orderTrading.routeName: (context) => Member_orderTrading(),
   Member_ProfileAddress.routeName: (context) => Member_ProfileAddress(),
-  KYCscreen.routeName: (context) => KYCscreen(),
-  Googleform.routeName: (context) => Googleform(),
+  
 
 
   Admin_TabbarHome.routeName: (context) => Admin_TabbarHome(0),
@@ -81,4 +83,5 @@ final Map<String, WidgetBuilder> routes = {
   Admin_ExchangeOrder.routeName: (context) => Admin_ExchangeOrder(),
   Admin_MissionScreen.routeName: (context) => Admin_MissionScreen(),
   Admin_AddMission.routeName: (context) => Admin_AddMission(),
+  Admin_AchievementScreen.routeName: (context) => Admin_AchievementScreen(),
 };

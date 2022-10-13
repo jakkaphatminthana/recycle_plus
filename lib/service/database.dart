@@ -286,12 +286,15 @@ class DatabaseEZ {
   //TODO : UPDATE exp
   Future updateAddExp({
     required String user_ID,
-    required exp,
+    required double exp,
   }) async {
     final reference = FirebaseFirestore.instance.collection('users');
+    double exp2Dc = double.parse(exp.toStringAsFixed(2));
+
     await reference.doc(user_ID).update({
-      "exp": FieldValue.increment(exp),
+      "exp": FieldValue.increment(exp2Dc),
     });
+    print('EXP = $exp2Dc');
   }
 
   //TODO : UPDATE product status
@@ -361,7 +364,7 @@ class DatabaseEZ {
     //1.Login รายสัปดาห์
     //หากจำนวนวัน login > weekday แปลว่าเราอยู่สัปดาห์ใหม่แล้ว
     //login = 6, weekday = 2
-    if (CurLogin > DateTime.now().weekday) {
+    if (CurLogin >= DateTime.now().weekday) {
       await reference.doc(user_ID).update({
         "login": 1,
       });
@@ -549,6 +552,33 @@ class DatabaseEZ {
       "wallet": wallet,
       "txHash": txHash,
       "timestamp": DateTime.now(),
+      "timeDate": dateNow,
+      "timeWeek": weekNow,
+    });
+  }
+
+  //TODO : ADD Orders(Mission)
+  Future createOrder_Mission({
+    required String? ID_user,
+    required String? ID_mission,
+    required String? mission_type,
+    required String? reward_type,
+    required double? reward_num,
+    required String? wallet,
+    required String? txHash,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('orders');
+
+    await reference.doc('mission').collection('order').add({
+      'order': 'mission',
+      'ID_user': ID_user,
+      'ID_mission': ID_mission,
+      'mission_type': mission_type,
+      'reward_type': reward_type,
+      'reward_num': reward_num,
+      'wallet': wallet,
+      'txHash': txHash,
+      'timestamp': DateTime.now(),
       "timeDate": dateNow,
       "timeWeek": weekNow,
     });

@@ -10,6 +10,7 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/dialog_buy.dart';
 import 'package:recycle_plus/screens/_User/mission/dialog_success.dart';
 import 'package:recycle_plus/screens/_User/tabbar_control.dart';
+import 'package:web3dart/web3dart.dart';
 
 class listTile_Mission extends StatefulWidget {
   listTile_Mission({
@@ -22,6 +23,8 @@ class listTile_Mission extends StatefulWidget {
     required this.reward_type,
     required this.reward_num,
     required this.trash,
+    required this.session,
+    required this.ethClient,
   }) : super(key: key);
   final mission_ID;
   final mission_type;
@@ -31,6 +34,9 @@ class listTile_Mission extends StatefulWidget {
   final reward_type;
   final reward_num;
   final trash;
+
+  final session;
+  final Web3Client ethClient;
 
   @override
   State<listTile_Mission> createState() => _listTile_MissionState();
@@ -165,12 +171,15 @@ class _listTile_MissionState extends State<listTile_Mission> {
 
     //1.Delay loading
     _timer = Timer(const Duration(milliseconds: 1000), () {
-      print("LOGIN = $num_login");
       setState(() {
         delay = true;
         //2.Mission ที่กำลังทำอยู่
         if (widget.category == "Login") {
-          mission_numNow = miss_loginDay;
+          if (widget.mission_type == "day") {
+            mission_numNow = miss_loginDay;
+          } else {
+            mission_numNow = num_login;
+          }
         } else if (widget.category == "Recycle") {
           mission_numNow = miss_recycle_num;
         } else if (widget.category == "Trash") {
@@ -233,7 +242,10 @@ class _listTile_MissionState extends State<listTile_Mission> {
                       : (widget.category == "Login" &&
                               widget.mission_type == 'day')
                           ? miss_loginDay! >= widget.num_finish
-                          : false;
+                          : (widget.category == "Login" &&
+                                  widget.mission_type == 'week')
+                              ? num_login! >= widget.num_finish
+                              : false;
               if (!snapshot.hasData) {
                 return const SpinKitCircle(
                   color: Colors.green,
@@ -398,6 +410,10 @@ class _listTile_MissionState extends State<listTile_Mission> {
                                         mission_ID: widget.mission_ID,
                                         mission_type: widget.mission_type,
                                         user_loginDaily: num_login,
+                                        reward_type: widget.reward_type,
+                                        reward_num: widget.reward_num,
+                                        session: widget.session,
+                                        ethClient: widget.ethClient,
                                       );
                                     }
                                   }

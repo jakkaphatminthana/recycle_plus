@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recycle_plus/screens/_Admin/achievement/admin_achievement.dart';
 import 'package:recycle_plus/screens/_Admin/home/list_menu.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/screens/_Admin/member/member.dart';
@@ -35,11 +36,13 @@ class _Admin_HomeScreenState extends State<Admin_HomeScreen> {
             ),
             const SizedBox(height: 10.0),
             ListMenu(
-              header: "Petition List",
-              subtitle: "รายการคำร้อง",
-              iconEZ: const FaIcon(FontAwesomeIcons.stream, size: 28),
+              header: "Achievement",
+              subtitle: "ภารกิจความสำเร็จ",
+              iconEZ: const FaIcon(FontAwesomeIcons.trophy, size: 28),
               colorEZ: const Color(0xFFF9DF8C),
-              press: () {},
+              press: () {
+                Navigator.pushNamed(context, Admin_AchievementScreen.routeName);
+              },
             ),
             const SizedBox(height: 10.0),
             ListMenu(
@@ -63,14 +66,12 @@ class _Admin_HomeScreenState extends State<Admin_HomeScreen> {
             ),
             const SizedBox(height: 10.0),
             ListMenu(
-              header: "Verify",
-              subtitle: "ตรวจสอบการยืนยันตัวตน",
-              iconEZ: const FaIcon(Icons.how_to_reg, size: 35),
+              header: "Sponsor",
+              subtitle: "จัดการข้อมมูลสปอนเซอร์",
+              iconEZ: const FaIcon(FontAwesomeIcons.handsHelping, size: 28),
               colorEZ: const Color(0xFF6AC0F0),
               //TODO : Change Link Here --------------------------------------------------------------<<<<
-              press: () {
-                Navigator.pushNamed(context, Test_MetaMask.routeName);
-              },
+              press: () {},
             ),
             const SizedBox(height: 10.0),
           ],

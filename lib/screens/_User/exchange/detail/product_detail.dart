@@ -75,7 +75,7 @@ class _Member_ProductDetailState extends State<Member_ProductDetail> {
       session: session,
       sessionStorage: sessionStorage,
       clientMeta: const PeerMeta(
-          name: 'TestMode',
+          name: 'Recycle+',
           description: 'Connect application for lightWallet',
           url: 'https://walletconnect.org',
           icons: [
