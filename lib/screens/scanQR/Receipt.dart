@@ -743,7 +743,7 @@ class _ReceiptState extends State<Receipt> {
                                       'Continue',
                                       style: TextStyle(fontSize: 18),
                                     ),
-                                    //TODO 1: About Database ------------------------------------<<<<<<<<<<<<
+                                    //TODO : About Database ------------------------------------<<<<<<<<<<<<
                                     onPressed: () async {
                                       var transactionEZ;
 
@@ -770,13 +770,13 @@ class _ReceiptState extends State<Receipt> {
                                       var uid = Uuid();
                                       final uuid = uid.v1();
 
-                                      //TODO : Upload Image to storage ---------------
+                                      //TODO 1: Upload Image to storage ---------------
                                       var imageURL = await uploadImage(
                                         gallery: widget.image_path,
                                         image: widget.image_file,
                                         uid: uuid,
                                       );
-                                      //TODO : SendTransaction Blockchain ----------------------------<<<<<<<<
+                                      //TODO 2: SendTransaction Blockchain ----------------------------<<<<<<<<
                                       var txHash = await TransferToken(
                                               reward_total_token, _account)
                                           .then((value) {
@@ -788,7 +788,7 @@ class _ReceiptState extends State<Receipt> {
                                         print('transaction error: $err');
                                       });
 
-                                      //TODO : Create Transaction on firebase ------------------------<<<<<<<
+                                      //TODO 3: Create Transaction on firebase ------------------------<<<<<<<
                                       await db
                                           .createTransaction(
                                         ID_user: user!.uid,
@@ -800,7 +800,7 @@ class _ReceiptState extends State<Receipt> {
                                           .then(
                                         (value) {
                                           print('transaction firebase');
-                                          //TODO : UPDATE EXP USER -------------------------------------<<<<<<<<
+                                          //TODO 4: UPDATE EXP USER -------------------------------------<<<<<<<<
                                           db
                                               .updateAddExp(
                                             user_ID: user!.uid,
@@ -808,36 +808,48 @@ class _ReceiptState extends State<Receipt> {
                                           )
                                               .then((value) {
                                             print('exp success');
-                                            //TODO : Create Order Trash reward --------------------------<<<<<<<
+
+                                            //TODO 5: UPDATE Garbage User --------------------------------<<<<<<<
                                             db
-                                                .createOrder_trashReward(
-                                              uid: uuid,
-                                              ID_user: user!.uid,
-                                              trash_type: widget.trash_id,
-                                              imageURL: imageURL,
-                                              amount: widget.amount,
-                                              token: reward_token,
-                                              exp: reward_exp,
-                                              wallet: _account,
-                                              txHash: transactionEZ,
+                                                .updateAddGarbage(
+                                              user_ID: user!.uid,
+                                              amounts: widget.amount,
                                             )
                                                 .then((value) {
-                                              print('order success');
-                                              setState(() {
-                                                loading = false;
-                                              });
-                                              Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      RewardWidget(
-                                                    token: reward_total_token,
-                                                    exp: reward_exp,
+                                              print('garbage success');
+
+                                              //TODO 6: Create Order Trash reward --------------------------<<<<<<<
+                                              db
+                                                  .createOrder_trashReward(
+                                                uid: uuid,
+                                                ID_user: user!.uid,
+                                                trash_type: widget.trash_id,
+                                                imageURL: imageURL,
+                                                amount: widget.amount,
+                                                token: reward_token,
+                                                exp: reward_exp,
+                                                wallet: _account,
+                                                txHash: transactionEZ,
+                                              )
+                                                  .then((value) {
+                                                print('order success');
+                                                setState(() {
+                                                  loading = false;
+                                                });
+                                                Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        RewardWidget(
+                                                      token: reward_total_token,
+                                                      exp: reward_exp,
+                                                    ),
                                                   ),
-                                                ),
-                                              );
-                                            }).catchError((err) =>
-                                                    print('order error: $err'));
+                                                );
+                                              }).catchError((err) => print(
+                                                      'order error: $err'));
+                                            }).catchError((err) => print(
+                                                    'garbage error: $err'));
                                           }).catchError((err) =>
                                                   print('expError: $err'));
                                         },

@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_User/achievement/card_honor.dart';
 
@@ -11,8 +14,41 @@ class Member_AchievementScreen extends StatefulWidget {
 }
 
 class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
+  User? user = FirebaseAuth.instance.currentUser;
+  int? user_honnor;
+  int? user_login;
+  num? user_trash = 0;
+
+  //TODO 1: GetData User login Stack
+  Future<void> getLoginStack(user_ID) async {
+    final _col_login = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user_ID)
+        .snapshots()
+        .listen((event) {
+      setState(() {
+        user_login = event.get('login_stack');
+      });
+    });
+  }
+
+  //TODO 0: First call whenever run
+  @override
+  void initState() {
+    super.initState();
+    getLoginStack(user!.uid);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Stream<QuerySnapshot> _Achievement =
+        FirebaseFirestore.instance.collection('achievement').snapshots();
+    //===============================================================================================================
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -66,7 +102,7 @@ class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
                               ),
                               bannerIcon(
                                 image: 'assets/image/calendar.png',
-                                value: 7,
+                                value: user_login,
                               ),
                               bannerIcon(
                                 image: 'assets/image/garbage.png',
@@ -92,69 +128,56 @@ class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
           ),
         ),
 
-        //TODO 5: GridView
+        //TODO : Get Database from Firebase --------------------------------------<<<<
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(10.0),
-            child: GridView(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                childAspectRatio: 1,
-              ),
-              padding: EdgeInsets.zero,
-              scrollDirection: Axis.vertical,
-              children: const [
-                CardHonor(
-                  title: "Day and Night",
-                  image:
-                      'https://cdn-icons-png.flaticon.com/512/3751/3751403.png',
-                  num_now: 7,
-                  num_finish: 14,
-                  status: false,
-                ),
-                CardHonor(
-                  title: "Nature lovers",
-                  image:
-                      'https://cdn-icons-png.flaticon.com/512/2707/2707277.png',
-                  num_now: 135,
-                  num_finish: 200,
-                  status: false,
-                ),
-                CardHonor(
-                  title: "Shopper",
-                  image:
-                      'https://cdn-icons-png.flaticon.com/512/2707/2707251.png',
-                  num_now: 1200,
-                  num_finish: 20000,
-                  status: false,
-                ),
-                CardHonor(
-                  title: "Fully recycle",
-                  image:
-                      'https://cdn-icons-png.flaticon.com/512/2707/2707275.png',
-                  num_now: 135,
-                  num_finish: 500,
-                  status: false,
-                ),
-                CardHonor(
-                  title: "One Month",
-                  image:
-                      'https://cdn-icons-png.flaticon.com/512/1048/1048953.png',
-                  num_now: 7,
-                  num_finish: 30,
-                  status: false,
-                ),
-                CardHonor(
-                  title: "Level 50",
-                  image:
-                      'https://cdn-icons-png.flaticon.com/512/3153/3153346.png',
-                  num_now: 5,
-                  num_finish: 50,
-                  status: false,
-                ),
-              ],
+            child: StreamBuilder<QuerySnapshot>(
+              stream: _Achievement,
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return const SpinKitCircle(
+                    color: Colors.green,
+                    size: 50,
+                  );
+                } else {
+                  return GridView(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 0.94, //hight size
+                    ),
+                    padding: EdgeInsets.zero,
+                    scrollDirection: Axis.vertical,
+                    children: [
+                      //TODO : Fetch data here
+                      ...snapshot.data!.docs
+                          .map((QueryDocumentSnapshot<Object?> data) {
+                        //ได้ตัว Data มาละ ----------<<<
+                        final image = data.get("image");
+                        final category = data.get("category");
+                        final title = data.get("title");
+                        final description = data.get("description");
+                        final num_finish = data.get("num_finish");
+                        final trash = data.get("trash");
+
+                        return CardHonor(
+                          category: category,
+                          title: title,
+                          image: image,
+                          num_now: 1,
+                          num_finish: num_finish,
+                          trash: trash,
+                          description: description,
+                        );
+                      }),
+                    ],
+                  );
+                }
+              },
             ),
           ),
         )

@@ -380,6 +380,53 @@ class DatabaseEZ {
     });
   }
 
+  //TODO : UPDATE Mission
+  Future updateAchievement({
+    required String Achiment_ID,
+    required String category,
+    required String title,
+    required int num_finish,
+    required String description,
+    required String trash,
+    image_new,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('achievement');
+
+    //1.กรณีมีรูป
+    if (image_new != null) {
+      await reference.doc(Achiment_ID).update({
+        "image": image_new,
+        "category": category,
+        "title": title,
+        "num_finish": num_finish,
+        "description": description,
+        "trash": trash,
+      });
+      //2.กรณีไม่มีรูป
+    } else {
+      await reference.doc(Achiment_ID).update({
+        "category": category,
+        "title": title,
+        "num_finish": num_finish,
+        "description": description,
+        "trash": trash,
+      });
+    }
+  }
+
+  //TODO : UPDATE Garbage amounts
+  Future updateAddGarbage({
+    required String user_ID,
+    required int amounts,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('users');
+
+    await reference.doc(user_ID).update({
+      "garbage": FieldValue.increment(amounts),
+    });
+    print('Garbage+ = $amounts');
+  }
+
 //---------------------------------------------------------------------------------------------------------------------
 //TODO : ADD
 
@@ -632,6 +679,30 @@ class DatabaseEZ {
     });
   }
 
+  //TODO : ADD Achievement
+  Future createAchievement({
+    required uid,
+    required image_url,
+    required category,
+    required trash,
+    required title,
+    required description,
+    required num_finish,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('achievement');
+
+    await reference.doc(uid).set({
+      'id': uid,
+      'image': image_url,
+      'category': category,
+      'trash': trash,
+      'title': title,
+      'description': description,
+      'num_finish': num_finish,
+      'timestamp': DateTime.now(),
+    });
+  }
+
 //-------------------------------------------------------------------------------------------------------------------
 //TODO : DELETE
 
@@ -677,5 +748,12 @@ class DatabaseEZ {
         .collection((mission_Type == "day") ? 'mission_day' : 'mission_week');
 
     await reference.doc(mission_ID).delete();
+  }
+
+  //TODO : DELETE Achievement
+  Future deleteAchievement({String? achievement_ID}) async {
+    final reference = FirebaseFirestore.instance.collection('achievement');
+
+    await reference.doc(achievement_ID).delete();
   }
 }

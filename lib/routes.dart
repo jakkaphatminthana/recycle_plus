@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recycle_plus/screens/_Admin/achievement/add/achievement_add.dart';
 import 'package:recycle_plus/screens/_Admin/achievement/admin_achievement.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/add_product/add_product.dart';
 import 'package:recycle_plus/screens/_Admin/exchange/history_product/product_history.dart';
@@ -84,4 +85,5 @@ final Map<String, WidgetBuilder> routes = {
   Admin_MissionScreen.routeName: (context) => Admin_MissionScreen(),
   Admin_AddMission.routeName: (context) => Admin_AddMission(),
   Admin_AchievementScreen.routeName: (context) => Admin_AchievementScreen(),
+  Admin_AchievementAdd.routeName:(context) => Admin_AchievementAdd(),
 };

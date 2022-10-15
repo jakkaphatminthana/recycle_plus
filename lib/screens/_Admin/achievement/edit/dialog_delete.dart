@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/models/varidator.dart';
+import 'package:recycle_plus/screens/_Admin/achievement/admin_achievement.dart';
 import 'package:recycle_plus/screens/_Admin/mission/mission.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/dialog_buy.dart';
 import 'package:recycle_plus/screens/_User/profile/address/profile_address.dart';
 import 'package:recycle_plus/screens/_User/profile/address/styleTextAddress.dart';
 import 'package:recycle_plus/service/auth.dart';
 
-final AuthService _auth = AuthService();
-
-showDialogMission_Delete({
+showDialogAchiment_Delete({
   required BuildContext context,
-  required String mission_ID,
-  required String missionType,
+  required String Achiment_ID,
 }) {
 //==================================================================================================================
 
@@ -29,11 +27,10 @@ showDialogMission_Delete({
   //TODO 2: Continute Button
   Widget continueButton(BuildContext context) {
     return FlatButton(
-      child: Text("Accept", style: Roboto16_B_red),
+      child: Text("Delete", style: Roboto16_B_red),
       onPressed: ConfrimDelete(
         context: context,
-        mission_ID: mission_ID,
-        missionType: missionType,
+        Achiment_ID: Achiment_ID,
       ),
     );
   }
@@ -58,18 +55,16 @@ showDialogMission_Delete({
 //TODO : OnClick, Create Database on Firebase <<--------------------------------
 GestureTapCallback ConfrimDelete({
   required BuildContext context,
-  required mission_ID,
-  required missionType,
+  required Achiment_ID,
 }) {
   return () async {
     //update firebase
-    await db
-        .deleteMission(mission_ID: mission_ID, mission_Type: missionType)
-        .then((value) {
+    await db.deleteAchievement(achievement_ID: Achiment_ID).then((value) {
       print('delete mission');
       Navigator.pop(context);
       Navigator.pop(context);
-      Navigator.pushReplacementNamed(context, Admin_MissionScreen.routeName);
+      Navigator.pushReplacementNamed(
+          context, Admin_AchievementScreen.routeName);
     }).catchError((err) => print('delete mission error: $err'));
   };
 }
