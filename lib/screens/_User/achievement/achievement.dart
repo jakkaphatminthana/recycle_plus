@@ -7,6 +7,8 @@ import 'package:recycle_plus/screens/_User/achievement/card_honor.dart';
 
 class Member_AchievementScreen extends StatefulWidget {
   const Member_AchievementScreen({Key? key}) : super(key: key);
+  //Location page
+  static String routeName = "/Achievement_user";
 
   @override
   State<Member_AchievementScreen> createState() =>
@@ -15,11 +17,12 @@ class Member_AchievementScreen extends StatefulWidget {
 
 class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
   User? user = FirebaseAuth.instance.currentUser;
-  int? user_honnor;
+  int? user_honor;
   int? user_login;
-  num? user_trash = 0;
+  int? user_trash;
+  int? user_level;
 
-  //TODO 1: GetData User login Stack
+  //TODO 1: GetData User Information
   Future<void> getLoginStack(user_ID) async {
     final _col_login = FirebaseFirestore.instance
         .collection('users')
@@ -27,7 +30,22 @@ class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
         .snapshots()
         .listen((event) {
       setState(() {
+        user_honor = event.get('honor');
         user_login = event.get('login_stack');
+        user_level = event.get('level');
+      });
+    });
+  }
+
+  //TODO 2: GetData User Grabage
+  Future<void> getGarbageUser(user_ID) async {
+    final _col_login = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user_ID)
+        .snapshots()
+        .listen((event) {
+      setState(() {
+        user_trash = event.get('garbage');
       });
     });
   }
@@ -37,6 +55,7 @@ class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
   void initState() {
     super.initState();
     getLoginStack(user!.uid);
+    getGarbageUser(user!.uid);
   }
 
   @override
@@ -98,7 +117,7 @@ class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
                             children: [
                               bannerIcon(
                                 image: 'assets/image/medal.png',
-                                value: 10,
+                                value: user_honor,
                               ),
                               bannerIcon(
                                 image: 'assets/image/calendar.png',
@@ -106,7 +125,7 @@ class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
                               ),
                               bannerIcon(
                                 image: 'assets/image/garbage.png',
-                                value: 135,
+                                value: user_trash,
                               ),
                             ],
                           ),
@@ -165,13 +184,15 @@ class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
                         final trash = data.get("trash");
 
                         return CardHonor(
+                          achiment_ID: data.id,
+                          image: image,
                           category: category,
                           title: title,
-                          image: image,
-                          num_now: 1,
                           num_finish: num_finish,
                           trash: trash,
                           description: description,
+                          user_level: user_level,
+                          user_login: user_login,
                         );
                       }),
                     ],

@@ -135,6 +135,7 @@ class AuthService {
         "login": 0,
         "login_stack": 0,
         "garbage": 0,
+        'honor': 0,
       });
     } catch (e) {
       print("Error create profile faild : $e");

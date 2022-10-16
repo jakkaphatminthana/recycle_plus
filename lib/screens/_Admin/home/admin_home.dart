@@ -4,6 +4,7 @@ import 'package:recycle_plus/screens/_Admin/home/list_menu.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/screens/_Admin/member/member.dart';
 import 'package:recycle_plus/screens/_Admin/mission/mission.dart';
+import 'package:recycle_plus/screens/_Admin/sponsor/admin_sponsor.dart';
 import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
 import 'package:recycle_plus/screens/test/test_MutiAddData.dart';
 import 'package:recycle_plus/screens/test/test_blockchain.dart';
@@ -71,7 +72,9 @@ class _Admin_HomeScreenState extends State<Admin_HomeScreen> {
               iconEZ: const FaIcon(FontAwesomeIcons.handsHelping, size: 28),
               colorEZ: const Color(0xFF6AC0F0),
               //TODO : Change Link Here --------------------------------------------------------------<<<<
-              press: () {},
+              press: () {
+                Navigator.pushNamed(context, Admin_SponsorManager.routeName);
+              },
             ),
             const SizedBox(height: 10.0),
           ],

@@ -811,7 +811,7 @@ class _ReceiptState extends State<Receipt> {
 
                                             //TODO 5: UPDATE Garbage User --------------------------------<<<<<<<
                                             db
-                                                .updateAddGarbage(
+                                                .updateGarbageAmount(
                                               user_ID: user!.uid,
                                               amounts: widget.amount,
                                             )

@@ -415,7 +415,7 @@ class DatabaseEZ {
   }
 
   //TODO : UPDATE Garbage amounts
-  Future updateAddGarbage({
+  Future updateGarbageAmount({
     required String user_ID,
     required int amounts,
   }) async {
@@ -426,6 +426,20 @@ class DatabaseEZ {
     });
     print('Garbage+ = $amounts');
   }
+
+  //TODO : UPDATE Honor amounts
+  Future updateHonorAmount({
+    required String user_ID,
+    required int amounts,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('users');
+
+    await reference.doc(user_ID).update({
+      "honor": FieldValue.increment(amounts),
+    });
+    print('Honor+ = $amounts');
+  }
+
 
 //---------------------------------------------------------------------------------------------------------------------
 //TODO : ADD
@@ -699,6 +713,20 @@ class DatabaseEZ {
       'title': title,
       'description': description,
       'num_finish': num_finish,
+      'timestamp': DateTime.now(),
+    });
+  }
+
+  //TODO : ADD Claim Achievement
+  Future createAchievementOrder({
+    required achiment_ID,
+    required user_ID,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('achievement');
+
+    await reference.doc(achiment_ID).collection('owner').doc(user_ID).set({
+      'status': true,
+      'email': user!.email,
       'timestamp': DateTime.now(),
     });
   }

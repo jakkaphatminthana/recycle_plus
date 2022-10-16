@@ -12,8 +12,10 @@ import 'package:recycle_plus/screens/_Admin/news/news.dart';
 import 'package:recycle_plus/screens/_Admin/news/news_add.dart';
 import 'package:recycle_plus/screens/_Admin/setting/setting.dart';
 import 'package:recycle_plus/screens/_Admin/setting/sponsor%20logo/sponsor_logo.dart';
+import 'package:recycle_plus/screens/_Admin/sponsor/admin_sponsor.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
+import 'package:recycle_plus/screens/_User/achievement/achievement.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/dialog_success.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/select_address/product_address.dart';
 import 'package:recycle_plus/screens/_User/exchange/exchange_more/product_recomend.dart';
@@ -68,6 +70,7 @@ final Map<String, WidgetBuilder> routes = {
   Member_ProductRC_More.routeName: (context) => Member_ProductRC_More(),
   Member_orderTrading.routeName: (context) => Member_orderTrading(),
   Member_ProfileAddress.routeName: (context) => Member_ProfileAddress(),
+  Member_AchievementScreen.routeName:(context) => Member_AchievementScreen(),
   
 
 
@@ -86,4 +89,5 @@ final Map<String, WidgetBuilder> routes = {
   Admin_AddMission.routeName: (context) => Admin_AddMission(),
   Admin_AchievementScreen.routeName: (context) => Admin_AchievementScreen(),
   Admin_AchievementAdd.routeName:(context) => Admin_AchievementAdd(),
+  Admin_SponsorManager.routeName:(context) => Admin_SponsorManager(),
 };
