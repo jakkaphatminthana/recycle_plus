@@ -61,6 +61,7 @@ dependencies:
   http: ^0.13.5
   flutter_dotenv: ^5.0.2
   webview_flutter: ^3.0.4
+  nextflow_thai_personal_id: ^1.0.2
 
 
   # The following adds the Cupertino Icons font to your application.

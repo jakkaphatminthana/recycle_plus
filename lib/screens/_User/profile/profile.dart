@@ -13,6 +13,7 @@ import 'package:recycle_plus/screens/_User/profile/address/profile_address.dart'
 import 'package:recycle_plus/screens/_User/profile/edit_profile/profile_edit.dart';
 import 'package:recycle_plus/screens/_User/profile/kyc/kyc.dart';
 import 'package:recycle_plus/screens/_User/profile/order/order.dart';
+import 'package:recycle_plus/screens/_User/profile/report/report.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:recycle_plus/service/database.dart';
 
@@ -234,10 +235,10 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
                                 ),
                               ),
                               onPressed: () {
-                               if (verify == false) {
-                                Navigator.pushNamed(
-                                    context, KYCscreen.routeName);
-                               }
+                                if (verify == false) {
+                                  Navigator.pushNamed(
+                                      context, KYCscreen.routeName);
+                                }
                               },
                             ),
                           ),
@@ -500,7 +501,14 @@ class _Member_ProfileScreenState extends State<Member_ProfileScreen> {
                                           size: 35,
                                         ),
                                         title: "รายงาน",
-                                        press: () {},
+                                        press: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Reportform()),
+                                          );
+                                        },
                                       ),
                                     ],
                                   ),

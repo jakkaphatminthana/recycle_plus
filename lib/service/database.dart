@@ -62,6 +62,7 @@ class DatabaseEZ {
   }
 
 //TODO : UPDATE
+//---------------------------------------------------------------------------------------------------------------------
 //------------------------------------------------------------------------------------------------------------------------
   //TODO : Update UserName
   Future<void> updateUserName({UserModel? userID, UserModel? username}) {
@@ -440,7 +441,15 @@ class DatabaseEZ {
     print('Honor+ = $amounts');
   }
 
+  Future updateKyc(
+      {required String user_ID, required String ID_Card_Number}) async {
+    final reference = FirebaseFirestore.instance.collection('users');
+    await reference
+        .doc(user_ID)
+        .update({'verify': true, 'ID_Card': ID_Card_Number});
+  }
 
+//---------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------
 //TODO : ADD
 
@@ -731,6 +740,16 @@ class DatabaseEZ {
     });
   }
 
+  //TODO : ADD Sponsor OTP
+  Future createSponsorOTP({required OTP, required company}) async {
+    final reference = FirebaseFirestore.instance.collection('sponsor_test');
+
+    await reference.doc(OTP).set({
+      'id': OTP,
+      'company': company,
+    });
+  }
+//---------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
 //TODO : DELETE
 

@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/models/varidator.dart';
 import 'package:recycle_plus/screens/_Admin/sponsor/add%20sponsor/styleTextfield.dart';
+import 'package:recycle_plus/screens/_User/exchange/detail/dialog_buy.dart';
 import 'dart:math';
 
 import 'package:recycle_plus/service/database.dart';
@@ -40,11 +41,17 @@ showDialogAddSponsor({required BuildContext context}) async {
   Widget continueButton(BuildContext context) {
     return FlatButton(
       child: Text("ยืนยัน", style: Roboto16_B_greenB),
-      onPressed: ConfrimContinue(
-        context: context,
-        formKey: _formKey,
-        otpEZ: otp.text,
-      ),
+      // onPressed: ConfrimContinue(
+      //   context: context,
+      //   formKey: _formKey,
+      //   otpEZ: otp.text,
+      //   company: company.text,
+      // ),
+      onPressed: () {
+        db
+            .createSponsorOTP(OTP: otp.text, company: company.text)
+            .then((value) => print('otp success'));
+      },
     );
   }
 
@@ -129,27 +136,21 @@ Future<bool> CheckOTP(OTP) async {
   return result;
 }
 
-//TODO : เมือกดปุ่มยืนยัน
-GestureTapCallback ConfrimContinue({
-  required BuildContext context,
-  required formKey,
-  required String otpEZ,
-}) {
-  return () {
-    if (formKey.currentState!.validate()) {
-      //สั่งประมวลผลข้อมูลที่กรอก
-      formKey.currentState?.save();
-      var isOTP_Duplicate = CheckOTP(otpEZ);
+// //TODO : เมือกดปุ่มยืนยัน
+// GestureTapCallback ConfrimContinue({
+//   required BuildContext context,
+//   required formKey,
+//   required String otpEZ,
+//   required String company,
+// }) {
+//   return () async {
+//     if (formKey.currentState!.validate()) {
+//       //สั่งประมวลผลข้อมูลที่กรอก
+//       formKey.currentState?.save();
 
-      //กรณีที่เลข OTP ซ้ำ
-      if (isOTP_Duplicate == true) {
-        Fluttertoast.showToast(
-          msg: "OTP นี้มีอยู่แล้วในระบบ",
-          gravity: ToastGravity.BOTTOM,
-        );
-      } else {
-        print('ok');
-      }
-    }
-  };
-}
+//       db
+//           .createSponsorOTP(OTP: otpEZ, company: company)
+//           .then((value) => print('otp success'));
+//     }
+//   };
+// }

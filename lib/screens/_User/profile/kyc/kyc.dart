@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:recycle_plus/models/varidator.dart';
+import 'package:nextflow_thai_personal_id/nextflow_thai_personal_id.dart';
+import 'package:recycle_plus/screens/_User/home/googleform.dart';
+import 'package:recycle_plus/service/database.dart';
 
 class KYCscreen extends StatefulWidget {
   const KYCscreen({Key? key}) : super(key: key);
@@ -14,6 +18,11 @@ class _KYCscreenState extends State<KYCscreen> {
   TextEditingController? textController;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  DatabaseEZ db = DatabaseEZ.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+
+  ThaiIdValidator thaiIdValidator =
+      ThaiIdValidator(errorMessage: 'เลขบัตรประชาชนของท่านไม่ถูกต้อง');
 
   @override
   void initState() {
@@ -69,7 +78,7 @@ class _KYCscreenState extends State<KYCscreen> {
                       width: MediaQuery.of(context).size.width * 0.8,
                       height: 80,
                       child: TextFormField(
-                        validator: ValidatorKYC,
+                        validator: thaiIdValidator.validate,
                         maxLength: 13,
                         controller: textController,
                         autofocus: false,
@@ -110,9 +119,9 @@ class _KYCscreenState extends State<KYCscreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
-                          );
+                          db.updateKyc(
+                              user_ID: user!.uid,
+                              ID_Card_Number: textController!.text);
                         }
                       },
                       child: const Text(
