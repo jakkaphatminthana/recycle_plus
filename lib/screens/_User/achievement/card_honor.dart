@@ -8,7 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_User/achievement/dialog_detail.dart';
-import 'package:recycle_plus/screens/_User/achievement/dialog_loading.dart';
+import 'package:recycle_plus/screens/_User/achievement/dialog_claim.dart';
 import 'package:recycle_plus/service/database.dart';
 
 class CardHonor extends StatefulWidget {

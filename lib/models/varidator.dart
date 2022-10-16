@@ -25,6 +25,13 @@ MultiValidator ValidatorPhone = MultiValidator(
   ],
 );
 
+MultiValidator ValidatorOTP = MultiValidator(
+  [
+    RequiredValidator(errorText: "กรุณาป้อนข้อมูลด้วย"),
+    MinLengthValidator(6, errorText: "รหัสประจำตัวต้องมี 6 ตัว")
+  ],
+);
+
 MultiValidator ValidatorKYC = MultiValidator(
   [
     RequiredValidator(errorText: "กรุณากรอกเลขบัตรประชาชน"),
