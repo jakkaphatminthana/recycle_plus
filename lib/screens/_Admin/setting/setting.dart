@@ -51,7 +51,7 @@ class Admin_SettingMore extends StatelessWidget {
                     color: Colors.black,
                   ),
                   press: () {
-                    Navigator.pushNamed(context, Admin_LogoSponsor.routeName);
+                    // Navigator.pushNamed(context, Admin_LogoSponsor.routeName);
                   },
                 ),
               ],

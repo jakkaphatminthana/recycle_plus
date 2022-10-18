@@ -38,14 +38,14 @@ class _SponserRegisterFormState extends State<SponserRegisterForm> {
   Future<void> CheckOTP({required String OTP}) async {
     //1.1 check isEmpty
     await FirebaseFirestore.instance
-        .collection('sponsor_test')
+        .collection('sponsor')
         .doc(OTP)
         .get()
         .then((value) {
       if (value.data() != null) {
         //1.2 get status
         final col_otp = FirebaseFirestore.instance
-            .collection('sponsor_test')
+            .collection('sponsor')
             .doc(OTP)
             .snapshots()
             .listen((event) {

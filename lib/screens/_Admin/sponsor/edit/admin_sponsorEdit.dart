@@ -164,79 +164,82 @@ class _Admin_SponsorEditState extends State<Admin_SponsorEdit> {
         ),
         body: Form(
           key: formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                //TODO 2: Image LOGO
-                _buildImage(imageFB_Con),
-                Text("หมายเหตุ: แนะนำต้องเป็นรูปภาพสกุลไฟล์ PNG",
-                    style: Roboto12_black),
-                const SizedBox(height: 20.0),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //TODO 2: Image LOGO
+                  _buildImage(imageFB_Con),
+                  Text("หมายเหตุ: แนะนำต้องเป็นรูปภาพสกุลไฟล์ PNG",
+                      style: Roboto12_black),
+                  const SizedBox(height: 20.0),
 
-                //TODO 2: Head Detail
-                Text("รายละเอียด", style: Roboto14_B_black),
-                const SizedBox(height: 5.0),
+                  //TODO 2: Head Detail
+                  Text("รายละเอียด", style: Roboto14_B_black),
+                  const SizedBox(height: 5.0),
 
-                //TODO 3.1: Status now
-                Row(
-                  children: [
-                    Text('Status: ', style: Roboto14_B_blueDeep),
-                    Text(
-                      (statusFB == false) ? 'รอการลงทะเบียน' : 'ลงทะเบียนแล้ว',
-                      style: (statusFB == false)
-                          ? Roboto14_B_orange
-                          : Roboto14_B_greenB,
+                  //TODO 3.1: Status now
+                  Row(
+                    children: [
+                      Text('Status: ', style: Roboto14_B_blueDeep),
+                      Text(
+                        (statusFB == false)
+                            ? 'รอการลงทะเบียน'
+                            : 'ลงทะเบียนแล้ว',
+                        style: (statusFB == false)
+                            ? Roboto14_B_orange
+                            : Roboto14_B_greenB,
+                      ),
+                    ],
+                  ),
+
+                  //TODO 3.2: email
+                  (statusFB == true)
+                      ? Row(
+                          children: [
+                            Text('Email: ', style: Roboto14_B_blueDeep),
+                            Text(emailFB, style: Roboto14_B_greenB),
+                          ],
+                        )
+                      : Container(),
+                  const SizedBox(height: 20.0),
+
+                  //TODO 4.1 Input Company
+                  TextFormField(
+                    controller: TC_company,
+                    obscureText: false,
+                    style: Roboto14_black,
+                    decoration: styleTextFieldSponsor(
+                      'Name Company',
+                      'ชื่อของบริษัทหรือองค์กร',
                     ),
-                  ],
-                ),
-
-                //TODO 3.2: email
-                (statusFB == true)
-                    ? Row(
-                        children: [
-                          Text('Email: ', style: Roboto14_B_blueDeep),
-                          Text(emailFB, style: Roboto14_B_greenB),
-                        ],
-                      )
-                    : Container(),
-                const SizedBox(height: 20.0),
-
-                //TODO 4.1 Input Company
-                TextFormField(
-                  controller: TC_company,
-                  obscureText: false,
-                  style: Roboto14_black,
-                  maxLength: 20,
-                  decoration: styleTextFieldSponsor(
-                    'Name Company',
-                    'ชื่อของบริษัทหรือองค์กร',
+                    validator: ValidatorEmpty,
+                    onSaved: (value) => value_company = value!,
+                    onChanged: (value) => value_company = value,
                   ),
-                  validator: ValidatorEmpty,
-                  onSaved: (value) => value_company = value!,
-                  onChanged: (value) => value_company = value,
-                ),
-                const SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
 
-                //TODO 4.2: Input Money
-                TextFormField(
-                  controller: TC_money,
-                  obscureText: false,
-                  style: Roboto14_black,
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  decoration: styleTextFieldSponsor(
-                    'Money',
-                    'จำนวนเงินสนับสนุนสะสม',
+                  //TODO 4.2: Input Money
+                  TextFormField(
+                    controller: TC_money,
+                    obscureText: false,
+                    style: Roboto14_black,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    decoration: styleTextFieldSponsor(
+                      'Money',
+                      'จำนวนเงินสนับสนุนสะสม',
+                    ),
+                    maxLength: 3,
+                    validator: ValidatorEmpty,
+                    onSaved: (value) => value_money = value!,
+                    onChanged: (value) => value_money = value,
                   ),
-                  maxLength: 3,
-                  validator: ValidatorEmpty,
-                  onSaved: (value) => value_money = value!,
-                  onChanged: (value) => value_money = value,
-                ),
-                const SizedBox(height: 20.0),
-              ],
+                  const SizedBox(height: 20.0),
+                ],
+              ),
             ),
           ),
         ),

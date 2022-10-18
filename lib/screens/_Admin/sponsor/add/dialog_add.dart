@@ -147,7 +147,7 @@ showDialogAddSponsor({required BuildContext context}) async {
 //TODO : Chcek OTP ซ้ำกันหรือไม่
 Future<bool> CheckOTP(OTP) async {
   final col_sponsor =
-      FirebaseFirestore.instance.collection('sponsor_test').doc(OTP).get();
+      FirebaseFirestore.instance.collection('sponsor').doc(OTP).get();
 
   var result = await col_sponsor.then((value) {
     // if (value.data() != null) {

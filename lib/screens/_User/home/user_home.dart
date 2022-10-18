@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/components/wallet/wallet_card.dart';
 import 'package:recycle_plus/components/wallet/wallet_guset.dart';
@@ -28,7 +29,8 @@ class User_HomeScreen extends StatefulWidget {
 class _User_HomeScreenState extends State<User_HomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   //Model data ไว้ดึงฐานข้อมูล
-  Stream<List<SponsorModel>> logo = db.getLogoSponsor();
+  final Stream<QuerySnapshot> _stream_sponsor =
+      FirebaseFirestore.instance.collection('sponsor').snapshots();
   final CollectionReference _collectionNews =
       FirebaseFirestore.instance.collection('news');
 
@@ -127,28 +129,42 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
                               children: [
                                 Expanded(
                                   child: Center(
-                                    child: StreamBuilder<List<SponsorModel>>(
-                                      stream: logo,
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasError) {
-                                          return Text(
-                                              "something is wrong! ${snapshot.error}");
-                                        } else if (snapshot.hasData) {
-                                          final sponsor = snapshot.data!;
-
-                                          //TODO : Show data Sponsor Logo แบบทั้งหมด
+                                    child: StreamBuilder<QuerySnapshot>(
+                                      stream: _stream_sponsor,
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<QuerySnapshot>
+                                              snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return const SpinKitCircle(
+                                            color: Colors.green,
+                                            size: 50,
+                                          );
+                                        } else {
                                           return ListView(
                                             scrollDirection:
                                                 Axis.horizontal, //แนวนอน
                                             shrinkWrap: true, //ทำให้ center ติด
-                                            children: sponsor
-                                                .map(buildLogoSponsor)
-                                                .toList(),
+                                            children: [
+                                              //TODO : Fetch data here
+                                              ...snapshot.data!.docs.map(
+                                                  (QueryDocumentSnapshot<
+                                                          Object?>
+                                                      data) {
+                                                //ได้ตัว Data มาละ ----------<<<
+                                                final image = data.get("image");
+                                                final status =
+                                                    data.get('status');
+
+                                                if (status == true &&
+                                                    image != '') {
+                                                  return buildLogoSponsor(
+                                                      image: image);
+                                                } else {
+                                                  return Container();
+                                                }
+                                              }),
+                                            ],
                                           );
-                                        } else {
-                                          return const Center(
-                                              child:
-                                                  CircularProgressIndicator());
                                         }
                                       },
                                     ),
@@ -227,10 +243,10 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
 //     );
 
 //TODO : Logo Sponsor Widget
-Widget buildLogoSponsor(SponsorModel sponsor) => Padding(
+Widget buildLogoSponsor({required image}) => Padding(
       padding: const EdgeInsets.all(5.0),
       child: Image.network(
-        sponsor.image,
+        image,
         width: 65,
         height: 50,
         fit: BoxFit.cover,

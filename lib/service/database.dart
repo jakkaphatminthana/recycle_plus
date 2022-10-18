@@ -463,7 +463,7 @@ class DatabaseEZ {
     required int money,
     image,
   }) async {
-    final reference = FirebaseFirestore.instance.collection('sponsor_test');
+    final reference = FirebaseFirestore.instance.collection('sponsor');
 
     if (image == null) {
       await reference.doc(otp_ID).update({
@@ -487,7 +487,7 @@ class DatabaseEZ {
     required String user_ID,
     required String email,
   }) async {
-    final reference = FirebaseFirestore.instance.collection('sponsor_test');
+    final reference = FirebaseFirestore.instance.collection('sponsor');
 
     await reference.doc(otp).update({
       "email": email,
@@ -790,7 +790,7 @@ class DatabaseEZ {
 
   //TODO : ADD Sponsor OTP
   Future createSponsorOTP({required OTP, required company}) async {
-    final reference = FirebaseFirestore.instance.collection('sponsor_test');
+    final reference = FirebaseFirestore.instance.collection('sponsor');
 
     await reference.doc(OTP).set({
       'id': OTP,
@@ -860,7 +860,7 @@ class DatabaseEZ {
 
   //TODO : DELETE Sponsor otp
   Future deleteOTP_Sponsor({String? otp_ID}) async {
-    final reference = FirebaseFirestore.instance.collection('sponsor_test');
+    final reference = FirebaseFirestore.instance.collection('sponsor');
 
     await reference.doc(otp_ID).delete();
   }
