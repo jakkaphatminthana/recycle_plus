@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/models/varidator.dart';
-import 'package:recycle_plus/screens/_Admin/sponsor/add/styleTextfield.dart';
 import 'package:recycle_plus/screens/_Admin/sponsor/admin_sponsor.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/dialog_buy.dart';
 import 'dart:math';
 
 import 'package:recycle_plus/service/database.dart';
+
+import '../edit_sponsor/styleTextfield.dart';
 
 showDialogAddSponsor({required BuildContext context}) async {
   //formkey = ตัวแสดงตัวแบบยูนืคของฟอร์มนี้

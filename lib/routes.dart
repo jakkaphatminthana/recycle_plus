@@ -13,6 +13,7 @@ import 'package:recycle_plus/screens/_Admin/news/news_add.dart';
 import 'package:recycle_plus/screens/_Admin/setting/setting.dart';
 import 'package:recycle_plus/screens/_Admin/setting/sponsor%20logo/sponsor_logo.dart';
 import 'package:recycle_plus/screens/_Admin/sponsor/admin_sponsor.dart';
+import 'package:recycle_plus/screens/_Admin/sponsor/bill/admin_bill.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
 import 'package:recycle_plus/screens/_Sponsor/home/sponsor_home.dart';
@@ -41,6 +42,7 @@ import 'package:recycle_plus/screens/test/test_metamask.dart';
 import 'package:recycle_plus/screens/test/test_showdata.dart';
 import 'package:recycle_plus/screens/wallet/wallet_connecting.dart';
 
+import 'screens/_Admin/sponsor/bill/add_bill/add_bill.dart';
 import 'screens/_User/exchange/exchange.dart';
 import 'screens/_User/profile/profile.dart';
 import 'screens/_User/tabbar_control.dart';
@@ -91,6 +93,8 @@ final Map<String, WidgetBuilder> routes = {
   Admin_AchievementScreen.routeName: (context) => Admin_AchievementScreen(),
   Admin_AchievementAdd.routeName:(context) => Admin_AchievementAdd(),
   Admin_SponsorManager.routeName:(context) => Admin_SponsorManager(),
+  Admin_BillScreen.routeName:(context) => Admin_BillScreen(),
+  Admin_BillAdd.routeName:(context) => Admin_BillAdd(),
 
 
   Sponsor_HomeScreen.routeName:(context) => Sponsor_HomeScreen(),

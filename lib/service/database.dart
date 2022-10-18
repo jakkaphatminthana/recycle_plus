@@ -803,6 +803,24 @@ class DatabaseEZ {
       'timestamp': DateTime.now(),
     });
   }
+
+  //TODO : ADD Sponsor OTP
+  Future createBill({
+    required uid,
+    required file,
+    required title,
+    required int money,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('bill_sponsor');
+
+    await reference.doc(uid).set({
+      'id': uid,
+      'file': file,
+      'title': title,
+      'money': money,
+      'timestamp': DateTime.now(),
+    });
+  }
 //---------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
 //TODO : DELETE

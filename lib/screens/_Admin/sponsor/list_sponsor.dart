@@ -3,7 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:recycle_plus/screens/_Admin/sponsor/edit/admin_sponsorEdit.dart';
+
+
+import 'edit_sponsor/admin_sponsorEdit.dart';
 
 class ListTile_Admin_Sponsor extends StatelessWidget {
   const ListTile_Admin_Sponsor({

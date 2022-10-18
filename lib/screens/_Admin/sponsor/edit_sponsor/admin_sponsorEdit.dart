@@ -8,11 +8,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/models/varidator.dart';
-import 'package:recycle_plus/screens/_Admin/sponsor/add/styleTextfield.dart';
+import 'package:recycle_plus/screens/_Admin/sponsor/add_sponsor/styleTextfield.dart';
 import 'package:recycle_plus/screens/_Admin/sponsor/admin_sponsor.dart';
-import 'package:recycle_plus/screens/_Admin/sponsor/edit/dialog_delete.dart';
-import 'package:recycle_plus/screens/_Admin/sponsor/edit/dialog_edit.dart';
+import 'package:recycle_plus/screens/_Admin/sponsor/edit_sponsor/dialog_delete.dart';
 import 'package:recycle_plus/service/database.dart';
+
+import 'dialog_edit.dart';
 
 class Admin_SponsorEdit extends StatefulWidget {
   const Admin_SponsorEdit({Key? key, required this.data}) : super(key: key);

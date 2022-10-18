@@ -5,8 +5,10 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/components/font.dart';
+import 'package:recycle_plus/screens/_Admin/sponsor/bill/admin_bill.dart';
 import 'package:recycle_plus/screens/_Admin/sponsor/list_sponsor.dart';
-import 'add/dialog_add.dart';
+import 'add_sponsor/dialog_add.dart';
+import 'bill/add_bill/add_bill.dart';
 
 class Admin_SponsorManager extends StatefulWidget {
   const Admin_SponsorManager({Key? key}) : super(key: key);
@@ -38,7 +40,9 @@ class _Admin_SponsorManagerState extends State<Admin_SponsorManager> {
                 size: 30,
                 color: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, Admin_BillScreen.routeName);
+              },
             ),
           ],
         ),
