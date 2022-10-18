@@ -9,6 +9,7 @@ InputDecoration styleTextField(hintEZ, iconEZ) {
     focusedBorder: StyleBoder(Colors.black, 15.0),  //กดพิมพ์
     errorBorder: StyleBoder(Colors.red, 15.0),  //แจ้ง Error
     focusedErrorBorder: StyleBoder(Colors.red, 15.0), //พิมพ์หลังแจ้ง Error
+    counterText: '',
     prefixIcon: Icon(
       iconEZ,
       size: 25,
@@ -26,6 +27,7 @@ InputDecoration styleTextField_Radius30(hintEZ) {
     focusedBorder: StyleBoder(Colors.black, 30.0),  //กดพิมพ์
     errorBorder: StyleBoder(Colors.red, 30.0),  //แจ้ง Error
     focusedErrorBorder: StyleBoder(Colors.red, 30.0), //พิมพ์หลังแจ้ง Error
+    counterText: '',
   );
 }
 

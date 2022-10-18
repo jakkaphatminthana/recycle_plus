@@ -107,7 +107,8 @@ class _Form_LoginState extends State<Form_Login> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => VerifyEmail(name: null)),
+                            builder: (context) =>
+                                const VerifyEmail(name: null, who: 'user',)),
                       );
                     }
                   } else {

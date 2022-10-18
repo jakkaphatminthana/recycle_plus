@@ -15,6 +15,7 @@ import 'package:recycle_plus/screens/_Admin/setting/sponsor%20logo/sponsor_logo.
 import 'package:recycle_plus/screens/_Admin/sponsor/admin_sponsor.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
 import 'package:recycle_plus/screens/_Admin/trash/trash.dart';
+import 'package:recycle_plus/screens/_Sponsor/home/sponsor_home.dart';
 import 'package:recycle_plus/screens/_User/achievement/achievement.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/dialog_success.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/select_address/product_address.dart';
@@ -90,4 +91,7 @@ final Map<String, WidgetBuilder> routes = {
   Admin_AchievementScreen.routeName: (context) => Admin_AchievementScreen(),
   Admin_AchievementAdd.routeName:(context) => Admin_AchievementAdd(),
   Admin_SponsorManager.routeName:(context) => Admin_SponsorManager(),
+
+
+  Sponsor_HomeScreen.routeName:(context) => Sponsor_HomeScreen(),
 };

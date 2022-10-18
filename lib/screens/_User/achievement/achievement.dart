@@ -17,9 +17,9 @@ class Member_AchievementScreen extends StatefulWidget {
 
 class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
   User? user = FirebaseAuth.instance.currentUser;
-  int? user_honor;
-  int? user_login;
-  int? user_trash;
+  int? user_honor = 0;
+  int? user_login = 0;
+  int? user_trash = 0;
   int? user_level;
 
   //TODO 1: GetData User Information
@@ -54,8 +54,10 @@ class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
   @override
   void initState() {
     super.initState();
-    getLoginStack(user!.uid);
-    getGarbageUser(user!.uid);
+    if (user != null) {
+      getLoginStack(user!.uid);
+      getGarbageUser(user!.uid);
+    }
   }
 
   @override
@@ -69,7 +71,7 @@ class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
         FirebaseFirestore.instance.collection('achievement').snapshots();
     //===============================================================================================================
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         //Container 100% * 22%
         Container(
@@ -95,6 +97,7 @@ class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           //TODO 2: Text title
                           Text('MY HONOR', style: Roboto20_B_white),
@@ -148,60 +151,65 @@ class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
         ),
 
         //TODO : Get Database from Firebase --------------------------------------<<<<
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: StreamBuilder<QuerySnapshot>(
-              stream: _Achievement,
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return const SpinKitCircle(
-                    color: Colors.green,
-                    size: 50,
-                  );
-                } else {
-                  return GridView(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 0.94, //hight size
-                    ),
-                    padding: EdgeInsets.zero,
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      //TODO : Fetch data here
-                      ...snapshot.data!.docs
-                          .map((QueryDocumentSnapshot<Object?> data) {
-                        //ได้ตัว Data มาละ ----------<<<
-                        final image = data.get("image");
-                        final category = data.get("category");
-                        final title = data.get("title");
-                        final description = data.get("description");
-                        final num_finish = data.get("num_finish");
-                        final trash = data.get("trash");
-
-                        return CardHonor(
-                          achiment_ID: data.id,
-                          image: image,
-                          category: category,
-                          title: title,
-                          num_finish: num_finish,
-                          trash: trash,
-                          description: description,
-                          user_level: user_level,
-                          user_login: user_login,
+        (user == null)
+            ? Padding(
+                padding: const EdgeInsets.only(top: 50.0),
+                child: NoLogin(),
+              )
+            : Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: _Achievement,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (!snapshot.hasData) {
+                        return const SpinKitCircle(
+                          color: Colors.green,
+                          size: 50,
                         );
-                      }),
-                    ],
-                  );
-                }
-              },
-            ),
-          ),
-        )
+                      } else {
+                        return GridView(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 0.94, //hight size
+                          ),
+                          padding: EdgeInsets.zero,
+                          scrollDirection: Axis.vertical,
+                          children: [
+                            //TODO : Fetch data here
+                            ...snapshot.data!.docs
+                                .map((QueryDocumentSnapshot<Object?> data) {
+                              //ได้ตัว Data มาละ ----------<<<
+                              final image = data.get("image");
+                              final category = data.get("category");
+                              final title = data.get("title");
+                              final description = data.get("description");
+                              final num_finish = data.get("num_finish");
+                              final trash = data.get("trash");
+
+                              return CardHonor(
+                                achiment_ID: data.id,
+                                image: image,
+                                category: category,
+                                title: title,
+                                num_finish: num_finish,
+                                trash: trash,
+                                description: description,
+                                user_level: user_level,
+                                user_login: user_login,
+                              );
+                            }),
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
       ],
     );
   }
@@ -223,6 +231,29 @@ class _Member_AchievementScreenState extends State<Member_AchievementScreen> {
           const SizedBox(height: 5.0),
 
           Text('$value', style: Roboto14_B_white),
+        ],
+      ),
+    );
+  }
+
+  //TODO : No Login
+  Widget NoLogin() {
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.error,
+            color: Colors.black,
+            size: 90,
+          ),
+          Text('Only Member', style: Roboto20_B_black),
+          const SizedBox(height: 5.0),
+          Text(
+            'โปรดเข้าสู่ระบบเพื่อเปิดใช้งานฟังก์ชันนี้',
+            style: Roboto16_black,
+          ),
         ],
       ),
     );

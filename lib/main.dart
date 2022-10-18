@@ -86,7 +86,7 @@ class MyApp extends StatelessWidget {
                 // );
                 return WelcomeScreen();
               } else if (snapshot.hasData) {
-                return VerifyEmail(name: null);
+                return const VerifyEmail(name: null, who: 'user');
               } else {
                 return StartScreen();
               }

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
@@ -441,12 +442,59 @@ class DatabaseEZ {
     print('Honor+ = $amounts');
   }
 
+  //TODO : UPDATE KYC Status
   Future updateKyc(
       {required String user_ID, required String ID_Card_Number}) async {
     final reference = FirebaseFirestore.instance.collection('users');
-    await reference
-        .doc(user_ID)
-        .update({'verify': true, 'ID_Card': ID_Card_Number});
+
+    try {
+      await reference
+          .doc(user_ID)
+          .update({'verify': true, 'ID_Card': ID_Card_Number});
+    } on FirebaseException catch (e) {
+      print('error = ${e.code}');
+    }
+  }
+
+  //TODO : UPDATE Sponsor by Admin
+  Future updateSponsor_admin({
+    required String otp_ID,
+    required String company,
+    required int money,
+    image,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('sponsor_test');
+
+    if (image == null) {
+      await reference.doc(otp_ID).update({
+        "company": company,
+        "money": money,
+        "timestamp": DateTime.now(),
+      });
+    } else {
+      await reference.doc(otp_ID).update({
+        "image": image,
+        "company": company,
+        "money": money,
+        "timestamp": DateTime.now(),
+      });
+    }
+  }
+
+  //TODO : UPDATE OTP Status
+  Future updateOTP_Status({
+    required String otp,
+    required String user_ID,
+    required String email,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('sponsor_test');
+
+    await reference.doc(otp).update({
+      "email": email,
+      "user_ID": user_ID,
+      "status": true,
+      "timestamp": DateTime.now(),
+    });
   }
 
 //---------------------------------------------------------------------------------------------------------------------
@@ -747,6 +795,12 @@ class DatabaseEZ {
     await reference.doc(OTP).set({
       'id': OTP,
       'company': company,
+      'image': '',
+      'email': '',
+      'user_ID': '',
+      'money': 0,
+      'status': false,
+      'timestamp': DateTime.now(),
     });
   }
 //---------------------------------------------------------------------------------------------------------------------
@@ -802,5 +856,12 @@ class DatabaseEZ {
     final reference = FirebaseFirestore.instance.collection('achievement');
 
     await reference.doc(achievement_ID).delete();
+  }
+
+  //TODO : DELETE Sponsor otp
+  Future deleteOTP_Sponsor({String? otp_ID}) async {
+    final reference = FirebaseFirestore.instance.collection('sponsor_test');
+
+    await reference.doc(otp_ID).delete();
   }
 }

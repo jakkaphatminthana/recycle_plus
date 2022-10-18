@@ -175,4 +175,51 @@ class AuthService {
   //       .then((value) => print("create profile Achievement success"))
   //       .catchError((e) => print("error profile Achievement faild"));
   // }
+
+  //TODO 8: Sponsor register
+  Future SponserregisterEmail(String email, String password, String otp) async {
+    //TODO try ตรวจสอบโค้ด
+    try {
+      //TODO 8.1: Register
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) async {
+        //อ้างอิง User ปัจจุบันตอนนี้
+        User? user = FirebaseAuth.instance.currentUser;
+
+        //TODO 8.2: สร้าง Model Database Profile
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(user?.uid)
+            .set({
+          "id": user?.uid,
+          "email": email,
+          "role": "Sponsor",
+          "otp": otp,
+        });
+      }).then((value) {
+        print('create sponsor success');
+
+        //TODO 8.3: update OTP status
+        db
+            .updateOTP_Status(otp: otp, user_ID: user!.uid, email: email)
+            .then((value) => print('otp update'));
+      });
+
+      //TODO : Check Error
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        Fluttertoast.showToast(
+          msg: "รหัสผ่านไม่ปลอดภัย",
+          gravity: ToastGravity.CENTER,
+        );
+      } else if (e.code == 'email-already-in-use') {
+        Fluttertoast.showToast(
+          msg: "อีเมลนี้มีอยู่แล้วในระบบ",
+          gravity: ToastGravity.CENTER,
+        );
+      }
+      return "not_work";
+    }
+  }
 }

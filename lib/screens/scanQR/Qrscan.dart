@@ -1,5 +1,6 @@
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/material.dart';
+import 'package:recycle_plus/screens/_Sponsor/register_sponsor.dart';
 import 'LDPE/LDPE_detail.dart';
 import 'PETE/PETE_detail.dart';
 import 'PP/PP_detail.dart';
@@ -8,7 +9,6 @@ String qrString = 'not scanned';
 
 class QRscanWidget extends StatefulWidget {
   const QRscanWidget({Key? key}) : super(key: key);
-
 
   @override
   _QRscanWidgetState createState() => _QRscanWidgetState();
@@ -101,17 +101,35 @@ class _QRscanWidgetState extends State<QRscanWidget> {
                       child: Text('PP'),
                     ),
                   ),
-                  TextButton(
-                    //ปุ่มกดไปหน้าldpe
-                    onPressed: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LDPE_detailWidget(),
-                        ),
-                      );
-                    },
-                    child: Text('LDPE'),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 70),
+                    child: TextButton(
+                      //ปุ่มกดไปหน้าpp
+                      onPressed: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LDPE_detailWidget(),
+                          ),
+                        );
+                      },
+                      child: Text('LDPE'),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 70),
+                    child: TextButton(
+                      //ปุ่มกดไปหน้าpp
+                      onPressed: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SponsorRegisterScreen(),
+                          ),
+                        );
+                      },
+                      child: Text('Sponsor'),
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 70, 0, 70),

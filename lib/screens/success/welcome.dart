@@ -6,6 +6,7 @@ import 'package:recycle_plus/components/font.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:recycle_plus/models/user_model.dart';
 import 'package:recycle_plus/screens/_Admin/tabbar_control.dart';
+import 'package:recycle_plus/screens/_Sponsor/home/sponsor_home.dart';
 import 'package:recycle_plus/screens/login/body_login.dart';
 import 'package:recycle_plus/service/database.dart';
 
@@ -60,7 +61,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       } else if (value_role == "Admin") {
         gotoNextPage(Admin_TabbarHome.routeName);
       } else if (value_role == "Sponsor") {
-        gotoNextPage(Member_TabbarHome.routeName);
+        gotoNextPage(Sponsor_HomeScreen.routeName);
       } else {
         setState(() {
           status_load = 'เกิดข้อผิดพลาด โปรดลองใหม่อีกครั้ง';

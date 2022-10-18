@@ -87,8 +87,10 @@ class _RegisterFormState extends State<RegisterForm> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            VerifyEmail(name: inputEmail.name),
+                        builder: (context) => VerifyEmail(
+                          name: inputEmail.name,
+                          who: 'user',
+                        ),
                       ),
                     );
                   } else {

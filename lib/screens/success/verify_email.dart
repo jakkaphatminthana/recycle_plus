@@ -13,8 +13,12 @@ import 'package:recycle_plus/service/auth.dart';
 
 class VerifyEmail extends StatefulWidget {
   //ก่อนจะเรียกหน้านี้จำเป็นต้องมี paramiter data
-  const VerifyEmail({required this.name});
+  const VerifyEmail({
+    required this.name,
+    required this.who,
+  });
   final name; //data Querysnapshot
+  final who;
 
   @override
   State<VerifyEmail> createState() => _VerifyEmailState();
@@ -51,6 +55,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
       //cooldown button ไว้
       cooldownStart();
     }
+
+    print('otp =  ${widget.who}');
   }
 
   //TODO : dispose = เมื่อสิ้นสุด initState แล้วให้เรียกใช้
@@ -73,18 +79,26 @@ class _VerifyEmailState extends State<VerifyEmail> {
     if (isEmailVerify == true) {
       timer?.cancel();
 
-      //TODO : ทำการสร้าง database profile
-      //กรณีไม่มี name ส่งมาให้
-      if (widget.name == null) {
-        final UserMail = user?.email.toString();
-        List<String>? splited = UserMail?.split("@");
-        final data_map = splited?.asMap();
-        final nameEmail = data_map![0];
+      // //TODO : ทำการสร้าง database profile
+      // //กรณีไม่มี name ส่งมาให้
+      // if (widget.name == null && widget.who == "user") {
+      //   final UserMail = user?.email.toString();
+      //   List<String>? splited = UserMail?.split("@");
+      //   final data_map = splited?.asMap();
+      //   final nameEmail = data_map![0];
 
-        await auth_package.createProfile(nameEmail!);
-      } else {
-        await auth_package.createProfile(widget.name!);
-      }
+      //   auth_package.createProfile(nameEmail!);
+      //   //กรณีมี name
+      // } else if (widget.name != null && widget.who == "user") {
+      //   auth_package.createProfile(widget.name!);
+      //   //กรณีของสปอนเซอร์
+      // } else if (widget.name == null && widget.who == "sponsor") {
+      //   auth_package.createProfile_Sponsor();
+      // } else if (widget.name != null && widget.who == "sponsor") {
+      //   auth_package.createProfile_Sponsor();
+      // } else {
+      //   print("NOOOOOOOOOOOOOOOOOOOOOOOOOO");
+      // }
     }
   }
 

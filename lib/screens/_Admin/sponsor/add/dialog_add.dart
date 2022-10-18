@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/models/varidator.dart';
-import 'package:recycle_plus/screens/_Admin/sponsor/add%20sponsor/styleTextfield.dart';
+import 'package:recycle_plus/screens/_Admin/sponsor/add/styleTextfield.dart';
+import 'package:recycle_plus/screens/_Admin/sponsor/admin_sponsor.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/dialog_buy.dart';
 import 'dart:math';
 
@@ -47,10 +48,33 @@ showDialogAddSponsor({required BuildContext context}) async {
       //   otpEZ: otp.text,
       //   company: company.text,
       // ),
-      onPressed: () {
-        db
-            .createSponsorOTP(OTP: otp.text, company: company.text)
-            .then((value) => print('otp success'));
+      onPressed: () async {
+        //TODO : About Firebase --------------------------------------------------------------<<<<
+        if (_formKey.currentState!.validate()) {
+          //สั่งประมวลผลข้อมูลที่กรอก
+          _formKey.currentState?.save();
+
+          //ตัวตรวจสอบว่า otp ซ้ำกันไหม
+          final check = await CheckOTP(otp.text);
+          print('check = $check');
+
+          if (check == true) {
+            Fluttertoast.showToast(
+              msg: "OTP นี้ถูกใช้ไปแล้ว",
+              gravity: ToastGravity.BOTTOM,
+            );
+          } else {
+            //TODO : Create Sponsor on Firebase ------------------------------------------------<<<<
+            db
+                .createSponsorOTP(OTP: otp.text, company: company.text)
+                .then((value) {
+              print('otp success');
+              Navigator.pop(context);
+              Navigator.pushReplacementNamed(
+                  context, Admin_SponsorManager.routeName);
+            }).catchError((e) => print('sponsor error: $e'));
+          }
+        }
       },
     );
   }
@@ -123,34 +147,15 @@ showDialogAddSponsor({required BuildContext context}) async {
 //TODO : Chcek OTP ซ้ำกันหรือไม่
 Future<bool> CheckOTP(OTP) async {
   final col_sponsor =
-      FirebaseFirestore.instance.collection('sponsor').doc(OTP).get();
+      FirebaseFirestore.instance.collection('sponsor_test').doc(OTP).get();
 
   var result = await col_sponsor.then((value) {
-    if (value.data() != null) {
-      print('value = ${value.data()}');
-      return true;
-    } else {
-      return false;
-    }
+    // if (value.data() != null) {
+    //   print('value = ${value.data()}');
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   });
   return result;
 }
-
-// //TODO : เมือกดปุ่มยืนยัน
-// GestureTapCallback ConfrimContinue({
-//   required BuildContext context,
-//   required formKey,
-//   required String otpEZ,
-//   required String company,
-// }) {
-//   return () async {
-//     if (formKey.currentState!.validate()) {
-//       //สั่งประมวลผลข้อมูลที่กรอก
-//       formKey.currentState?.save();
-
-//       db
-//           .createSponsorOTP(OTP: otpEZ, company: company)
-//           .then((value) => print('otp success'));
-//     }
-//   };
-// }
