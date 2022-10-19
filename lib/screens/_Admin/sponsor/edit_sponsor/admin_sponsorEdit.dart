@@ -233,7 +233,7 @@ class _Admin_SponsorEditState extends State<Admin_SponsorEdit> {
                       'Money',
                       'จำนวนเงินสนับสนุนสะสม',
                     ),
-                    maxLength: 3,
+                    maxLength: 10,
                     validator: ValidatorEmpty,
                     onSaved: (value) => value_money = value!,
                     onChanged: (value) => value_money = value,

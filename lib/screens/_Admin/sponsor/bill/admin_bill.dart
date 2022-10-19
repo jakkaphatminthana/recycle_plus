@@ -18,8 +18,10 @@ class Admin_BillScreen extends StatefulWidget {
 class _Admin_BillScreenState extends State<Admin_BillScreen> {
   @override
   Widget build(BuildContext context) {
-    final Stream<QuerySnapshot> _stream_bill =
-        FirebaseFirestore.instance.collection('bill_sponsor').snapshots();
+    final Stream<QuerySnapshot> _stream_bill = FirebaseFirestore.instance
+        .collection('bill_sponsor')
+        .orderBy('timestamp', descending: true)
+        .snapshots();
     //==============================================================================================================
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +54,8 @@ class _Admin_BillScreenState extends State<Admin_BillScreen> {
                         final money = data.get("money");
                         final file = data.get('file');
 
-                        return ListTile_Bill(
+                        return ListTile_Bill_Admin(
+                          data: data,
                           file: file,
                           time: time,
                           title: title,

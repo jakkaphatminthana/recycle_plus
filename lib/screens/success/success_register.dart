@@ -97,7 +97,7 @@ class _RegisterSuccessState extends State<RegisterSuccess> {
                 ElevatedButton(
                     child: Text("Go to Login", style: Roboto20_B_white),
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF00883C),
+                      primary: const Color(0xFF00883C),
                       fixedSize: const Size(160, 45),
                       elevation: 2.0, //เงา
                       shape: RoundedRectangleBorder(

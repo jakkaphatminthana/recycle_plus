@@ -91,11 +91,6 @@ class _VerifyEmailState extends State<VerifyEmail> {
       //   //กรณีมี name
       // } else if (widget.name != null && widget.who == "user") {
       //   auth_package.createProfile(widget.name!);
-      //   //กรณีของสปอนเซอร์
-      // } else if (widget.name == null && widget.who == "sponsor") {
-      //   auth_package.createProfile_Sponsor();
-      // } else if (widget.name != null && widget.who == "sponsor") {
-      //   auth_package.createProfile_Sponsor();
       // } else {
       //   print("NOOOOOOOOOOOOOOOOOOOOOOOOOO");
       // }

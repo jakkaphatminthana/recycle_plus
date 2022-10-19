@@ -10,16 +10,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_Admin/sponsor/bill/edit_bill/edit_bill.dart';
 
-class ListTile_Bill_Admin extends StatelessWidget {
-  const ListTile_Bill_Admin({
+class ListTile_Bill extends StatelessWidget {
+  const ListTile_Bill({
     Key? key,
-    required this.data,
     required this.file,
     required this.time,
     required this.title,
     required this.money,
   }) : super(key: key);
-  final data;
   final file;
   final time;
   final title;
@@ -65,13 +63,7 @@ class ListTile_Bill_Admin extends StatelessWidget {
 
                     //TODO 4: Container 60%
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Admin_BillEdit(data: data)),
-                        );
-                      },
+                      onTap: () {},
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.56,
                         child: Column(

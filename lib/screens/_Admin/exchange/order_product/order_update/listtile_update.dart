@@ -170,8 +170,8 @@ class _ListTile_OrderUpdateState extends State<ListTile_OrderUpdate> {
                                     children: [
                                       Text('User: ', style: Roboto14_B_black),
                                       Text(
-                                        (user_email.length > 25)
-                                            ? user_email.substring(0, 25) +
+                                        (user_email.length > 22)
+                                            ? user_email.substring(0, 22) +
                                                 "..."
                                             : user_email,
                                         style: Roboto12_black,

@@ -271,7 +271,7 @@ class _Admin_BillAddState extends State<Admin_BillAdd> {
     required uploadTask,
     required uid,
   }) async {
-    final path = 'bill/$uid';
+    final path = 'bill/$uid.pdf';
     final file = File(fileEZ.path!);
 
     final ref = FirebaseStorage.instance.ref().child(path);

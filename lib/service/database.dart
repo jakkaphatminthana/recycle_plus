@@ -882,4 +882,11 @@ class DatabaseEZ {
 
     await reference.doc(otp_ID).delete();
   }
+
+  //TODO : DELETE Bill Sponsor
+  Future deleteBill_Sponsor({String? bill_ID}) async {
+    final reference = FirebaseFirestore.instance.collection('bill_sponsor');
+
+    await reference.doc(bill_ID).delete();
+  }
 }

@@ -14,6 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:recycle_plus/service/database.dart';
 
+import '../../_Sponsor/Member/Sponsormember.dart';
 import '../news/news_detail.dart';
 import '../trash/trash_reward.dart';
 import 'news_widget.dart';
@@ -109,7 +110,11 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
                       //TODO 4. OURSPONSOR show
                       GestureDetector(
                         onDoubleTap: () {
-                          Navigator.pushNamed(context, Googleform.routeName);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SponsorMember()),
+                          );
                         },
                         child: Container(
                           alignment: Alignment.center,
