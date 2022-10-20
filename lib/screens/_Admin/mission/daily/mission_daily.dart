@@ -11,8 +11,10 @@ class Admin_MissionDay extends StatefulWidget {
 }
 
 class _Admin_MissionDayState extends State<Admin_MissionDay> {
-  final Stream<QuerySnapshot> _Mission_day =
-      FirebaseFirestore.instance.collection('mission_day').snapshots();
+  final Stream<QuerySnapshot> _Mission_day = FirebaseFirestore.instance
+      .collection('mission_day')
+      .orderBy('category', descending: true)
+      .snapshots();
 
   @override
   Widget build(BuildContext context) {

@@ -323,11 +323,13 @@ class DatabaseEZ {
     required String address_ID,
     required String New_address,
     required String New_phone,
+    required String New_tag,
   }) async {
     final reference = FirebaseFirestore.instance.collection('users');
     await reference.doc(user_ID).collection('address').doc(address_ID).update({
       'address': New_address,
       'phone': New_phone,
+      'tag': New_tag,
       'timestamp': DateTime.now(),
     });
   }
@@ -494,6 +496,18 @@ class DatabaseEZ {
       "user_ID": user_ID,
       "status": true,
       "timestamp": DateTime.now(),
+    });
+  }
+
+  //TODO : UPDATE Wallet user
+  Future updateUserWallet({
+    required String wallet,
+    required String user_ID,
+  }) async {
+    final reference = FirebaseFirestore.instance.collection('users');
+
+    await reference.doc(user_ID).update({
+      "wallet": wallet,
     });
   }
 

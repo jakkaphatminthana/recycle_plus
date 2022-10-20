@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_User/exchange/detail/product_detail2.dart';
 import 'package:recycle_plus/screens/_User/profile/address/dialog_edit.dart';
@@ -9,9 +11,13 @@ class ListTile_ProductAddress extends StatefulWidget {
     Key? key,
     required this.address,
     required this.phone,
+    required this.tag,
+    this.number,
   }) : super(key: key);
   final address;
   final phone;
+  final tag;
+  final number;
 
   @override
   State<ListTile_ProductAddress> createState() =>
@@ -46,17 +52,23 @@ class _ListTile_ProductAddressState extends State<ListTile_ProductAddress> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //TODO 1.1: Tag Address
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.location_pin,
-                          color: Color(0xFF288752),
-                          size: 25,
-                        ),
-                        const SizedBox(width: 5.0),
-                        Text('ที่อยู่จัดส่ง', style: Roboto16_B_greenB)
-                      ],
-                    ),
+                    (widget.tag == "บ้าน")
+                        ? _build_tag(
+                            Icons.home,
+                            const Color(0xFFFC5963),
+                            'ที่อยู่บ้าน',
+                          )
+                        : (widget.tag == "ที่ทำงาน")
+                            ? _build_tag(
+                                Icons.business,
+                                const Color(0xFFF6A94C),
+                                'ที่ทำงาน',
+                              )
+                            : _build_tag(
+                                Icons.location_pin,
+                                const Color(0xFF288752),
+                                'ที่อยู่จัดส่ง',
+                              ),
                     const SizedBox(height: 5.0),
 
                     //TODO 1.2: Address Content
@@ -102,6 +114,29 @@ class _ListTile_ProductAddressState extends State<ListTile_ProductAddress> {
           ),
         ),
       ),
+    );
+  }
+
+  //=================================================================================================================
+  Widget _build_tag(IconData iconEZ, Color colorEZ, title) {
+    return Row(
+      children: [
+        FaIcon(
+          iconEZ,
+          color: colorEZ,
+          size: 25,
+        ),
+        const SizedBox(width: 5.0),
+        Text(
+          '$title',
+          style: GoogleFonts.getFont(
+            'Roboto',
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: colorEZ,
+          ),
+        ),
+      ],
     );
   }
 }

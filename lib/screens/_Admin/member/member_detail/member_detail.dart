@@ -31,8 +31,9 @@ class _Admin_MemberDetailState extends State<Admin_MemberDetail> {
   Widget build(BuildContext context) {
     Stream<List<UserModel>> user_strem = db.getStateUser();
     String userRole = widget.data!.get('role');
-
     bool user_verify = widget.data!.get('verify');
+    //var user_wallet = widget.data!.get("wallet");
+
 //=====================================================================================================================
     return Scaffold(
       key: scaffoldKey,
@@ -89,7 +90,11 @@ class _Admin_MemberDetailState extends State<Admin_MemberDetail> {
 
               //TODO 3. Name and Email
 
-              Text(widget.data!.get('name'), style: Roboto20_B_green),
+              Text(
+                  (userRole == "Sponsor")
+                      ? widget.data!.get('otp')
+                      : widget.data!.get('name'),
+                  style: Roboto20_B_green),
               Text(widget.data!.get('email'), style: Roboto16_w500_black),
 
               const SizedBox(height: 20.0),

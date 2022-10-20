@@ -6,7 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:recycle_plus/components/font.dart';
-import 'package:recycle_plus/service/wallet_smartcontract.dart';
+import 'package:recycle_plus/screens/_User/achievement/dialog_claim.dart';
+import 'package:recycle_plus/screens/wallet/wallet_connecting.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -21,22 +22,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'dialog_wrong.dart';
+
 class WalletScreen extends StatefulWidget {
   WalletScreen({
     Key? key,
     required this.connector,
     required this.session,
+    required this.user_walletFB,
   }) : super(key: key);
 
   //TODO : Wallet Data
   WalletConnect connector;
   final session;
+  final user_walletFB;
 
   @override
   State<WalletScreen> createState() => _WalletScreenState();
 }
 
 class _WalletScreenState extends State<WalletScreen> {
+  String? checkWallet;
+
   //Contract nesecsarily
   late Client httpClient;
   late web3.Web3Client ethClient;
@@ -54,14 +61,29 @@ class _WalletScreenState extends State<WalletScreen> {
 
   User? user = FirebaseAuth.instance.currentUser;
   var data_length;
+  var wallet_lenght;
 
   Timer? _timer_daley;
   bool daley = false;
 
-  //TODO 1: Always call first run
+  //TODO 0: Always call first run
   @override
   void initState() {
     super.initState();
+    print('start| user_walletFB = ${widget.user_walletFB}');
+
+    //TODO : 1.Check wallet wrong
+    if (widget.user_walletFB == 'doubly') {
+      print('Final| wallet already');
+      checkWallet = 'doubly';
+    } else if (widget.user_walletFB == widget.connector.session.accounts[0]) {
+      print('Final| wallet ok');
+      checkWallet = 'match';
+    } else {
+      print('Final| wallet wrong');
+      checkWallet = 'wrong';
+    }
+
     MyAddress = widget.connector.session.accounts[0];
     print("MyAddress: $MyAddress");
 
@@ -72,8 +94,35 @@ class _WalletScreenState extends State<WalletScreen> {
 
     getBalance(MyAddress);
     getLengthData(user?.uid);
+
+    //TODO 2.Check wallet wrong
     _timer_daley = Timer(const Duration(milliseconds: 1000), () {
-      daley = true;
+      //2.1 กรณีที่ กระเป่าไม่ตรงอันเก่า
+      if (checkWallet == "wrong") {
+        widget.connector.killSession();
+        widget.connector.sessionStorage?.removeSession();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Wallet_Connecting(
+              wrong: 'not yours',
+            ),
+          ),
+        );
+      } else if (checkWallet == "doubly") {
+        widget.connector.killSession();
+        widget.connector.sessionStorage?.removeSession();
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Wallet_Connecting(
+              wrong: 'already',
+            ),
+          ),
+        );
+      } else {
+        daley = true;
+      }
     });
   }
 
@@ -83,6 +132,21 @@ class _WalletScreenState extends State<WalletScreen> {
     _timer_daley?.cancel();
     super.dispose();
   }
+
+  // //TODO : get length wallet
+  // Future<void> CheckWallet_SameLike(wallet_address) async {
+  //   final _collection = FirebaseFirestore.instance
+  //       .collection('users')
+  //       .where('wallet', isEqualTo: wallet_address)
+  //       .get();
+
+  //   var result = await _collection.then((value) {
+  //     print('len same = ${value.size}');
+  //     setState(() {
+  //       wallet_lenght = value.size;
+  //     });
+  //   });
+  // }
 
   //TODO : Blockchain Past
   //START ------------------------------------------------------------------------------------------------------------
@@ -218,186 +282,198 @@ class _WalletScreenState extends State<WalletScreen> {
           centerTitle: true,
           title: Text("My Wallet", style: Roboto16_B_white),
         ),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // // //TODO 1: Kill Session
-              // MaterialButton(
-              //   child: const Text("KillSession"),
-              //   onPressed: () {
-              //     widget.connector.killSession();
-              //     widget.connector.sessionStorage?.removeSession();
-              //   },
-              //   color: Colors.redAccent,
-              // ),
-              //TODO 2: Contaner Header
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 200,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF30AE68),
-                  borderRadius: BorderRadius.circular(15),
+        body: (daley == false)
+            ? const Center(
+                child: SpinKitCircle(
+                  color: Colors.green,
+                  size: 70.0,
                 ),
+              )
+            : Padding(
+                padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    //TODO 3: Balance
-                    const SizedBox(height: 30.0),
-                    Text("Balance", style: Roboto12_B_black),
-                    const SizedBox(height: 5.0),
-                    (dataConnent)
-                        ? Text("$myBalance RCT", style: Roboto20_B_black)
-                        : const CircularProgressIndicator(
-                            color: Colors.white,
-                          ),
-                    const SizedBox(height: 15.0),
+                    // //TODO 1: Kill Session
+                    // MaterialButton(
+                    //   child: const Text("KillSession"),
+                    //   onPressed: () {
+                    //     widget.connector.killSession();
+                    //     widget.connector.sessionStorage?.removeSession();
+                    //     print('Kill Success');
+                    //   },
+                    //   color: Colors.redAccent,
+                    // ),
+                    //TODO 2: Contaner Header
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF30AE68),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        children: [
+                          //TODO 3: Balance
+                          const SizedBox(height: 30.0),
+                          Text("Balance", style: Roboto12_B_black),
+                          const SizedBox(height: 5.0),
+                          (dataConnent)
+                              ? Text("$myBalance RCT", style: Roboto20_B_black)
+                              : const CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                          const SizedBox(height: 15.0),
 
-                    //TODO 4: Address wallet
-                    GestureDetector(
-                      onTap: () {
-                        Clipboard.setData(ClipboardData(text: MyAddress))
-                            .then((value) {
-                          Fluttertoast.showToast(
-                            msg: "Copy to clipboard",
-                            gravity: ToastGravity.BOTTOM,
-                          );
-                        });
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: const Color(0xFFF1F2F3),
-                            width: 2,
+                          //TODO 4: Address wallet
+                          GestureDetector(
+                            onTap: () {
+                              Clipboard.setData(ClipboardData(text: MyAddress))
+                                  .then((value) {
+                                Fluttertoast.showToast(
+                                  msg: "Copy to clipboard",
+                                  gravity: ToastGravity.BOTTOM,
+                                );
+                              });
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: const Color(0xFFF1F2F3),
+                                  width: 2,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.content_copy,
+                                    color: Colors.black,
+                                    size: 15,
+                                  ),
+                                  const SizedBox(width: 5.0),
+                                  Text(
+                                    MyAddress,
+                                    style: Roboto12_black,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(
-                              Icons.content_copy,
-                              color: Colors.black,
+                          const SizedBox(height: 8.0),
+
+                          //TODO 5: Button Refresh
+                          ElevatedButton.icon(
+                            label: Text("Refesh", style: Roboto14_B_white),
+                            icon: const Icon(
+                              Icons.refresh,
                               size: 15,
                             ),
-                            const SizedBox(width: 5.0),
-                            Text(
-                              MyAddress,
-                              style: Roboto12_black,
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.black,
                             ),
-                          ],
-                        ),
+                            onPressed: () async {
+                              setState(() {
+                                dataConnent = false;
+                              });
+                              await getBalance(MyAddress);
+                            },
+                          )
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 8.0),
+                    const SizedBox(height: 30.0),
 
-                    //TODO 5: Button Refresh
-                    ElevatedButton.icon(
-                      label: Text("Refesh", style: Roboto14_B_white),
-                      icon: const Icon(
-                        Icons.refresh,
-                        size: 15,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.black,
-                      ),
-                      onPressed: () async {
-                        setState(() {
-                          dataConnent = false;
-                        });
-                        await getBalance(MyAddress);
-                      },
-                    )
+                    //TODO 6: Transaction Head
+                    Text("Transaction", style: Roboto18_B_black),
+                    const Divider(
+                      height: 10,
+                      thickness: 1,
+                      color: Colors.black,
+                    ),
+
+                    //TODO 7: List Transaction
+                    Expanded(
+                      child: (data_length == 0)
+                          ? _build_Notfound()
+                          : StreamBuilder(
+                              stream: _transaction,
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                                if (!snapshot.hasData) {
+                                  return _build_Notfound();
+                                } else if (snapshot.hasError) {
+                                  return Column(
+                                    children: [
+                                      _build_Notfound(),
+                                      const Text('Something is wrong'),
+                                    ],
+                                  );
+                                } else {
+                                  return (daley == false)
+                                      ? const SpinKitRing(
+                                          color: Colors.green,
+                                          size: 60.0,
+                                        )
+                                      : ListView(
+                                          children: [
+                                            //TODO : Fetch data here --------------------------
+                                            ...snapshot.data!.docs.map(
+                                                (QueryDocumentSnapshot<Object?>
+                                                    data) {
+                                              //ได้ตัว Data มาละ ----------<<<
+                                              final String txHash =
+                                                  data.get("TxnHash");
+                                              final token = data.get("amount");
+                                              final time =
+                                                  data.get("timestamp");
+                                              final String order =
+                                                  data.get("order");
+
+                                              return Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 5.0),
+                                                child: _build_listTransaction(
+                                                  txHash: txHash,
+                                                  token: token,
+                                                  order: order,
+                                                  time: time,
+                                                ),
+                                              );
+                                            }),
+                                            // //TODO 8: Load More
+                                            (isloading == true)
+                                                ? const SpinKitWave(
+                                                    color: Colors.black,
+                                                    size: 30.0,
+                                                  )
+                                                //กรณีที่ไม่เหลือให้ load more แล้วให้หยุด
+                                                : (item_limit >= data_length)
+                                                    ? Container()
+                                                    : RaisedButton(
+                                                        child:
+                                                            const Text("MORE"),
+                                                        onPressed: () async {
+                                                          print(
+                                                              "len: $data_length");
+                                                          setState(() {
+                                                            isloading = true;
+                                                            timeingLoad();
+                                                          });
+                                                        }),
+                                          ],
+                                        );
+                                }
+                              },
+                            ),
+                    ),
                   ],
                 ),
               ),
-              const SizedBox(height: 30.0),
-
-              //TODO 6: Transaction Head
-              Text("Transaction", style: Roboto18_B_black),
-              const Divider(
-                height: 10,
-                thickness: 1,
-                color: Colors.black,
-              ),
-
-              //TODO 7: List Transaction
-              Expanded(
-                child: (data_length == 0)
-                    ? _build_Notfound()
-                    : StreamBuilder(
-                        stream: _transaction,
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (!snapshot.hasData) {
-                            return _build_Notfound();
-                          } else if (snapshot.hasError) {
-                            return Column(
-                              children: [
-                                _build_Notfound(),
-                                const Text('Something is wrong'),
-                              ],
-                            );
-                          } else {
-                            return (daley == false)
-                                ? const SpinKitRing(
-                                    color: Colors.green,
-                                    size: 60.0,
-                                  )
-                                : ListView(
-                                    children: [
-                                      //TODO : Fetch data here --------------------------
-                                      ...snapshot.data!.docs.map(
-                                          (QueryDocumentSnapshot<Object?>
-                                              data) {
-                                        //ได้ตัว Data มาละ ----------<<<
-                                        final String txHash =
-                                            data.get("TxnHash");
-                                        final token = data.get("amount");
-                                        final time = data.get("timestamp");
-                                        final String order = data.get("order");
-
-                                        return Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 5.0),
-                                          child: _build_listTransaction(
-                                            txHash: txHash,
-                                            token: token,
-                                            order: order,
-                                            time: time,
-                                          ),
-                                        );
-                                      }),
-                                      // //TODO 8: Load More
-                                      (isloading == true)
-                                          ? const SpinKitWave(
-                                              color: Colors.black,
-                                              size: 30.0,
-                                            )
-                                          //กรณีที่ไม่เหลือให้ load more แล้วให้หยุด
-                                          : (item_limit >= data_length)
-                                              ? Container()
-                                              : RaisedButton(
-                                                  child: const Text("MORE"),
-                                                  onPressed: () async {
-                                                    print("len: $data_length");
-                                                    setState(() {
-                                                      isloading = true;
-                                                      timeingLoad();
-                                                    });
-                                                  }),
-                                    ],
-                                  );
-                          }
-                        },
-                      ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

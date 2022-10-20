@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/wallet/wallet_connecting.dart';
-import 'package:recycle_plus/service/wallet_smartcontract.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -26,8 +25,6 @@ class Wallet_card extends StatefulWidget {
 }
 
 class _Wallet_cardState extends State<Wallet_card> {
-  //ดึงไฟล์ service wallet
-  Wallet_Connect wallet = Wallet_Connect.instance;
 
   //Contract nesecsarily
   late Client httpClient;

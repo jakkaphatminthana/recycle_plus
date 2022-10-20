@@ -30,6 +30,7 @@ class Member_ProductDetail2 extends StatefulWidget {
     required this.ethClient,
     this.address,
     this.phone,
+    this.tag,
   }) : super(key: key);
   final data;
   final amounts;
@@ -39,6 +40,7 @@ class Member_ProductDetail2 extends StatefulWidget {
   //select address
   final address;
   final phone;
+  final tag;
 
   @override
   State<Member_ProductDetail2> createState() => _Member_ProductDetail2State();
@@ -295,6 +297,7 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
                                     : ListTile_ProductAddress(
                                         address: widget.address,
                                         phone: widget.phone,
+                                        tag: widget.tag,
                                       ),
                               ],
                             ),
@@ -320,7 +323,8 @@ class _Member_ProductDetail2State extends State<Member_ProductDetail2> {
 
                                   if (selectMode == "รถขนส่ง") {
                                     print('input_address success');
-                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                     setState(() {
                                       typePickup = "delivery";
                                     });

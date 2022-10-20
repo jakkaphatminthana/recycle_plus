@@ -21,6 +21,7 @@ showDialogAddAddress_exchange({
   final _formKey = GlobalKey<FormState>();
   TextEditingController TC_phone = TextEditingController();
   TextEditingController TC_address = TextEditingController();
+  TextEditingController TC_tag = TextEditingController();
 //==================================================================================================================
 
   //TODO 1: Cancle Button
@@ -42,6 +43,7 @@ showDialogAddAddress_exchange({
         formKey: _formKey,
         TC_address: TC_address,
         TC_phone: TC_phone,
+        TC_tag: TC_tag,
         data_pro: data_pro,
         amounts: amounts,
         total: total,
@@ -51,32 +53,110 @@ showDialogAddAddress_exchange({
     );
   }
 
-  //TODO 3.: Dialog input
-  AlertDialog DialogInput = AlertDialog(
-    title: Text("เพิ่มที่อยู่จัดส่ง", style: Roboto18_B_black),
-    actions: [continueButton(context), cancelButton(context)],
-    //TODO : Cotent Dialog
-    content: Form(
-      key: _formKey,
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            buildPhoneTF(TC_phone),
-            const SizedBox(height: 20.0),
-            buildAddressTF(TC_address),
-          ],
-        ),
-      ),
-    ),
-  );
-
-  //TODO 4: ShowDialog
+  //TODO 3: ShowDialog
   showDialog(
     context: context,
     barrierDismissible: true,
-    builder: (BuildContext context) => DialogInput,
+    builder: (BuildContext context) {
+      return StatefulBuilder(builder: (context, setState) {
+        return AlertDialog(
+          title: Text("เพิ่มที่อยู่จัดส่ง", style: Roboto18_B_black),
+          actions: [continueButton(context), cancelButton(context)],
+          //TODO : Cotent Dialog
+          content: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    buildPhoneTF(TC_phone),
+                    const SizedBox(height: 20.0),
+                    buildAddressTF(TC_address),
+                    const SizedBox(height: 10.0),
+
+                    //Tag select
+                    Row(
+                      children: [
+                        //TODO 4.1: Home Choice
+                        ChoiceChip(
+                          label: Text(
+                            "บ้าน",
+                            style: (TC_tag.text == "บ้าน")
+                                ? Roboto14_B_white
+                                : Roboto14_B_black,
+                          ),
+                          avatar: Icon(
+                            Icons.home,
+                            color: (TC_tag.text == "บ้าน")
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                          backgroundColor: Colors.white,
+                          disabledColor: Colors.white,
+                          selectedColor: const Color(0xFF00883C),
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          elevation: 2,
+                          selected: (TC_tag.text == "บ้าน" ? true : false),
+                          onSelected: (value) {
+                            if (value == true && TC_tag.text != "บ้าน") {
+                              setState(() {
+                                TC_tag.text = "บ้าน";
+                              });
+                            } else {
+                              setState(() {
+                                TC_tag.text = "";
+                              });
+                            }
+                            print("contro = ${TC_tag.text}");
+                          },
+                        ),
+                        const SizedBox(width: 10.0),
+
+                        //TODO 4.2: Worker Choice
+                        ChoiceChip(
+                          label: Text(
+                            "ที่ทำงาน",
+                            style: (TC_tag.text == "ที่ทำงาน")
+                                ? Roboto14_B_white
+                                : Roboto14_B_black,
+                          ),
+                          avatar: Icon(
+                            Icons.business,
+                            color: (TC_tag.text == "ที่ทำงาน")
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                          backgroundColor: Colors.white,
+                          disabledColor: Colors.white,
+                          selectedColor: const Color(0xFF00883C),
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          elevation: 2,
+                          selected: (TC_tag.text == "ที่ทำงาน" ? true : false),
+                          onSelected: (value) {
+                            if (value == true && TC_tag.text != "ที่ทำงาน") {
+                              setState(() {
+                                TC_tag.text = "ที่ทำงาน";
+                              });
+                            } else {
+                              setState(() {
+                                TC_tag.text = "";
+                              });
+                            }
+                            print("contro = ${TC_tag.text}");
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      });
+    },
   );
 }
 
@@ -123,6 +203,7 @@ GestureTapCallback ConfrimAddress({
   required formKey,
   required TC_address,
   required TC_phone,
+  required TC_tag,
   required data_pro,
   required amounts,
   required total,
@@ -136,10 +217,12 @@ GestureTapCallback ConfrimAddress({
       print('EZ');
       print('TC_address: ${TC_address.text}');
       print('TC_phone: ${TC_phone.text}');
+      print('TC_tag: ${TC_tag.text}');
 
       //TODO : Add Firebase
       _auth
-          .createProfile_address(address: TC_address.text, phone: TC_phone.text)
+          .createProfile_address(
+              address: TC_address.text, phone: TC_phone.text, tag: TC_tag.text)
           .then((value) {
         //เมื่อเพิ่มที่อยู่สำเร็จแล้ว
         print('address success');

@@ -30,8 +30,10 @@ class User_HomeScreen extends StatefulWidget {
 class _User_HomeScreenState extends State<User_HomeScreen> {
   User? user = FirebaseAuth.instance.currentUser;
   //Model data ไว้ดึงฐานข้อมูล
-  final Stream<QuerySnapshot> _stream_sponsor =
-      FirebaseFirestore.instance.collection('sponsor').snapshots();
+  final Stream<QuerySnapshot> _stream_sponsor = FirebaseFirestore.instance
+      .collection('sponsor')
+      .orderBy('money', descending: true)
+      .snapshots();
   final CollectionReference _collectionNews =
       FirebaseFirestore.instance.collection('news');
 

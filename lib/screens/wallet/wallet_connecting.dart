@@ -1,24 +1,33 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:recycle_plus/components/font.dart';
+import 'package:recycle_plus/screens/_User/achievement/dialog_claim.dart';
+import 'package:recycle_plus/screens/wallet/dialog_wrong.dart';
 import 'package:recycle_plus/screens/wallet/wallet_screen.dart';
-import 'package:recycle_plus/service/wallet_smartcontract.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:web3dart/web3dart.dart';
 
 class Wallet_Connecting extends StatefulWidget {
-  const Wallet_Connecting({Key? key}) : super(key: key);
+  const Wallet_Connecting({Key? key, this.wrong}) : super(key: key);
   //Location page
   static String routeName = "/Conenct Wallet";
+  //send error message
+  final wrong;
 
   @override
   State<Wallet_Connecting> createState() => _Wallet_ConnectingState();
 }
 
 class _Wallet_ConnectingState extends State<Wallet_Connecting> {
+  //TODO : Blockchian Past
+  //((((((((((((((((((((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))))))))))))))))))))
   //Wallet Object
   late WalletConnect connector;
   String _account = '';
@@ -42,7 +51,7 @@ class _Wallet_ConnectingState extends State<Wallet_Connecting> {
         session: session,
         sessionStorage: sessionStorage,
         clientMeta: const PeerMeta(
-            name: 'TestMode',
+            name: 'Recycle+',
             description: 'Connect application for lightWallet',
             url: 'https://walletconnect.org',
             icons: [
@@ -129,7 +138,7 @@ class _Wallet_ConnectingState extends State<Wallet_Connecting> {
       session: session,
       sessionStorage: sessionStorage,
       clientMeta: const PeerMeta(
-          name: 'TestMode',
+          name: 'Recycle+',
           description: 'Connect application for lightWallet',
           url: 'https://walletconnect.org',
           icons: [
@@ -165,17 +174,83 @@ class _Wallet_ConnectingState extends State<Wallet_Connecting> {
     //print("connector.accounts = ${connector.session.accounts[0]}");
   }
 
-  //TODO 3: เรียกใช้ครั้งเดียว โดยจะเรียกใช้ทุกครั้งเมื่อมาหน้านี้
+  //((((((((((((((((((((((((((((((((((((((((((((((((((((((((()))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+  User? user = FirebaseAuth.instance.currentUser;
+  var user_wallet;
+  var wallet_lenght;
+
+  Timer? _timer;
+  bool? loading;
+
+  //TODO 3: Get User Wallet address Firebase
+  Future<void> getUserWalletAddress(user_ID) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user_ID)
+        .snapshots()
+        .listen((event) {
+      setState(() {
+        user_wallet = event.get('wallet');
+      });
+    });
+  }
+
+  //TODO 4: get length wallet
+  Future<void> CheckWallet_SameLike(wallet_address) async {
+    final _collection = FirebaseFirestore.instance
+        .collection('users')
+        .where('wallet', isEqualTo: wallet_address)
+        .where('wallet', isNotEqualTo: 'no')
+        .get();
+
+    var result = await _collection.then((value) {
+      print('len same = ${value.size}');
+      setState(() {
+        wallet_lenght = value.size;
+      });
+    });
+  }
+
+  //TODO 0: เรียกใช้ครั้งเดียว โดยจะเรียกใช้ทุกครั้งเมื่อมาหน้านี้
   @override
   void initState() {
     super.initState();
     initWalletConnect();
+    getUserWalletAddress(user!.uid);
+
+    _timer = Timer(const Duration(milliseconds: 400), () {
+      CheckWallet_SameLike(user_wallet);
+      //1.แจ้งบอกกระเป๋าผิด
+      if (widget.wrong == "not yours") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Faild: กระเป๋าของคุณคือ $user_wallet')),
+        );
+        //2.แจ้งบอกกระเป๋าซ้ำกัน
+      } else if (widget.wrong == "already") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Faild: กระเป๋านี้ถูกใช้ไปแล้ว')),
+        );
+      }
+
+      setState(() {
+        if (connector.connected == true) {
+          loading = true;
+        } else {
+          loading = false;
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     //===============================================================================================================
-    return (_account == '')
+    return (_account == '' || loading == false)
         ? GestureDetector(
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
             child: Scaffold(
@@ -207,7 +282,7 @@ class _Wallet_ConnectingState extends State<Wallet_Connecting> {
 
                           //TODO 3: Address wallet
                           Text(
-                            "You haven't connected wallet yet.",
+                            "ยังไม่ได้เชื่อมต่อกระเป๋า",
                             style: Roboto18_B_black,
                           ),
                           const SizedBox(height: 8.0),
@@ -220,7 +295,54 @@ class _Wallet_ConnectingState extends State<Wallet_Connecting> {
                               primary: Colors.black,
                             ),
                             onPressed: () async {
-                              await createSession(context);
+                              await createSession(context).then((value) async {
+                                print('-------- CONNECT SUCCESS --------');
+                                print("user_wallet = $user_wallet");
+                                print("account = $_account");
+                                print('wallet num = $wallet_lenght');
+
+                                //TODO 4.1: ยังไม่เคยเชื่อมกระเป๋า
+                                if (user_wallet == "no" && _account != '') {
+                                  //4.1.1 ยังไม่เคยเชื่อมกระเป๋า + ไปซ้ำกับคนอื่นอีก
+                                  if (wallet_lenght >= 1) {
+                                    print('address doubly');
+                                    setState(() {
+                                      loading = true;
+                                      user_wallet = "doubly";
+                                    });
+                                    //4.1.2 ยังไม่เคยเชื่อมกระเป๋า + ไม่ซ้ำคนอื่น
+                                  } else {
+                                    print('new address');
+                                    //TODO : Update Wallet Address Firebase ------------------------<<<<
+                                    db
+                                        .updateUserWallet(
+                                            wallet: _account,
+                                            user_ID: user!.uid)
+                                        .then((value) {
+                                      print('add firebase');
+                                      setState(() {
+                                        loading = true;
+                                        user_wallet = _account;
+                                      });
+                                    }).catchError((e) =>
+                                            print('update wallet error: $e'));
+                                  }
+
+                                  //TODO 4.2: กรณีที่กระเป๋าตรงกัน
+                                } else if (user_wallet == _account) {
+                                  print('welcome back');
+                                  setState(() {
+                                    loading = true;
+                                  });
+
+                                  //TODO 4.3: กรณีที่กระเป๋า ไม่ตรงกันกับบัญชี
+                                } else {
+                                  print('not your wallet');
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                }
+                              });
                             },
                           )
                         ],
@@ -254,6 +376,17 @@ class _Wallet_ConnectingState extends State<Wallet_Connecting> {
               ),
             ),
           )
-        : WalletScreen(connector: _connector, session: _session);
+        : (_account != '' || loading == true)
+            ? WalletScreen(
+                connector: _connector,
+                session: _session,
+                user_walletFB: user_wallet,
+              )
+            : Column(
+                children: [
+                  const CircularProgressIndicator(),
+                  Text('Something wrong', style: Roboto14_B_brown),
+                ],
+              );
   }
 }

@@ -7,7 +7,6 @@ import 'package:http/http.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/login_no/login_no.dart';
 import 'package:recycle_plus/screens/wallet/wallet_connecting.dart';
-import 'package:recycle_plus/service/wallet_smartcontract.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
 import 'package:url_launcher/url_launcher_string.dart';

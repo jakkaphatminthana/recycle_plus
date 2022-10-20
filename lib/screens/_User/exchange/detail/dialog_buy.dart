@@ -8,7 +8,6 @@ import 'package:recycle_plus/service/auth.dart';
 import 'package:recycle_plus/service/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart' as firebase;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:recycle_plus/service/wallet_smartcontract.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 import 'package:walletconnect_secure_storage/walletconnect_secure_storage.dart';
 import 'package:url_launcher/url_launcher_string.dart';

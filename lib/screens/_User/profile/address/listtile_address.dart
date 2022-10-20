@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:recycle_plus/components/font.dart';
 import 'package:recycle_plus/screens/_User/profile/address/dialog_edit.dart';
 
@@ -9,10 +11,14 @@ class ListTile_address extends StatefulWidget {
     required this.data,
     required this.address,
     required this.phone,
+    required this.tag,
+    required this.number,
   }) : super(key: key);
   final data;
   final address;
   final phone;
+  final tag;
+  final number;
 
   @override
   State<ListTile_address> createState() => _ListTile_addressState();
@@ -25,7 +31,7 @@ class _ListTile_addressState extends State<ListTile_address> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showDialogEditAddress(  
+        showDialogEditAddress(
           context: context,
           data: widget.data,
           user_ID: user!.uid,
@@ -54,17 +60,23 @@ class _ListTile_addressState extends State<ListTile_address> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //TODO 1.1: Tag Address
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.location_pin,
-                            color: Color(0xFF288752),
-                            size: 25,
-                          ),
-                          const SizedBox(width: 5.0),
-                          Text('ที่อยู่จัดส่ง', style: Roboto16_B_greenB)
-                        ],
-                      ),
+                      (widget.tag == "บ้าน")
+                          ? _build_tag(
+                              Icons.home,
+                              const Color(0xFFFC5963),
+                              'ที่อยู่บ้าน',
+                            )
+                          : (widget.tag == "ที่ทำงาน")
+                              ? _build_tag(
+                                  Icons.business,
+                                  const Color(0xFFF6A94C),
+                                  'ที่ทำงาน',
+                                )
+                              : _build_tag(
+                                  Icons.location_pin,
+                                  const Color(0xFF288752),
+                                  'ที่อยู่จัดส่ง',
+                                ),
                       const SizedBox(height: 5.0),
 
                       //TODO 1.2: Address Content
@@ -111,6 +123,29 @@ class _ListTile_addressState extends State<ListTile_address> {
           ),
         ),
       ),
+    );
+  }
+
+  //=================================================================================================================
+  Widget _build_tag(IconData iconEZ, Color colorEZ, title) {
+    return Row(
+      children: [
+        FaIcon(
+          iconEZ,
+          color: colorEZ,
+          size: 25,
+        ),
+        const SizedBox(width: 5.0),
+        Text(
+          '$title ${widget.number}',
+          style: GoogleFonts.getFont(
+            'Roboto',
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: colorEZ,
+          ),
+        ),
+      ],
     );
   }
 }

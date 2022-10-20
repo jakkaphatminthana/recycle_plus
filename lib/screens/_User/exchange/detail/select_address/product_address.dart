@@ -78,7 +78,7 @@ class _Member_SelectAddressState extends State<Member_SelectAddress> {
         .collection('users')
         .doc(user!.uid)
         .collection('address')
-        .orderBy('timestamp', descending: false)
+        .orderBy('tag', descending: true)
         .snapshots();
     //==============================================================================================================
     return GestureDetector(
@@ -123,6 +123,9 @@ class _Member_SelectAddressState extends State<Member_SelectAddress> {
                         stream: _stream_address,
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
+                          int count_home = 0;
+                          int count_work = 0;
+                          int count_simple = 0;
                           if (!snapshot.hasData) {
                             return const SpinKitCircle(
                               color: Colors.green,
@@ -138,16 +141,32 @@ class _Member_SelectAddressState extends State<Member_SelectAddress> {
                                   //ได้ตัว Data มาละ -------------------------<<<
                                   final address = data_address.get('address');
                                   final phone = data_address.get('phone');
+                                  final tag = data_address.get('tag');
+
+                                  //ไว้นับเลข
+                                  if (tag == 'บ้าน') {
+                                    count_home++;
+                                  } else if (tag == 'ที่ทำงาน') {
+                                    count_work++;
+                                  } else {
+                                    count_simple++;
+                                  }
 
                                   return ListTile_SelectAddress(
                                     data_address: data_address,
                                     address: address,
                                     phone: phone,
+                                    tag: tag,
                                     data: widget.data,
                                     amounts: widget.amounts,
                                     total: widget.total,
                                     session: widget.session,
                                     ethClient: widget.ethClient,
+                                    number: (tag == "บ้าน")
+                                        ? count_home
+                                        : (tag == "ที่ทำงาน")
+                                            ? count_work
+                                            : count_simple,
                                   );
                                 }),
                               ],

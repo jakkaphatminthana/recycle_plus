@@ -27,6 +27,10 @@ class _Member_ProfileAddressState extends State<Member_ProfileAddress> {
   Timer? _timer_daley;
   bool daley = false;
 
+  // num home_lenght = 0;
+  // num work_lenght = 0;
+  // num simple_lenght = 0;
+
   //TODO 1: get length data
   Future<void> getLengthData() async {
     final _collection = FirebaseFirestore.instance
@@ -40,12 +44,33 @@ class _Member_ProfileAddressState extends State<Member_ProfileAddress> {
     });
   }
 
-  //TODO 2: Always call first run
+  //TODO 2: get length address
+  Future<int> getLengthAddress(word) async {
+    final _collection = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user!.uid)
+        .collection('address')
+        .where('tag', isEqualTo: word)
+        .get();
+
+    var result = await _collection.then((value) {
+      return value.size;
+    });
+
+    return result;
+  }
+
+  //TODO 0: Always call first run
   @override
   void initState() {
     super.initState();
     getLengthData();
-    _timer_daley = Timer(const Duration(milliseconds: 300), () {
+
+    _timer_daley = Timer(const Duration(milliseconds: 1000), () async {
+      // home_lenght = await getLengthAddress('บ้าน');
+      // work_lenght = await getLengthAddress('ที่ทำงาน');
+      // simple_lenght = await getLengthAddress('');
+
       setState(() {
         daley = true;
         print("len: $data_length");
@@ -65,8 +90,9 @@ class _Member_ProfileAddressState extends State<Member_ProfileAddress> {
         .collection('users')
         .doc(user!.uid)
         .collection('address')
-        .orderBy('timestamp', descending: false)
+        .orderBy('tag', descending: true)
         .snapshots();
+
     //==============================================================================================================
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -85,7 +111,7 @@ class _Member_ProfileAddressState extends State<Member_ProfileAddress> {
                 color: Colors.white,
                 size: 30,
               ),
-              onPressed: () {
+              onPressed: () async {
                 showDialogAddAddress(context: context, user_ID: 'user_ID');
               },
             ),
@@ -103,6 +129,9 @@ class _Member_ProfileAddressState extends State<Member_ProfileAddress> {
                         stream: _stream_address,
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
+                          int count_home = 0;
+                          int count_work = 0;
+                          int count_simple = 0;
                           if (!snapshot.hasData) {
                             return const SpinKitCircle(
                               color: Colors.green,
@@ -117,12 +146,39 @@ class _Member_ProfileAddressState extends State<Member_ProfileAddress> {
                                   //ได้ตัว Data มาละ -------------------------<<<
                                   final address = data.get('address');
                                   final phone = data.get('phone');
+                                  final tag = data.get('tag');
 
-                                  return ListTile_address(
-                                    data: data,
-                                    address: address,
-                                    phone: phone,
-                                  );
+                                  if (tag == 'บ้าน') {
+                                    count_home++;
+                                  } else if (tag == 'ที่ทำงาน') {
+                                    count_work++;
+                                  } else {
+                                    count_simple++;
+                                  }
+
+                                  return (tag == 'บ้าน')
+                                      ? ListTile_address(
+                                          data: data,
+                                          address: address,
+                                          phone: phone,
+                                          tag: tag,
+                                          number: count_home,
+                                        )
+                                      : (tag == 'ที่ทำงาน')
+                                          ? ListTile_address(
+                                              data: data,
+                                              address: address,
+                                              phone: phone,
+                                              tag: tag,
+                                              number: count_work,
+                                            )
+                                          : ListTile_address(
+                                              data: data,
+                                              address: address,
+                                              phone: phone,
+                                              tag: tag,
+                                              number: count_simple,
+                                            );
                                 }),
                               ],
                             );

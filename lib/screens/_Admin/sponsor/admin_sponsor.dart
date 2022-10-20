@@ -23,7 +23,7 @@ class _Admin_SponsorManagerState extends State<Admin_SponsorManager> {
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot> _stream_sponsor =
-        FirebaseFirestore.instance.collection('sponsor').snapshots();
+        FirebaseFirestore.instance.collection('sponsor').orderBy('status').snapshots();
     //================================================================================================================
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

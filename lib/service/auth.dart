@@ -136,6 +136,7 @@ class AuthService {
         "login_stack": 0,
         "garbage": 0,
         'honor': 0,
+        'wallet': 'no',
       });
     } catch (e) {
       print("Error create profile faild : $e");
@@ -146,6 +147,7 @@ class AuthService {
   Future createProfile_address({
     required String address,
     required String phone,
+    required String tag,
   }) async {
     User? userEZ = FirebaseAuth.instance.currentUser;
 
@@ -157,6 +159,7 @@ class AuthService {
         .add({
       'address': address,
       'phone': phone,
+      'tag': tag,
       'timestamp': DateTime.now(),
     });
   }
@@ -196,6 +199,11 @@ class AuthService {
           "email": email,
           "role": "Sponsor",
           "otp": otp,
+          "image":
+              "https://firebasestorage.googleapis.com/v0/b/recycleplus-feecd.appspot.com/o/images%2Fuser_default.png?alt=media&token=5eb3431e-6485-4da5-9014-1ffee1134211",
+          "verify": true,
+          "name": "",
+          "wallet" : "no",
         });
       }).then((value) {
         print('create sponsor success');
