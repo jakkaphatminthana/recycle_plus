@@ -122,12 +122,21 @@ class _Admin_MemberScreenState extends State<Admin_MemberScreen> {
                             final String role = data['role'];
 
                             //จะแสดงผลข้อมูลที่ได้ในรูปแบบไหน =---------------------------
-                            return ListTile_Member(
-                              data: data,
-                              image: image,
-                              email: email,
-                              role: role,
-                            );
+                            return (role == "Member")
+                                ? ListTile_Member(
+                                    data: data,
+                                    image: image,
+                                    email: email,
+                                    role: role,
+                                    level: data.get('level'),
+                                  )
+                                : ListTile_Member(
+                                    data: data,
+                                    image: image,
+                                    email: email,
+                                    role: role,
+                                    otp: data.get('otp'),
+                                  );
                           },
                         )
                       ],

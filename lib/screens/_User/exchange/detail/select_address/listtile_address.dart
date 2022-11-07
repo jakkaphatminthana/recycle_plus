@@ -52,23 +52,29 @@ class _ListTile_ProductAddressState extends State<ListTile_ProductAddress> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //TODO 1.1: Tag Address
-                    (widget.tag == "บ้าน")
+                    (widget.tag == "Home")
                         ? _build_tag(
                             Icons.home,
                             const Color(0xFFFC5963),
-                            'ที่อยู่บ้าน',
+                            'Home',
                           )
-                        : (widget.tag == "ที่ทำงาน")
+                        : (widget.tag == "Work")
                             ? _build_tag(
                                 Icons.business,
                                 const Color(0xFFF6A94C),
-                                'ที่ทำงาน',
+                                'Work',
                               )
-                            : _build_tag(
-                                Icons.location_pin,
-                                const Color(0xFF288752),
-                                'ที่อยู่จัดส่ง',
-                              ),
+                            : (widget.tag == "")
+                                ? _build_tag(
+                                    Icons.location_pin,
+                                    const Color(0xFF288752),
+                                    'Address',
+                                  )
+                                : _build_tag(
+                                    Icons.location_pin,
+                                    const Color(0xFF288752),
+                                    '${widget.tag}',
+                                  ),
                     const SizedBox(height: 5.0),
 
                     //TODO 1.2: Address Content

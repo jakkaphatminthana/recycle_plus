@@ -144,11 +144,11 @@ class _Member_SelectAddressState extends State<Member_SelectAddress> {
                                   final tag = data_address.get('tag');
 
                                   //ไว้นับเลข
-                                  if (tag == 'บ้าน') {
+                                  if (tag == 'Home') {
                                     count_home++;
-                                  } else if (tag == 'ที่ทำงาน') {
+                                  } else if (tag == 'Work') {
                                     count_work++;
-                                  } else {
+                                  } else if (tag == "") {
                                     count_simple++;
                                   }
 
@@ -162,9 +162,9 @@ class _Member_SelectAddressState extends State<Member_SelectAddress> {
                                     total: widget.total,
                                     session: widget.session,
                                     ethClient: widget.ethClient,
-                                    number: (tag == "บ้าน")
+                                    number: (tag == "Home")
                                         ? count_home
-                                        : (tag == "ที่ทำงาน")
+                                        : (tag == "Work")
                                             ? count_work
                                             : count_simple,
                                   );

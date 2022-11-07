@@ -9,7 +9,7 @@ class CardMemberStatus extends StatelessWidget {
     required this.status,
   }) : super(key: key);
 
-  final title;
+  final String title;
   final bool status;
 
   @override

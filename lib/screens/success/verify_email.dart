@@ -79,21 +79,21 @@ class _VerifyEmailState extends State<VerifyEmail> {
     if (isEmailVerify == true) {
       timer?.cancel();
 
-      // //TODO : ทำการสร้าง database profile
-      // //กรณีไม่มี name ส่งมาให้
-      // if (widget.name == null && widget.who == "user") {
-      //   final UserMail = user?.email.toString();
-      //   List<String>? splited = UserMail?.split("@");
-      //   final data_map = splited?.asMap();
-      //   final nameEmail = data_map![0];
+      //TODO : ทำการสร้าง database profile
+      //กรณีไม่มี name ส่งมาให้
+      if (widget.name == null && widget.who == "user") {
+        final UserMail = user?.email.toString();
+        List<String>? splited = UserMail?.split("@");
+        final data_map = splited?.asMap();
+        final nameEmail = data_map![0];
 
-      //   auth_package.createProfile(nameEmail!);
-      //   //กรณีมี name
-      // } else if (widget.name != null && widget.who == "user") {
-      //   auth_package.createProfile(widget.name!);
-      // } else {
-      //   print("NOOOOOOOOOOOOOOOOOOOOOOOOOO");
-      // }
+        auth_package.createProfile(nameEmail!);
+        //กรณีมี name
+      } else if (widget.name != null && widget.who == "user") {
+        auth_package.createProfile(widget.name!);
+      } else {
+        print("NOOOOOOOOOOOOOOOOOOOOOOOOOO");
+      }
     }
   }
 

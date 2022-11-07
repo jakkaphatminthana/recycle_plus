@@ -67,8 +67,8 @@ class _Member_ProfileAddressState extends State<Member_ProfileAddress> {
     getLengthData();
 
     _timer_daley = Timer(const Duration(milliseconds: 1000), () async {
-      // home_lenght = await getLengthAddress('บ้าน');
-      // work_lenght = await getLengthAddress('ที่ทำงาน');
+      // home_lenght = await getLengthAddress('Home');
+      // work_lenght = await getLengthAddress('Work');
       // simple_lenght = await getLengthAddress('');
 
       setState(() {
@@ -148,15 +148,15 @@ class _Member_ProfileAddressState extends State<Member_ProfileAddress> {
                                   final phone = data.get('phone');
                                   final tag = data.get('tag');
 
-                                  if (tag == 'บ้าน') {
+                                  if (tag == 'Home') {
                                     count_home++;
-                                  } else if (tag == 'ที่ทำงาน') {
+                                  } else if (tag == 'Work') {
                                     count_work++;
-                                  } else {
+                                  } else if (tag == "") {
                                     count_simple++;
                                   }
 
-                                  return (tag == 'บ้าน')
+                                  return (tag == 'Home')
                                       ? ListTile_address(
                                           data: data,
                                           address: address,
@@ -164,7 +164,7 @@ class _Member_ProfileAddressState extends State<Member_ProfileAddress> {
                                           tag: tag,
                                           number: count_home,
                                         )
-                                      : (tag == 'ที่ทำงาน')
+                                      : (tag == 'Work')
                                           ? ListTile_address(
                                               data: data,
                                               address: address,

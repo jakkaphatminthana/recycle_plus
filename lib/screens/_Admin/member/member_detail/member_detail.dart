@@ -9,6 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:recycle_plus/screens/_Admin/member/member_edit/member_edit.dart';
+import 'package:recycle_plus/screens/_User/achievement/dialog_claim.dart';
 import 'package:recycle_plus/service/database.dart';
 
 class Admin_MemberDetail extends StatefulWidget {
@@ -32,7 +33,10 @@ class _Admin_MemberDetailState extends State<Admin_MemberDetail> {
     Stream<List<UserModel>> user_strem = db.getStateUser();
     String userRole = widget.data!.get('role');
     bool user_verify = widget.data!.get('verify');
-    //var user_wallet = widget.data!.get("wallet");
+    var user_wallet = widget.data!.get("wallet");
+
+    var F4address = (user_wallet != 'no') ? user_wallet.substring(0, 5) : '';
+    var B4address = (user_wallet != 'no') ? user_wallet.substring(37, 42) : '';
 
 //=====================================================================================================================
     return Scaffold(
@@ -120,9 +124,11 @@ class _Admin_MemberDetailState extends State<Admin_MemberDetail> {
                         title: "ยืนยันตัวตน",
                         status: (user_verify == true) ? true : false,
                       ),
-                      const CardMemberStatus(
-                        title: "Wallet Conent",
-                        status: false,
+                      CardMemberStatus(
+                        title: (user_wallet != 'no')
+                            ? "$F4address..$B4address"
+                            : "Wallet Conent",
+                        status: (user_wallet != 'no') ? true : false,
                       ),
                     ],
                   ),
@@ -143,18 +149,11 @@ class _Admin_MemberDetailState extends State<Admin_MemberDetail> {
 
               _buidMenulist(
                 context,
-                const FaIcon(Icons.history, size: 30, color: Colors.black),
-                "ประวัติการใช้งาน",
-                () {},
-              ),
-              const SizedBox(height: 10.0),
-
-              _buidMenulist(
-                context,
                 const FaIcon(Icons.swap_horiz, size: 30, color: Colors.black),
                 "ประวัติการแลกของรางวัล",
                 () {},
               ),
+              const SizedBox(height: 10.0),
             ],
           ),
         ),

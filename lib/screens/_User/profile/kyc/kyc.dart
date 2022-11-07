@@ -5,6 +5,8 @@ import 'package:nextflow_thai_personal_id/nextflow_thai_personal_id.dart';
 import 'package:recycle_plus/screens/_User/home/googleform.dart';
 import 'package:recycle_plus/service/database.dart';
 
+import '../profile.dart';
+
 class KYCscreen extends StatefulWidget {
   const KYCscreen({Key? key}) : super(key: key);
   //Location Page
@@ -28,6 +30,53 @@ class _KYCscreenState extends State<KYCscreen> {
   void initState() {
     super.initState();
     textController = TextEditingController();
+  }
+
+  Future checkdataKYC({required String ID_Card_Number}) async {
+    FirebaseFirestore.instance
+        .collection('CheckKYC_Member')
+        .doc(ID_Card_Number)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        print("มีแล้ว");
+        showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text(
+              'เลขบัตรประชาชนนี้ได้ถูกใช้ไปแล้ว โปรดตรวจสอบเลขบัตรปประชาชนของท่านให้ถูกต้อง',
+              style: TextStyle(fontSize: 16),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'ตกลง',
+                  style: TextStyle(
+                      color: Colors.green,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16),
+                ),
+              ),
+            ],
+          ),
+        );
+      } else {
+        print("ไม่มี");
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Member_ProfileScreen()),
+        );
+        db.updateKyc(user_ID: user!.uid, ID_Card_Number: textController!.text);
+        db.updateCheckKyc(
+            user_ID: user!.uid, ID_Card_Number: textController!.text);
+      }
+    });
   }
 
   @override
@@ -119,9 +168,27 @@ class _KYCscreenState extends State<KYCscreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          db.updateKyc(
-                              user_ID: user!.uid,
-                              ID_Card_Number: textController!.text);
+                          showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: const Text('กดตกลงเพื่อบันทึกข้อมูล'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    checkdataKYC(
+                                        ID_Card_Number: textController!.text);
+                                  },
+                                  child: const Text(
+                                    'ตกลง',
+                                    style: TextStyle(
+                                        color: Colors.green,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
                         }
                       },
                       child: const Text(

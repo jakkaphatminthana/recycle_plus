@@ -63,6 +63,7 @@ dependencies:
   webview_flutter: ^3.0.4
   nextflow_thai_personal_id: ^1.0.2
   dio: ^4.0.6
+  flutter_launcher_icons: ^0.10.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -79,6 +80,12 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
 
+flutter_icons:
+  image_path: "assets/image/logo.png"
+  android: true
+  ios: true
+  # optionally, as transparency is not allowed on app store
+  # remove_alpha_ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

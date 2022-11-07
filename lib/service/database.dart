@@ -511,6 +511,21 @@ class DatabaseEZ {
     });
   }
 
+  //TODO : UPDATE KYC
+  Future updateCheckKyc(
+      {required String user_ID, required String ID_Card_Number}) async {
+    final reference = FirebaseFirestore.instance.collection('CheckKYC_Member');
+    try {
+      await reference
+          .doc(ID_Card_Number)
+          .set({'ID_Card': ID_Card_Number, 'user_ID': user_ID}).then((value) {
+        print("updateCheckKyc");
+      });
+    } on FirebaseException catch (e) {
+      print('error = ${e.code}');
+    }
+  }
+
 //---------------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------------
 //TODO : ADD
