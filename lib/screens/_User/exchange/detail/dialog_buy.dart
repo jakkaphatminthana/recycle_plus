@@ -132,7 +132,7 @@ showAlertDialog_Buy({
 }) {
   //TODO 1: Cancle Button
   Widget cancelButton(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text("ยกเลิก", style: Roboto16_B_gray),
       onPressed: () {
         Navigator.of(context).pop();
@@ -142,7 +142,7 @@ showAlertDialog_Buy({
 
 //TODO 2: Continute Button
   Widget continueButton(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: (isLoading == true)
           ? const CircularProgressIndicator(color: Colors.green)
           : Text("ยืนยัน", style: Roboto16_B_green),

@@ -150,7 +150,7 @@ showDialogMissionSuccess({
                     const Text("กำลังทำรายการอาจใช้เวลา 1 นาที"),
                     const Text("ระหว่างนี้ท่านสามารถออกไปทำอย่างอื่นได้เลย"),
                     const SizedBox(height: 8.0),
-                    RaisedButton(
+                    TextButton(
                       child: const Text("ตกลง"),
                       onPressed: onCLick
                           ? null

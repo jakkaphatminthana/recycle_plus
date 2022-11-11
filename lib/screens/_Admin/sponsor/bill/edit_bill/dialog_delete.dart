@@ -14,7 +14,7 @@ showDialogBill_Delete({
 
   //TODO 1: Cancle Button
   Widget cancelButton(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text("Cancel", style: Roboto16_B_gray),
       onPressed: () {
         Navigator.of(context).pop();
@@ -24,7 +24,7 @@ showDialogBill_Delete({
 
   //TODO 2: Continute Button
   Widget continueButton(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text("Delete", style: Roboto16_B_red),
       onPressed: ConfrimDelete(
         context: context,

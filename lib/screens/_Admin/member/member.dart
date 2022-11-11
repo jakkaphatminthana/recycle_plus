@@ -159,7 +159,7 @@ class _Admin_MemberScreenState extends State<Admin_MemberScreen> {
     var checkError = 0;
 
     //1.Reset buttons
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Reset", style: Roboto16_B_gray),
       onPressed: () {
         setState(() {
@@ -171,7 +171,7 @@ class _Admin_MemberScreenState extends State<Admin_MemberScreen> {
       },
     );
     //2.Enter buttons
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       child: Text("Filter", style: Roboto16_B_green),
       onPressed: () async {
         // print("isLimited = $isLimited");

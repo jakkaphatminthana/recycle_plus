@@ -27,7 +27,7 @@ showDialogOTPEdit({
 
   //TODO 1: Cancle Button
   Widget cancelButton(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text("Cancel", style: Roboto16_B_gray),
       onPressed: () {
         Navigator.of(context).pop();
@@ -37,7 +37,7 @@ showDialogOTPEdit({
 
   //TODO 2: Continute Button
   Widget continueButton(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text("Continue", style: Roboto16_B_green),
       onPressed: ConfrimEdit(
         context: context,

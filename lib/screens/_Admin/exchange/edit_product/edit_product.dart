@@ -564,13 +564,13 @@ class _Admin_editProductState extends State<Admin_editProduct> {
   //TODO : Alert Dialog Update
   _showAlertDialogUpdate(BuildContext context) {
     // set up the buttons
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Cancel", style: Roboto16_B_gray),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       //TODO : UploadData to firebase--------------------------------------------------------------------------<<
       child: Text("Continue", style: Roboto16_B_green),
       onPressed: () async {
@@ -692,13 +692,13 @@ class _Admin_editProductState extends State<Admin_editProduct> {
   //TODO : Alert Dialog Delete
   _showAlertDialogDelete(BuildContext context) {
     // set up the buttons
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Cancel", style: Roboto16_B_gray),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
-    Widget deleteButton = FlatButton(
+    Widget deleteButton = TextButton(
       child: Text("Delete", style: Roboto16_B_red),
       onPressed: () async {
         await DeleteProduct(

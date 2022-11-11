@@ -453,13 +453,13 @@ class _Admin_NewsEditState extends State<Admin_NewsEdit> {
   //TODO 3: Alert Dialog Delete
   _showAlertDialogDelete(BuildContext context) {
     // set up the buttons
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Cancel", style: Roboto16_B_gray),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
-    Widget deleteButton = FlatButton(
+    Widget deleteButton = TextButton(
       child: Text("Delete", style: Roboto16_B_red),
       onPressed: () async {
         await DeleteNews(news_ID: widget.data!.get('id'));

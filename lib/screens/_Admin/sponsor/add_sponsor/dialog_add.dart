@@ -31,7 +31,7 @@ showDialogAddSponsor({required BuildContext context}) async {
   //-----------------------------------------------------------------------------------------------------------------
   //TODO 1: Cancle Button
   Widget cancelButton(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text("ยกเลิก", style: Roboto16_B_gray),
       onPressed: () {
         Navigator.of(context).pop();
@@ -41,7 +41,7 @@ showDialogAddSponsor({required BuildContext context}) async {
 
   //TODO 2: Cancle Button
   Widget continueButton(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text("ยืนยัน", style: Roboto16_B_greenB),
       // onPressed: ConfrimContinue(
       //   context: context,

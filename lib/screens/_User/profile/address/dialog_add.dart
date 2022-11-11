@@ -26,7 +26,7 @@ showDialogAddAddress({required BuildContext context, required String user_ID}) {
 
   //TODO 1: Cancle Button
   Widget cancelButton(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text("ยกเลิก", style: Roboto16_B_gray),
       onPressed: () {
         Navigator.of(context).pop();
@@ -36,7 +36,7 @@ showDialogAddAddress({required BuildContext context, required String user_ID}) {
 
   //TODO 2: Continute Button
   Widget continueButton(BuildContext context, setState) {
-    return FlatButton(
+    return TextButton(
       child: Text("ยืนยัน", style: Roboto16_B_green),
       onPressed: ConfrimAddress(
         context: context,

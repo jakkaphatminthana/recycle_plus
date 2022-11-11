@@ -37,7 +37,7 @@ class sucessDialog extends StatelessWidget {
               ),
               const Text("โปรดตรวจสอบในกล่องอีเมลของคุณ"),
               const SizedBox(height: 8.0),
-              RaisedButton(
+              TextButton(
                 child: const Text("ตกลง"),
                 onPressed: () {
                   Navigator.of(context).pushNamed(LoginScreen.routeName);

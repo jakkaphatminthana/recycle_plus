@@ -397,13 +397,13 @@ class _Admin_AddProductState extends State<Admin_AddProduct> {
   //TODO : Alert Dialog
   _showAlertDialog(BuildContext context) {
     // set up the buttons
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Cancel", style: Roboto16_B_gray),
       onPressed: () {
         Navigator.of(context).pop();
       },
     );
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       //TODO : UploadData to firebase--------------------------------------------------------------------------<<
       child: Text("Continue", style: Roboto16_B_green),
       onPressed: () async {

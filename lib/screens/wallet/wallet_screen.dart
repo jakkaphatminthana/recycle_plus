@@ -454,7 +454,7 @@ class _WalletScreenState extends State<WalletScreen> {
                                                 //กรณีที่ไม่เหลือให้ load more แล้วให้หยุด
                                                 : (item_limit >= data_length)
                                                     ? Container()
-                                                    : RaisedButton(
+                                                    : TextButton(
                                                         child:
                                                             const Text("MORE"),
                                                         onPressed: () async {

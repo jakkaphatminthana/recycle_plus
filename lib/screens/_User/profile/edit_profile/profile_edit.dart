@@ -328,7 +328,7 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
   _showAlertDialogUpdate(BuildContext context) {
     //TODO 3.1: Cancle Button
     Widget cancelButton(BuildContext context) {
-      return FlatButton(
+      return TextButton(
         child: Text("ยกเลิก", style: Roboto16_B_gray),
         onPressed: () {
           Navigator.of(context).pop();
@@ -338,7 +338,7 @@ class _Member_ProfileEditState extends State<Member_ProfileEdit> {
 
 //TODO 3.2: Continute Button
     Widget continueButton(BuildContext context) {
-      return FlatButton(
+      return TextButton(
         child: Text("ยืนยัน", style: Roboto16_B_green),
         onPressed: ConfrimContinue(),
       );
