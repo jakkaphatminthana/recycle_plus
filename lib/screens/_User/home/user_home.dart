@@ -225,6 +225,17 @@ class _User_HomeScreenState extends State<User_HomeScreen> {
                           }
                         },
                       ),
+
+                      //TEST
+                      MaterialButton(
+                        child: Text("CLicik"),
+                        onPressed: () {
+                          print(FirebaseFirestore.instance
+                              .collection('users')
+                              .doc('2OsEzUUOGOUTscMpOfPYphCaI5j2')
+                              .get().then((value) => print(value.data())));
+                        },
+                      ),
                     ],
                   );
                 }
