@@ -1,4 +1,5 @@
 //หน้ารันสั่งแอป ให้ทำงาน
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:recycle_plus/routes.dart';
 import 'package:recycle_plus/screens/ErrorScreen.dart';
@@ -21,6 +22,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'models/user_model.dart';
 import 'screens/_User/home/user_home.dart';
 
+List<CameraDescription> cameras = [];
+
 void main() async {
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,6 +36,8 @@ void main() async {
       projectId: "recycleplus-feecd",
     ),
   );
+  cameras = await availableCameras();
+  
   runApp(MyApp());
 }
 

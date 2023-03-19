@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:recycle_plus/screens/_User/tabbar_control.dart';
 import 'package:recycle_plus/screens/scanQR/LDPE/LDPE_add.dart';
 import 'package:recycle_plus/screens/scanQR/QRscan.dart';
+
+import '../ObjectDetection/start.dart';
 
 class LDPE_detailWidget extends StatefulWidget {
   const LDPE_detailWidget({Key? key}) : super(key: key);
@@ -149,26 +152,64 @@ class _LDPE_detailWidgetState extends State<LDPE_detailWidget> {
                   ),
 //--------------------------------------------------------------------------------------------------------
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 200, 0, 0),
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LDPE_addWidget(),
-                          ),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Color(0xFF107027),
-                        fixedSize: Size(250, 40),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30)),
-                      ),
-                      child: Text(
-                        'Continue',
-                        style: TextStyle(fontSize: 18),
-                      ),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 200, 0, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LDPE_addWidget(),
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Color(0xFF107027),
+                                fixedSize: Size(250, 40),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                              ),
+                              child: const Text(
+                                'Continue',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ),
+                            const SizedBox(width: 5.0),
+
+                            //TODO : Image Processing Navigator
+                            SizedBox(
+                              width: 50,
+                              height: 50,
+                              child: FittedBox(
+                                child: FloatingActionButton(
+                                  backgroundColor: Colors.amberAccent,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => StratAiMode()),
+                                    );
+                                  },
+                                  child: const Padding(
+                                    padding:
+                                        EdgeInsets.only(right: 6.0, bottom: 2),
+                                    child: Icon(
+                                      FontAwesomeIcons.robot,
+                                      size: 25,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ],

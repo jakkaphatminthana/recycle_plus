@@ -142,16 +142,16 @@ class _Member_TabbarHomeState extends State<Member_TabbarHome> {
                   size: 35,
                 ),
                 onPressed: () async {
-                  // if (user != null) {
-                  //   await scanQR();
-                  // } else {
-                  //   Navigator.pushNamed(context, PleaseLogin.routeName);
-                  // }
+                  if (user != null) {
+                    await scanQR();
+                  } else {
+                    Navigator.pushNamed(context, PleaseLogin.routeName);
+                  }
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => QRscanWidget()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => QRscanWidget()),
+                  // );
                 },
               ),
               IconButton(

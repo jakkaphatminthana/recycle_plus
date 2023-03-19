@@ -65,6 +65,10 @@ dependencies:
   dio: ^4.0.6
   flutter_launcher_icons: ^0.10.0
 
+  google_mlkit_object_detection: ^0.6.0
+  path: ^1.8.2
+  camera: ^0.10.3+2
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -103,6 +107,7 @@ flutter:
     - assets/
     - assets/image/
     - assets/icons/
+    - assets/ml/
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
