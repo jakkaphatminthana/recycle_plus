@@ -1,12 +1,17 @@
 <div id="top"></div>
 
 # Recycle-Plus
+- [Dowload APK file](https://drive.google.com/file/d/15ir35lwdZzhI4NQC12OBttrOnOOqLbXV/view?fbclid=IwAR0ErWiCI1fwrxd1dL3HegR9WcOPyu1i5feJJUkOfwYI8FxaSI3e2iMcW0I)
+- หมายเหตุ: ตัวโปรเจคไม่มีไฟล์ .env อาจทำให้รันไม่ได้โปรดติดต่อฉัน
+- หมายเหตุ: คำอธิบายต่างๆ ของงานผู้จัดทำ(.readme) ได้หยุดการอัพเดตแล้ว
+
+## รายละเอียด
 - แอปพลิเคชั่นบนระบบ Android 
 - ใช้ฐานข้อมูลบน Firebase
 - ผสานการทำงานร่วมกันบนเครือข่าย Blockchain (xCHAIN) 
 - [ขอบเขตการวิจัย](https://github.com/jakkaphatminthana/recycle_plus/files/8468961/default.pdf)
 
-## รายละเอียด
+## คำอธิบาย
 - :heavy_check_mark: คือ ทำเเล้ว
 - :x: คือ ยังไม่ได้ทำเเละจำเป็นต้องทำ
 - :warning: คือ ยังไม่ได้ทำและไม่จำเป็นต้องทำตอนนี้
